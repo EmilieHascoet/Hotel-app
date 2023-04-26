@@ -22,6 +22,25 @@ public class Hotel {
     
     public void suppRes(Reservation res) { listRes.remove(res); }
     
+	// Methods chambre
+	public Vector<Option> chooseOption() { 
+		/* Demande au moment de la réservation si le client veut des options pour sa chambre */ 
+		return new Vector<Option>();
+	}
+	
+	public Vector<Chambre> triChambres(Vector<Chambre> ch, Vector<Option> o) { 
+		// Tri les chambres en fonction des préférences : du plus au moins d'option
+		/* tailleListOpt=5
+		Créé une liste et setSize(tailleListOpt)
+		nbrOptCommun=3
+		5-3
+		Add à la sous-liste à la position 2 si elle existe, sinon créé la sous-liste
+		nbrOpt=5
+		5-5
+		Add à la sous-liste à la position 0 si elle existe, sinon créé la sous-liste
+		Renvoie une liste de liste */
+		return new Vector<Chambre>();
+	}
     public Vector<Chambre> searchChamber(Date start, Date end) { 
     	Vector<Chambre> rep = new Vector<Chambre>();
     	boolean dispo;
@@ -39,6 +58,7 @@ public class Hotel {
     	return rep;
     }
     
+	// Methods client
     public Client searchClient(String t) {
         for (Client c : listClient) {
             if (t.equals(c.tel)) { return c; }
@@ -46,6 +66,7 @@ public class Hotel {
         return null;
     }
     
+	// Methods enregistrement
     public void check_in(String tel) {
     	Client c = searchClient(tel);
     	Date today = new Date();
@@ -64,31 +85,27 @@ public class Hotel {
     	}
     }
     
-    public void check_out(String t) { /* Cherche le séjour et facture le client */ }
-    
-    public Vector<Option> chooseOption() { 
-    	/* Demande au moment de la réservation si le client veut des options pour sa chambre */ 
-    	return new Vector<Option>();
-    }
-    
-    public Vector<Chambre> triChambres(Vector<Chambre> ch, Vector<Option> o) { 
-    	// Tri les chambres en fonction des préférences : du plus au moins d'option
-    	/* tailleListOpt=5
-    	Créé une liste et setSize(tailleListOpt)
-    	nbrOptCommun=3
-    	5-3
-    	Add à la sous-liste à la position 2 si elle existe, sinon créé la sous-liste
-    	nbrOpt=5
-    	5-5
-    	Add à la sous-liste à la position 0 si elle existe, sinon créé la sous-liste
-    	Renvoie une liste de liste */
-    	return new Vector<Chambre>();
-    }
-    
-    public Vector<Produit> chooseProduit() { /* Demande après le check-in si le client veut des
-    options pour son séjour */
-    	return new Vector<Produit>();
-    }
+	public void check_out(String t) { /* Cherche le séjour et facture le client */ }
+
+	public Vector<Produit> chooseProduit() { /* Demande après le check-in si le client veut des
+	options pour son séjour */
+		return new Vector<Produit>();
+	}
+
+	// Methods option and produit
+	public Option searchOption(String oldType , double oldPrix) {
+		for(Option opt : listOption) {
+			if(opt.type.equals(oldType) && opt.prix == oldPrix) {
+				return opt;
+			}
+		}
+		return null;
+	}
+
+	public void changeOption(Option opt, String newType, double newPrix) {
+		opt.type = newType;
+		opt.prix = newPrix;
+	}
 }
 
 

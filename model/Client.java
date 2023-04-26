@@ -5,11 +5,12 @@ public class Client {
 	//Attributes
     public String nom;
     public Date dateNaiss;
+    public String tel;
     
     public Vector<Reservation> listRes = new Vector<Reservation>();
 
     //Constructors
-    public Client(String n, Date naiss) { nom=n; dateNaiss=naiss; }
+    public Client(String n, Date naiss, String t) { nom=n; dateNaiss=naiss; tel=t; }
 
     //Methods
     public void addRes(Reservation res) { listRes.add(res); }
