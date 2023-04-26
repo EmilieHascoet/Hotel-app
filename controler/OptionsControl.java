@@ -9,15 +9,23 @@ import java.awt.event.*;
 import java.util.Enumeration;
 
 public class OptionsControl implements ActionListener {
+    String typeAction;
     Hotel hotel;
     JPanel pane;
+    JPanel paneInnerScroll;
     ButtonGroup group;
     JTextField nameTF, priceTF;
     Option option;
     String text, oldType, newType, oldPrix, newPrix;
-    public OptionsControl(JPanel p) { pane = p; }
+    // constructeur pour changer de cards
+    public OptionsControl(JPanel p) { typeAction = "change"; pane = p; }
+    // constructeur pour modifier option
     public OptionsControl(Hotel h, JPanel p, ButtonGroup g, JTextField n, JTextField pr) { 
-        hotel=h; pane = p; group = g; nameTF = n; priceTF = pr; 
+        typeAction = "modify"; hotel=h; pane = p; group = g; nameTF = n; priceTF = pr; 
+    }
+    // constructeur pour ajouter une option
+    public OptionsControl(Hotel h, JPanel p, ButtonGroup g, JPanel ps, JTextField n, JTextField pr) { 
+        typeAction = "add"; hotel=h; pane = p; group = g; paneInnerScroll = ps; nameTF = n; priceTF = pr; 
     }
 
     // Event, clic du menuItem
@@ -27,7 +35,8 @@ public class OptionsControl implements ActionListener {
         String nameButton = ((JButton)e.getSource()).getName();
         System.out.println(nameButton);
         card.show(pane, nameButton);
-        if (group != null && group.getSelection() != null) {
+        // Modifie une option
+        if (typeAction.equals("modify")) {
             /* Trouve le RadioButton selectionné 
             et récupère les anciennes données de l'option */
             for (Enumeration<AbstractButton> buttons = group.getElements(); buttons.hasMoreElements();) {
@@ -55,6 +64,22 @@ public class OptionsControl implements ActionListener {
                     break;
                 }
             }
+        }
+        // Ajout une option
+        if (typeAction.equals("add")) {
+            newType = nameTF.getText();
+            newPrix = priceTF.getText();
+            // ajout au model
+            new Option(newType, Double.parseDouble(newPrix));
+            hotel.addOption(option);
+            // ajout à la view
+            JRadioButton RadioButton = new JRadioButton(newType + ", " + newPrix + "€");
+            // RadioButton.addActionListener();
+            RadioButton.setActionCommand(newType + " " + newPrix);
+            group.add(RadioButton);
+            paneInnerScroll.add(RadioButton);
+            nameTF.setText("");
+            priceTF.setText("");
         }
     }
 }
