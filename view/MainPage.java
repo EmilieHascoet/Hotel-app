@@ -56,13 +56,13 @@ class MainPage extends JFrame {
     // Crée les panels (cards)
     //GestionEnregistrements p1 = new GestionEnregistrements();
     //GestionClient p2 = new GestionClient();
-    //GestionChambre p3 = new GestionChambre();
+    GestionChambre p3 = new GestionChambre(hotel);
     OptionsView p4 = new OptionsView(hotel);
 
     // Ajoute les cards au container principal
     //c.add("Enregistrements", p1);
     //c.add("Clients", p2);
-    //c.add("Chambres", p3);
+    c.add("Chambres", p3);
     c.add("Options", p4);
 
     // Creation dune instance de gestionnaire d'evenement
