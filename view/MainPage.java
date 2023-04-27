@@ -50,6 +50,9 @@ class MainPage extends JFrame {
     this.setSize(600,400);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+    // Centre la fenêtre
+    this.setLocationRelativeTo ( null );
+
     // Crée le container principal de la page (CardLayout)
     Container c = this.getContentPane();
     c.setLayout(new CardLayout());
@@ -57,7 +60,7 @@ class MainPage extends JFrame {
     //GestionEnregistrements p1 = new GestionEnregistrements();
     //GestionClient p2 = new GestionClient();
     GestionChambre p3 = new GestionChambre(hotel);
-    OptionsView p4 = new OptionsView(hotel);
+    OptionsView p4 = new OptionsView(hotel, p3.buttonsPane);
 
     // Ajoute les cards au container principal
     //c.add("Enregistrements", p1);
@@ -71,8 +74,5 @@ class MainPage extends JFrame {
     e2.addActionListener(ctr);
     e3.addActionListener(ctr);
     e4.addActionListener(ctr);
-  }
-  public static void main(String args[]) {
-
   }
 }

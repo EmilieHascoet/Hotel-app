@@ -1,7 +1,5 @@
 package controler;
 import model.*;
-import view.*;
-import view.OptionsView;
 
 import javax.swing.*;
 import java.awt.CardLayout;
@@ -9,23 +7,28 @@ import java.awt.event.*;
 import java.util.Enumeration;
 
 public class OptionsControl implements ActionListener {
-    String typeAction;
     Hotel hotel;
-    JPanel pane;
-    JPanel paneInnerScroll;
+    JPanel pane, paneFromChView, paneInnerScroll;
     ButtonGroup group;
     JTextField nameTF, priceTF;
     Option option;
-    String text, oldType, newType, oldPrix, newPrix;
+    String typeAction, text, oldType, newType, oldPrix, newPrix;
     // constructeur pour changer de cards
     public OptionsControl(JPanel p) { typeAction = "change"; pane = p; }
     // constructeur pour modifier option
     public OptionsControl(Hotel h, JPanel p, ButtonGroup g, JTextField n, JTextField pr) { 
-        typeAction = "modify"; hotel=h; pane = p; group = g; nameTF = n; priceTF = pr; 
+        typeAction = "modify"; 
+        hotel=h; pane = p; group = g; nameTF = n; priceTF = pr; 
     }
-    // constructeur pour ajouter une option
+    // constructeur pour ajouter une option chambre
+    public OptionsControl(Hotel h, JPanel p, JPanel pCh, ButtonGroup g, JPanel ps, JTextField n, JTextField pr) { 
+        typeAction = "addCh"; 
+        hotel=h; pane = p;  paneFromChView = pCh; group = g; paneInnerScroll = ps; nameTF = n; priceTF = pr; 
+    }
+    // constructeur pour ajouter une option sejour
     public OptionsControl(Hotel h, JPanel p, ButtonGroup g, JPanel ps, JTextField n, JTextField pr) { 
-        typeAction = "add"; hotel=h; pane = p; group = g; paneInnerScroll = ps; nameTF = n; priceTF = pr; 
+        typeAction = "add"; 
+        hotel=h; pane = p; group = g; paneInnerScroll = ps; nameTF = n; priceTF = pr; 
     }
 
     // Event, clic du menuItem
@@ -33,7 +36,6 @@ public class OptionsControl implements ActionListener {
         // Affiche la card
         CardLayout card = (CardLayout)pane.getLayout();
         String nameButton = ((JButton)e.getSource()).getName();
-        System.out.println(nameButton);
         card.show(pane, nameButton);
         // Modifie une option
         if (typeAction.equals("modify")) {
@@ -66,7 +68,7 @@ public class OptionsControl implements ActionListener {
             }
         }
         // Ajout une option
-        if (typeAction.equals("add")) {
+        if (typeAction.startsWith("add")) {
             newType = nameTF.getText();
             newPrix = priceTF.getText();
             // ajout au model
@@ -80,6 +82,11 @@ public class OptionsControl implements ActionListener {
             paneInnerScroll.add(RadioButton);
             nameTF.setText("");
             priceTF.setText("");
+            // Ajout à la view dans GestionChambre
+            if (typeAction.equals("addCh")) {
+                JCheckBox tmp = new JCheckBox(newType);
+                paneFromChView.add(tmp);
+            }
         }
     }
 }
