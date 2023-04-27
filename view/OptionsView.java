@@ -53,6 +53,7 @@ public class OptionsView extends JPanel {
     JLabel prixAddChLabel = new JLabel("Prix :");
     JTextField prixAddChTextField = new JTextField();
     JButton addChR = new JButton("Ajouter");
+
     // consulter sejours
     JPanel paneConsultSej = new JPanel();
     TitledBorder titleConsultSej = BorderFactory.createTitledBorder("Liste des options de chambre");
@@ -61,6 +62,8 @@ public class OptionsView extends JPanel {
     JButton modifSejInConsultSej = new JButton("Modifier");
     // (modifier sejours)
     JPanel paneModifSej = new JPanel();
+    JPanel paneFormSej = new JPanel();
+    TitledBorder titleModifSej = BorderFactory.createTitledBorder("Modifier l'option de sejour");
     JLabel nameSejLabel = new JLabel("Nom :");
     JTextField nameSejTextField = new JTextField();
     JLabel prixSejLabel = new JLabel("Prix :");
@@ -68,6 +71,12 @@ public class OptionsView extends JPanel {
     JButton modifSej = new JButton("Modifier");
     // ajouter séjours
     JPanel paneAddSej = new JPanel();
+    JPanel paneFormAddSej = new JPanel();
+    TitledBorder titleAddSej = BorderFactory.createTitledBorder("Ajouter une option de sejour");
+    JLabel nameAddSejLabel = new JLabel("Nom :");
+    JTextField nameAddSejTextField = new JTextField();
+    JLabel prixAddSejLabel = new JLabel("Prix :");
+    JTextField prixAddSejTextField = new JTextField();
     JButton addSejR = new JButton("Ajouter");
 
     public OptionsView(Hotel h) {
@@ -82,20 +91,20 @@ public class OptionsView extends JPanel {
         labelCh.setHorizontalAlignment(JLabel.CENTER);
         labelCh.setForeground(Color.RED);
         Font font = labelCh.getFont();
-        float newSize = font.getSize() + 6;
+        float newSize = font.getSize() + 5;
         labelCh.setFont(font.deriveFont(newSize));
 
         labelSej.setHorizontalAlignment(JLabel.CENTER);
         labelSej.setForeground(Color.RED);
         Font font2 = labelSej.getFont();
-        float newSize2 = font2.getSize() + 6;
+        float newSize2 = font2.getSize() + 5;
         labelSej.setFont(font2.deriveFont(newSize2));
         
         // Design des panels de gauche contenant les bouttons
         paneL1Button.setLayout(new GridLayout(1, 2, 30, 0));
         paneL1Button.setBorder(new EmptyBorder(0, 30, 30, 30));
-        paneL2Button.setLayout(new GridLayout(2, 1, 0, 15));
-        paneL2Button.setBorder(new EmptyBorder(0, 20, 15, 20));
+        paneL2Button.setLayout(new GridLayout(1, 2, 30, 0));
+        paneL2Button.setBorder(new EmptyBorder(0, 30, 30, 30));
         
         // Donne un nom, correspondant au panel à afficher, aux bouttons de gauche
         consultCh.setName("consultCh");
@@ -129,8 +138,10 @@ public class OptionsView extends JPanel {
         modifChInConsultCh.setName("modifCh");
         modifCh.setName("consultCh");
         addChR.setName("consultCh");
-        // modifSejInConsultSej.setName("modifSej");
-        //addSejR.setName("addSejR");
+        modifSejInConsultSej.setName("modifSej");
+        modifSej.setName("consultSej");
+        addSejR.setName("consultSej");
+
         // Crée les panels (cards)
 
         // PANEL CONSULTER OPTIONS CHAMBRE
@@ -138,6 +149,7 @@ public class OptionsView extends JPanel {
         paneConsultCh.setBorder(new EmptyBorder(15, 20, 15, 20));
         // Récupère la liste des options de chambres et les affiche dans le scrollpanel
         paneInnerScrollCh.setLayout(new BoxLayout(paneInnerScrollCh, BoxLayout.Y_AXIS));
+        paneInnerScrollCh.setBorder(new EmptyBorder(10, 10, 10, 10));
         for (Option o : hotel.listOption) {
             JRadioButton RadioButton = new JRadioButton(o.type + ", " + o.prix + "€");
             // RadioButton.addActionListener();
@@ -189,6 +201,63 @@ public class OptionsView extends JPanel {
         paneAddCh.add(BorderLayout.SOUTH, addChR);
 
 
+        // PANEL CONSULTER OPTIONS SEJOURS
+        paneConsultSej.setLayout(new BorderLayout());
+        paneConsultSej.setBorder(new EmptyBorder(15, 20, 15, 20));
+        // Récupère la liste des options de sejour et les affiche dans le scrollpanel
+        paneInnerScrollSej.setLayout(new BoxLayout(paneInnerScrollSej, BoxLayout.Y_AXIS));
+        paneInnerScrollSej.setBorder(new EmptyBorder(10, 10, 10, 10));
+        for (Produit p : hotel.listProd) {
+            JRadioButton RadioButton = new JRadioButton(p.type + ", " + p.prix + "€");
+            // RadioButton.addActionListener();
+            RadioButton.setActionCommand(p.type + " " + p.prix);
+            groupSej.add(RadioButton);
+            paneInnerScrollSej.add(RadioButton);
+        }
+        // Crée le scroll panel 
+        JScrollPane paneScrollConsultSej = new JScrollPane(paneInnerScrollSej);
+        paneScrollConsultSej.setPreferredSize(new Dimension(200, 267));
+        titleConsultSej.setTitleJustification(TitledBorder.CENTER);
+        paneScrollConsultSej.setBorder(titleConsultSej);
+        // Ajout du scrollpanel et du bouton au panel
+        paneConsultSej.add(BorderLayout.NORTH, paneScrollConsultSej);
+        paneConsultSej.add(BorderLayout.SOUTH, modifSejInConsultSej);
+        // Le bouton n'est pas clickable si aucun radio button n'est selectionné
+        //modifSejInConsultSej.setEnabled(false);
+
+        // PANEL MODIFIER OPTION SEJOUR
+        paneModifSej.setLayout(new BorderLayout());
+        paneModifSej.setBorder(new EmptyBorder(115, 20, 15, 20));
+        // Ajout des label et textField au panel formulaire
+        paneFormSej.setLayout(new GridLayout(2, 2, 0, 10));
+        paneFormSej.setBorder(titleModifSej);
+        titleModifSej.setTitleJustification(TitledBorder.CENTER);
+
+        paneFormSej.add(nameSejLabel);
+        paneFormSej.add(nameSejTextField);
+        paneFormSej.add(prixSejLabel);
+        paneFormSej.add(prixSejTextField);
+        // Ajout du formulaire et du bouton au panel modif sejour
+        paneModifSej.add(BorderLayout.NORTH, paneFormSej);
+        paneModifSej.add(BorderLayout.SOUTH, modifSej);
+
+        // PANEL AJOUTER OPTION SEJOUR
+        paneAddSej.setLayout(new BorderLayout());
+        paneAddSej.setBorder(new EmptyBorder(115, 20, 15, 20));
+        // Ajout des label et textField au panel formulaire
+        paneFormAddSej.setLayout(new GridLayout(2, 2, 0, 10));
+        paneFormAddSej.setBorder(titleAddSej);
+        titleAddSej.setTitleJustification(TitledBorder.CENTER);
+
+        paneFormAddSej.add(nameAddSejLabel);
+        paneFormAddSej.add(nameAddSejTextField);
+        paneFormAddSej.add(prixAddSejLabel);
+        paneFormAddSej.add(prixAddSejTextField);
+        // Ajout du formulaire (le même que modifSej) et du bouton au panel add sejour
+        paneAddSej.add(BorderLayout.NORTH, paneFormAddSej);
+        paneAddSej.add(BorderLayout.SOUTH, addSejR);
+
+
         // Ajoute les cards au panel de droite
         paneR.add("consultCh", paneConsultCh);
         paneR.add("modifCh", paneModifCh);
@@ -207,16 +276,22 @@ public class OptionsView extends JPanel {
         addCh.addActionListener(ctrChangeCard);
         consultSej.addActionListener(ctrChangeCard);
         addSej.addActionListener(ctrChangeCard);
+
         // Modifier options chambres
         OptionsControl ctrModifCh = new OptionsControl(hotel, paneR, groupCh, nameChTextField, prixChTextField);
         modifChInConsultCh.addActionListener(ctrModifCh);
         modifCh.addActionListener(ctrModifCh);
         // Ajouter options chambres
-        OptionsControl ctrAddCh = new OptionsControl(hotel, paneR, groupCh,paneInnerScrollCh, nameAddChTextField, prixAddChTextField);
+        OptionsControl ctrAddCh = new OptionsControl(hotel, paneR, groupCh, paneInnerScrollCh, nameAddChTextField, prixAddChTextField);
         addChR.addActionListener(ctrAddCh);
-        // Modifier options chambres
+
+        // Modifier options Sejours
         OptionsControl ctrModifSej = new OptionsControl(hotel, paneR, groupSej, nameSejTextField, prixSejTextField);
-        // modifSejInConsultSej.addActionListener(ctrModifSej);
+        modifSejInConsultSej.addActionListener(ctrModifSej);
+        modifSej.addActionListener(ctrModifSej);
+        // Ajouter options chambres
+        OptionsControl ctrAddSej = new OptionsControl(hotel, paneR, groupSej, paneInnerScrollSej, nameAddSejTextField, prixAddSejTextField);
+        addSejR.addActionListener(ctrAddSej);
 
     }
 }
