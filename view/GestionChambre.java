@@ -2,6 +2,7 @@ package view;
 
 import javax.swing.*;
 import javax.swing.border.*;
+
 import java.awt.*;
 import controler.*;
 import model.*;
@@ -43,6 +44,9 @@ public class GestionChambre extends JPanel{
     JTextField prixChTextField = new JTextField();
     JButton modifCh = new JButton("Modifier");
 
+    //Pour chaton
+    JPanel buttonsPane = new JPanel();
+
     // panels de droite
     JPanel paneR = new JPanel();
 
@@ -60,6 +64,50 @@ public class GestionChambre extends JPanel{
 
         JPanel ajout = new JPanel(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
+
+        TitledBorder title = BorderFactory.createTitledBorder("Ajouter une chambre");
+        EmptyBorder pading = new EmptyBorder(5, 0, 7, 7);
+
+        title.setTitleJustification(TitledBorder.CENTER);
+        CompoundBorder fusion = BorderFactory.createCompoundBorder(pading, title);
+        ajout.setBorder(fusion);
+
+        //////////
+
+        buttonsPane.setLayout(new BoxLayout(buttonsPane, BoxLayout.Y_AXIS));
+
+        for (Option o : hotel.listOption) {
+            JCheckBox tmp = new JCheckBox(o.type);
+            buttonsPane.add(tmp);
+        }
+
+        // JCheckBox button1 = new JCheckBox("Option 1");
+        // JCheckBox button2 = new JCheckBox("Option 2dfzadzadazdaz");
+        // JCheckBox button3 = new JCheckBox("Option 3adz");
+        // JCheckBox button4 = new JCheckBox("Option 4");
+        // JCheckBox button5 = new JCheckBox("Option 4assas");
+        // JCheckBox button6 = new JCheckBox("Option 4dazzddddddddadadadada");
+        // JCheckBox button7 = new JCheckBox("Option 4");
+        // JCheckBox button8 = new JCheckBox("Option 4");
+        // JCheckBox button9 = new JCheckBox("Option 4");
+        // JCheckBox button10 = new JCheckBox("Option 4");
+        // JCheckBox button11 = new JCheckBox("Option 4");
+        // buttonsPane.add(button1);
+        // buttonsPane.add(button2);
+        // buttonsPane.add(button3);
+        // buttonsPane.add(button4);
+        // buttonsPane.add(button4);
+        // buttonsPane.add(button5);
+        // buttonsPane.add(button6);
+        // buttonsPane.add(button7);
+        // buttonsPane.add(button8);
+        // buttonsPane.add(button9);
+        // buttonsPane.add(button10);
+        // buttonsPane.add(button11);
+
+        JScrollPane buttonsScrollPane = new JScrollPane(buttonsPane);
+        //buttonsPane.setPreferredSize(new Dimension(200, 50));
+        //////////
 
         c.insets = new Insets(5, 5, 5,5);  // Pading
         c.fill = GridBagConstraints.BOTH; // étend l'élément dans les deux directions
@@ -82,9 +130,15 @@ public class GestionChambre extends JPanel{
         ajout.add(nbrP,c);
         // c.gridy = 2;
         // ajout.add(pri,c);
+        
+        c.gridy = 2;
+        c.gridx = 0;
+        c.gridwidth = 2;
+        //c.ipadx = 200;
+        ajout.add(buttonsScrollPane,c);
 
         c.gridx = 0;
-        c.gridy = 2;
+        c.gridy = 3;
         c.gridwidth = 2;        //Pour que ça prenne les 2 cases
         ajout.add(add2,c);
            
