@@ -1,6 +1,7 @@
 package controler;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.CardLayout;
 import java.awt.event.*;
 import model.*;
@@ -9,6 +10,8 @@ public class ChambreControl implements ActionListener {
     Hotel hotel;
     JPanel pane;
     JPanel groupPane;
+    JPanel checkBoxPane;
+    JPanel infoCh;
     ButtonGroup group;
     String text;
     String[] splitedText;
@@ -17,12 +20,12 @@ public class ChambreControl implements ActionListener {
 
     public ChambreControl(JPanel p) { pane=p; }
 
-    public ChambreControl(Hotel h, JPanel p, JPanel gp, ButtonGroup g, JTextField n, JTextField pl, JTextField pr) { 
-        hotel = h; pane = p; groupPane=gp; group=g; num = n; places=pl; price = pr; typeAction="ajouter";
+    public ChambreControl(Hotel h, JPanel p, JPanel cb, JPanel gp, ButtonGroup g, JTextField n, JTextField pl, JTextField pr) { 
+        hotel = h; pane = p; checkBoxPane=cb; groupPane=gp; group=g; num = n; places=pl; price = pr; typeAction="ajouter";
     }
 
-    public ChambreControl(JPanel p, ButtonGroup g, JTextField n, JTextField pl, JTextField pr) { 
-        pane = p; group = g; num = n; places=pl; price = pr; typeAction="modifier";
+    public ChambreControl(JPanel p, JPanel info, ButtonGroup g, JTextField n, JTextField pl, JTextField pr) { 
+        pane = p; infoCh=info; group = g; num = n; places=pl; price = pr; typeAction="modifier";
     }
 
     // Event, clic du menuItem
@@ -37,6 +40,7 @@ public class ChambreControl implements ActionListener {
             if (text.equals("Ajouter !")) {
                 String numText = num.getText();
                 String placesText = places.getText();
+                Component[] checkBoxs = checkBoxPane.getComponents();
 
                 num.setText("");
                 places.setText("");
@@ -52,9 +56,22 @@ public class ChambreControl implements ActionListener {
 
                     //Pour l'affichage
                     JRadioButton RadioButton = new JRadioButton("Chambre n° : " + newCh.num);
-                    RadioButton.setActionCommand(newCh.num + " " + newCh.nbrPlaces + " " + newCh.prix);
+                    RadioButton.setActionCommand(newCh.num + ";" + newCh.nbrPlaces + ";" + newCh.prix);
                     group.add(RadioButton);
                     groupPane.add(RadioButton);
+
+                    for (Component c : checkBoxs) {
+                        JCheckBox tmp = (JCheckBox)c;
+                        if (tmp.isSelected()) {
+                            splitedText = tmp.getActionCommand().split(";");
+
+                            Option newOpt = new Option(splitedText[0], Double.parseDouble(splitedText[1]));
+                            newCh.addOption(newOpt);
+
+                            String actionCommand = RadioButton.getActionCommand();
+                            RadioButton.setActionCommand(actionCommand + ";" + splitedText[0] + ";" + splitedText[1]);
+                        }
+                    }
 
                 }
             }
@@ -64,10 +81,17 @@ public class ChambreControl implements ActionListener {
             if (group != null && group.getSelection() != null) {
                 // Trouve le RadioButton selectionné et récupère ses données
                 text = group.getSelection().getActionCommand();
-                splitedText = text.split(" ");
+                splitedText = text.split(";");
                 num.setText(splitedText[0]);
                 places.setText(splitedText[1]);
                 price.setText(splitedText[2]);
+
+                // Supprimer tout de infoCh
+                for (int i=3; i<splitedText.length; i++) {
+                    JCheckBox tmp = new JCheckBox(splitedText[i] + ", " + splitedText[++i] + "€");
+                    infoCh.add(tmp);
+                }
+        
             }
         }
         

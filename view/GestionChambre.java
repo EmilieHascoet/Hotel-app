@@ -77,36 +77,12 @@ public class GestionChambre extends JPanel{
         buttonsPane.setLayout(new BoxLayout(buttonsPane, BoxLayout.Y_AXIS));
 
         for (Option o : hotel.listOption) {
-            JCheckBox tmp = new JCheckBox(o.type);
+            JCheckBox tmp = new JCheckBox(o.type + ", " + o.prix + "€");
+            tmp.setActionCommand(o.type + ";" + o.prix);
             buttonsPane.add(tmp);
         }
 
-        // JCheckBox button1 = new JCheckBox("Option 1");
-        // JCheckBox button2 = new JCheckBox("Option 2dfzadzadazdaz");
-        // JCheckBox button3 = new JCheckBox("Option 3adz");
-        // JCheckBox button4 = new JCheckBox("Option 4");
-        // JCheckBox button5 = new JCheckBox("Option 4assas");
-        // JCheckBox button6 = new JCheckBox("Option 4dazzddddddddadadadada");
-        // JCheckBox button7 = new JCheckBox("Option 4");
-        // JCheckBox button8 = new JCheckBox("Option 4");
-        // JCheckBox button9 = new JCheckBox("Option 4");
-        // JCheckBox button10 = new JCheckBox("Option 4");
-        // JCheckBox button11 = new JCheckBox("Option 4");
-        // buttonsPane.add(button1);
-        // buttonsPane.add(button2);
-        // buttonsPane.add(button3);
-        // buttonsPane.add(button4);
-        // buttonsPane.add(button4);
-        // buttonsPane.add(button5);
-        // buttonsPane.add(button6);
-        // buttonsPane.add(button7);
-        // buttonsPane.add(button8);
-        // buttonsPane.add(button9);
-        // buttonsPane.add(button10);
-        // buttonsPane.add(button11);
-
         JScrollPane buttonsScrollPane = new JScrollPane(buttonsPane);
-        //buttonsPane.setPreferredSize(new Dimension(200, 50));
         //////////
 
         c.insets = new Insets(5, 5, 5,5);  // Pading
@@ -155,7 +131,13 @@ public class GestionChambre extends JPanel{
         paneInnerScrollCh.setLayout(new BoxLayout(paneInnerScrollCh, BoxLayout.Y_AXIS));
         for (Chambre ch : hotel.listChambre) {
             JRadioButton RadioButton = new JRadioButton("Chambre n° : " + ch.num);
-            RadioButton.setActionCommand(ch.num + " " + ch.nbrPlaces + " " + ch.prix);
+            RadioButton.setActionCommand(ch.num + ";" + ch.nbrPlaces + ";" + ch.prix);
+
+            String actionCommand;
+            for (Option o : ch.listOption) {
+                actionCommand = RadioButton.getActionCommand();
+                RadioButton.setActionCommand(actionCommand + ";" + o.type + ";" + o.prix);
+            }
             groupCh.add(RadioButton);
             paneInnerScrollCh.add(RadioButton);
         }
@@ -174,7 +156,7 @@ public class GestionChambre extends JPanel{
         paneModifCh.setLayout(new BorderLayout());
         paneModifCh.setBorder(new EmptyBorder(115, 20, 15, 20));
         // Ajout des label et textFiel au panel formulaire
-        paneFormCh.setLayout(new GridLayout(3, 2, 0, 10));
+        paneFormCh.setLayout(new GridLayout(4, 2, 0, 10));
         paneFormCh.setBorder(titleModifCh);
         titleModifCh.setTitleJustification(TitledBorder.CENTER);
 
@@ -184,6 +166,12 @@ public class GestionChambre extends JPanel{
         paneFormCh.add(placesChTextField);
         paneFormCh.add(prixChLabel);
         paneFormCh.add(prixChTextField);
+
+        JPanel test = new JPanel();
+        test.setLayout(new BoxLayout(test, BoxLayout.Y_AXIS));
+
+        JScrollPane test2 = new JScrollPane(test);
+        paneFormCh.add(test2);
 
         // Ajout du formulaire et du bouton au panel modif chambre
         paneModifCh.add(BorderLayout.NORTH, paneFormCh);
@@ -199,10 +187,10 @@ public class GestionChambre extends JPanel{
         
         ChambreControl changePane = new ChambreControl(paneR);
 
-        ChambreControl ctrModifCh = new ChambreControl(paneR, groupCh, numChTextField, placesChTextField, prixChTextField);
+        ChambreControl ctrModifCh = new ChambreControl(paneR, test, groupCh, numChTextField, placesChTextField, prixChTextField);
         modifChInConsultCh.addActionListener(ctrModifCh);
 
-        ChambreControl ctrAddCh = new ChambreControl(hotel, paneR, paneInnerScrollCh, groupCh, numer, nbrP, prixChTextField);
+        ChambreControl ctrAddCh = new ChambreControl(hotel, paneR, buttonsPane, paneInnerScrollCh, groupCh, numer, nbrP, prixChTextField);
         consult.addActionListener(ctrAddCh);
         add.addActionListener(ctrAddCh);
         add2.addActionListener(ctrAddCh);
