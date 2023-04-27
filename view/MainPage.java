@@ -46,12 +46,12 @@ class MainPage extends JFrame {
     this.setTitle("Hotel");
     this.setLayout(null);
     this.pack();
-    this.setVisible(true);
     this.setSize(600,400);
+    // Centre la fenêtre
+    this.setLocationRelativeTo (null);
+    this.setVisible(true);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-    // Centre la fenêtre
-    this.setLocationRelativeTo ( null );
 
     // Crée le container principal de la page (CardLayout)
     Container c = this.getContentPane();
