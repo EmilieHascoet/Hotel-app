@@ -13,34 +13,44 @@ public class OptionsControl implements ActionListener {
     JTextField nameTF, priceTF;
     Option option;
     String typeAction, text, oldType, newType, oldPrix, newPrix;
+    JButton button;
     // constructeur pour changer de cards
     public OptionsControl(JPanel p) { typeAction = "change"; pane = p; }
+    // constructeur pour rendre le button clickable lorsqu'un jRadioButton est selctionné
+    public OptionsControl(JButton b)  { typeAction = "enable"; button = b; }
     // constructeur pour modifier option
     public OptionsControl(Hotel h, JPanel p, ButtonGroup g, JTextField n, JTextField pr) { 
-        typeAction = "modify"; 
+        typeAction = "modify change"; 
         hotel=h; pane = p; group = g; nameTF = n; priceTF = pr; 
     }
     // constructeur pour ajouter une option chambre
-    public OptionsControl(Hotel h, JPanel p, JPanel pCh, ButtonGroup g, JPanel ps, JTextField n, JTextField pr) { 
-        typeAction = "addCh"; 
-        hotel=h; pane = p;  paneFromChView = pCh; group = g; paneInnerScroll = ps; nameTF = n; priceTF = pr; 
+    public OptionsControl(Hotel h, JPanel p, JPanel pCh, ButtonGroup g, JPanel ps, JTextField n, JTextField pr, JButton b) { 
+        typeAction = "addCh change"; 
+        hotel=h; pane = p;  paneFromChView = pCh; group = g; paneInnerScroll = ps; nameTF = n; priceTF = pr; button = b;
     }
     // constructeur pour ajouter une option sejour
-    public OptionsControl(Hotel h, JPanel p, ButtonGroup g, JPanel ps, JTextField n, JTextField pr) { 
-        typeAction = "add"; 
-        hotel=h; pane = p; group = g; paneInnerScroll = ps; nameTF = n; priceTF = pr; 
+    public OptionsControl(Hotel h, JPanel p, ButtonGroup g, JPanel ps, JTextField n, JTextField pr, JButton b) { 
+        typeAction = "add change"; 
+        hotel=h; pane = p; group = g; paneInnerScroll = ps; nameTF = n; priceTF = pr; button = b;
     }
 
     // Event, clic du menuItem
     public void actionPerformed(ActionEvent e) {
         // Affiche la card
-        CardLayout card = (CardLayout)pane.getLayout();
-        String nameButton = ((JButton)e.getSource()).getName();
-        card.show(pane, nameButton);
+        if (typeAction.endsWith("change")) {
+            CardLayout card = (CardLayout)pane.getLayout();
+            String nameButton = ((JButton)e.getSource()).getName();
+            card.show(pane, nameButton);
+        }
+
+        // Rend le button clickable
+        if (typeAction.equals("enable")) { button.setEnabled(true); }
+
         // Modifie une option
-        if (typeAction.equals("modify")) {
+        if (typeAction.startsWith("modify")) {
             /* Trouve le RadioButton selectionné 
             et récupère les anciennes données de l'option */
+            String nameButton = ((JButton)e.getSource()).getName();
             for (Enumeration<AbstractButton> buttons = group.getElements(); buttons.hasMoreElements();) {
                 AbstractButton button = buttons.nextElement();
                 if (button.isSelected()) {
@@ -67,6 +77,7 @@ public class OptionsControl implements ActionListener {
                 }
             }
         }
+        
         // Ajout une option
         if (typeAction.startsWith("add")) {
             newType = nameTF.getText();
@@ -78,6 +89,7 @@ public class OptionsControl implements ActionListener {
             JRadioButton RadioButton = new JRadioButton(newType + ", " + newPrix + "€");
             // RadioButton.addActionListener();
             RadioButton.setActionCommand(newType + " " + newPrix);
+            RadioButton.addActionListener(new OptionsControl(button));
             group.add(RadioButton);
             paneInnerScroll.add(RadioButton);
             nameTF.setText("");
