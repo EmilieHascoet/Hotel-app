@@ -1,5 +1,6 @@
 package view;
 
+import com.toedter.calendar.JCalendar;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
@@ -14,6 +15,11 @@ public class ReservationsView extends JFrame {
         JButton butonFilter = new JButton("Filtrer");
         // Partie choix date
         JPanel paneNorth = new JPanel();
+        JLabel labelStartDate = new JLabel("Date de début :");
+        JCalendar calendarStartDate = new JCalendar();
+        JLabel labelEndDate = new JLabel("Date de début :");
+        JCalendar calendarEndDate = new JCalendar();
+        JButton buttonValider = new JButton("Valider");
         // Partie affichage des chambres
         JPanel paneCenter = new JPanel();
 
