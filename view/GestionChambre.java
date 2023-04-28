@@ -4,6 +4,8 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 import java.awt.*;
+import java.awt.image.TileObserver;
+
 import controler.*;
 import model.*;
 
@@ -42,7 +44,7 @@ public class GestionChambre extends JPanel{
     JTextField placesChTextField = new JTextField();
     JLabel prixChLabel = new JLabel("Prix :");
     JTextField prixChTextField = new JTextField();
-    JButton modifCh = new JButton("Modifier");
+    JButton modifCh = new JButton("Modifier !");
 
     //Pour chaton
     JPanel buttonsPane = new JPanel();
@@ -154,24 +156,42 @@ public class GestionChambre extends JPanel{
 
         // PANEL MODIFIER OPTION CHAMBRE
         paneModifCh.setLayout(new BorderLayout());
-        paneModifCh.setBorder(new EmptyBorder(115, 20, 15, 20));
+        paneModifCh.setBorder(new EmptyBorder(15, 20, 15, 20));
+
         // Ajout des label et textFiel au panel formulaire
-        paneFormCh.setLayout(new GridLayout(4, 2, 0, 10));
+        paneFormCh.setLayout(new GridBagLayout());
         paneFormCh.setBorder(titleModifCh);
         titleModifCh.setTitleJustification(TitledBorder.CENTER);
+        
+        c.gridx = 0;
+        c.gridy = 0;
+        c.gridwidth = 1;
 
-        paneFormCh.add(numChLabel);
-        paneFormCh.add(numChTextField);
-        paneFormCh.add(placesChLabel);
-        paneFormCh.add(placesChTextField);
-        paneFormCh.add(prixChLabel);
-        paneFormCh.add(prixChTextField);
+        paneFormCh.add(numChLabel,c);
+        c.gridy = 1;
+        paneFormCh.add(placesChLabel,c);
+        c.gridy = 2;
+        paneFormCh.add(prixChLabel,c);
+        c.gridy = 0;
+        c.gridx = 1;
+        c.ipadx = 100;
+        paneFormCh.add(numChTextField,c);
+        c.gridy = 1;
+        paneFormCh.add(placesChTextField,c);
+        c.gridy = 2;
+        paneFormCh.add(prixChTextField,c);
 
-        JPanel test = new JPanel();
-        test.setLayout(new BoxLayout(test, BoxLayout.Y_AXIS));
+        JPanel optionsInnerPane = new JPanel();
+        TitledBorder optionTitle = BorderFactory.createTitledBorder("Options");
+        optionsInnerPane.setLayout(new BoxLayout(optionsInnerPane, BoxLayout.Y_AXIS));
 
-        JScrollPane test2 = new JScrollPane(test);
-        paneFormCh.add(test2);
+        JScrollPane optionsScrollPane = new JScrollPane(optionsInnerPane);
+        optionsScrollPane.setBorder(optionTitle);
+        c.gridx = 0;
+        c.gridy = 3;
+        c.gridwidth = 2;
+        c.ipady = 50;
+        paneFormCh.add(optionsScrollPane,c);
 
         // Ajout du formulaire et du bouton au panel modif chambre
         paneModifCh.add(BorderLayout.NORTH, paneFormCh);
@@ -180,6 +200,7 @@ public class GestionChambre extends JPanel{
         add.setName("Ajouter");
         consult.setName("consultCh");
         add2.setName("consultCh");
+        modifCh.setName("consultCh");
         
         paneR.add("consultCh", paneConsultCh);
         paneR.add("modifCh", paneModifCh);
@@ -187,8 +208,9 @@ public class GestionChambre extends JPanel{
         
         ChambreControl changePane = new ChambreControl(paneR);
 
-        ChambreControl ctrModifCh = new ChambreControl(paneR, test, groupCh, numChTextField, placesChTextField, prixChTextField);
+        ChambreControl ctrModifCh = new ChambreControl(hotel, paneR, buttonsPane, optionsInnerPane, groupCh, numChTextField, placesChTextField, prixChTextField, 5);
         modifChInConsultCh.addActionListener(ctrModifCh);
+        modifCh.addActionListener(ctrModifCh);
 
         ChambreControl ctrAddCh = new ChambreControl(hotel, paneR, buttonsPane, paneInnerScrollCh, groupCh, numer, nbrP, prixChTextField);
         consult.addActionListener(ctrAddCh);
