@@ -68,7 +68,7 @@ public class OptionsControl implements ActionListener {
                             option = hotel.searchOption(oldType, Double.parseDouble(oldPrix));
                             hotel.changeOption(option, newType, Double.parseDouble(newPrix));
                         }
-                        if (typeAction.startsWith("modifySej")) {
+                        else {
                             produit = hotel.searchProd(oldType, Double.parseDouble(oldPrix));
                             hotel.changeProd(produit, newType, Double.parseDouble(newPrix));
                         }
@@ -99,12 +99,17 @@ public class OptionsControl implements ActionListener {
             nameTF.setText("");
             priceTF.setText("");
             // ajout au model
-            new Option(newType, Double.parseDouble(newPrix));
-            hotel.addOption(option);
-            // Ajout à la view dans GestionChambre
-            if (typeAction.equals("addCh")) {
-                JCheckBox tmp = new JCheckBox(newType);
+            if (typeAction.startsWith("addCh")) {
+                option = new Option(newType, Double.parseDouble(newPrix));
+                hotel.addOption(option);
+                // Ajout à la view dans GestionChambre
+                JCheckBox tmp = new JCheckBox(newType + ", " + newPrix + "€");
+                tmp.setActionCommand(newType + ";" + newPrix);
                 paneFromChView.add(tmp);
+            }
+            else {
+                produit = hotel.searchProd(oldType, Double.parseDouble(oldPrix));
+                hotel.changeProd(produit, newType, Double.parseDouble(newPrix));
             }
         }
     }
