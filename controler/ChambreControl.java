@@ -20,11 +20,11 @@ public class ChambreControl implements ActionListener {
 
     public ChambreControl(JPanel p) { pane=p; }
 
-    public ChambreControl(Hotel h, JPanel p, JPanel cb, JPanel gp, ButtonGroup g, JTextField n, JTextField pl, JTextField pr) { 
-        hotel = h; pane = p; checkBoxPane=cb; groupPane=gp; group=g; num = n; places=pl; price = pr; typeAction="ajouter";
+    public ChambreControl(Hotel h, JPanel p, JPanel cb, JPanel gp, ButtonGroup g, JTextField n, JTextField pl) { 
+        hotel = h; pane = p; checkBoxPane=cb; groupPane=gp; group=g; num = n; places=pl; typeAction="ajouter";
     }
 
-    public ChambreControl(Hotel h, JPanel p, JPanel cb, JPanel info, ButtonGroup g, JTextField n, JTextField pl, JTextField pr, int aaa) { 
+    public ChambreControl(Hotel h, JPanel p, JPanel cb, JPanel info, ButtonGroup g, JTextField n, JTextField pl, JTextField pr) { 
         hotel=h; pane = p; checkBoxPane=cb; infoChOption=info; group = g; num = n; places=pl; price = pr; typeAction="modifier";
     }
 
@@ -94,6 +94,7 @@ public class ChambreControl implements ActionListener {
                     infoChOption.removeAll();
     
                     for (Option o : hotel.listOption) {
+                        System.out.println(o);
                         JCheckBox tmp = new JCheckBox(o.type + ", " + o.prix + "€");
                         tmp.setActionCommand(o.type + ";" + o.prix);
                         for (int i=3; i<splitedText.length; i+=2) {

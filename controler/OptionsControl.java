@@ -83,11 +83,11 @@ public class OptionsControl implements ActionListener {
             newType = nameTF.getText();
             newPrix = priceTF.getText();
             // ajout au model
-            new Option(newType, Double.parseDouble(newPrix));
+            option = new Option(newType, Double.parseDouble(newPrix));
             hotel.addOption(option);
+
             // ajout à la view
             JRadioButton RadioButton = new JRadioButton(newType + ", " + newPrix + "€");
-            // RadioButton.addActionListener();
             RadioButton.setActionCommand(newType + " " + newPrix);
             RadioButton.addActionListener(new OptionsControl(button));
             group.add(RadioButton);
@@ -95,8 +95,9 @@ public class OptionsControl implements ActionListener {
             nameTF.setText("");
             priceTF.setText("");
             // Ajout à la view dans GestionChambre
-            if (typeAction.equals("addCh")) {
-                JCheckBox tmp = new JCheckBox(newType);
+            if (typeAction.startsWith("addCh")) {
+                JCheckBox tmp = new JCheckBox(newType + ", " + newPrix + "€");
+                tmp.setActionCommand(newType + ";" + newPrix);
                 paneFromChView.add(tmp);
             }
         }

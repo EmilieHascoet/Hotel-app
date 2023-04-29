@@ -206,13 +206,13 @@ public class GestionChambre extends JPanel{
         paneR.add("modifCh", paneModifCh);
         paneR.add("Ajouter" ,ajout);
         
-        ChambreControl changePane = new ChambreControl(paneR);
+        // ChambreControl changePane = new ChambreControl(paneR);
 
-        ChambreControl ctrModifCh = new ChambreControl(hotel, paneR, buttonsPane, optionsInnerPane, groupCh, numChTextField, placesChTextField, prixChTextField, 5);
+        ChambreControl ctrModifCh = new ChambreControl(hotel, paneR, buttonsPane, optionsInnerPane, groupCh, numChTextField, placesChTextField, prixChTextField);
         modifChInConsultCh.addActionListener(ctrModifCh);
         modifCh.addActionListener(ctrModifCh);
 
-        ChambreControl ctrAddCh = new ChambreControl(hotel, paneR, buttonsPane, paneInnerScrollCh, groupCh, numer, nbrP, prixChTextField);
+        ChambreControl ctrAddCh = new ChambreControl(hotel, paneR, buttonsPane, paneInnerScrollCh, groupCh, numer, nbrP);
         consult.addActionListener(ctrAddCh);
         add.addActionListener(ctrAddCh);
         add2.addActionListener(ctrAddCh);
