@@ -98,8 +98,9 @@ public class OptionsControl implements ActionListener {
             paneInnerScroll.add(RadioButton);
             nameTF.setText("");
             priceTF.setText("");
-            // ajout au model
+            // Option chambre
             if (typeAction.startsWith("addCh")) {
+                // ajout au model
                 option = new Option(newType, Double.parseDouble(newPrix));
                 hotel.addOption(option);
                 // Ajout à la view dans GestionChambre
@@ -107,9 +108,11 @@ public class OptionsControl implements ActionListener {
                 tmp.setActionCommand(newType + ";" + newPrix);
                 paneFromChView.add(tmp);
             }
+            // Option de sejour
             else {
-                produit = hotel.searchProd(oldType, Double.parseDouble(oldPrix));
-                hotel.changeProd(produit, newType, Double.parseDouble(newPrix));
+                // ajout au model
+                produit = new Produit(newType, Double.parseDouble(newPrix));
+                hotel.addProduit(produit);
             }
         }
     }

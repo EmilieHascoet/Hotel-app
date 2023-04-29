@@ -287,7 +287,7 @@ public class OptionsView extends JPanel {
         addSej.addActionListener(ctrChangeCard);
 
         // Modifier options chambres
-        OptionsControl ctrModifCh = new OptionsControl(hotel, paneR, groupCh, nameChTextField, prixChTextField);
+        OptionsControl ctrModifCh = new OptionsControl(hotel, "Ch", paneR, groupCh, nameChTextField, prixChTextField);
         modifChInConsultCh.addActionListener(ctrModifCh);
         modifCh.addActionListener(ctrModifCh);
         // Ajouter options chambres
@@ -296,7 +296,7 @@ public class OptionsView extends JPanel {
         addChR.addActionListener(ctrAddCh);
 
         // Modifier options sejours
-        OptionsControl ctrModifSej = new OptionsControl(hotel, paneR, groupSej, nameSejTextField, prixSejTextField);
+        OptionsControl ctrModifSej = new OptionsControl(hotel, "Sej", paneR, groupSej, nameSejTextField, prixSejTextField);
         modifSejInConsultSej.addActionListener(ctrModifSej);
         modifSej.addActionListener(ctrModifSej);
         // Ajouter options sejours
