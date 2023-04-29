@@ -106,6 +106,20 @@ public class Hotel {
 		opt.type = newType;
 		opt.prix = newPrix;
 	}
+
+	public Produit searchProd(String oldType , double oldPrix) {
+		for(Produit prod : listProd) {
+			if(prod.type.equals(oldType) && prod.prix == oldPrix) {
+				return prod;
+			}
+		}
+		return null;
+	}
+
+	public void changeProd(Produit prod, String newType, double newPrix) {
+		prod.type = newType;
+		prod.prix = newPrix;
+	}
 }
 
 

@@ -12,15 +12,17 @@ public class OptionsControl implements ActionListener {
     ButtonGroup group;
     JTextField nameTF, priceTF;
     Option option;
+    Produit produit;
     String typeAction, text, oldType, newType, oldPrix, newPrix;
     JButton button;
+    boolean isOption;
     // constructeur pour changer de cards
     public OptionsControl(JPanel p) { typeAction = "change"; pane = p; }
     // constructeur pour rendre le button clickable lorsqu'un jRadioButton est selctionné
     public OptionsControl(JButton b)  { typeAction = "enable"; button = b; }
     // constructeur pour modifier option
-    public OptionsControl(Hotel h, JPanel p, ButtonGroup g, JTextField n, JTextField pr) { 
-        typeAction = "modify change"; 
+    public OptionsControl(Hotel h, String str, JPanel p, ButtonGroup g, JTextField n, JTextField pr) { 
+        typeAction = "modify"+str+" change"; 
         hotel=h; pane = p; group = g; nameTF = n; priceTF = pr; 
     }
     // constructeur pour ajouter une option chambre
@@ -30,7 +32,7 @@ public class OptionsControl implements ActionListener {
     }
     // constructeur pour ajouter une option sejour
     public OptionsControl(Hotel h, JPanel p, ButtonGroup g, JPanel ps, JTextField n, JTextField pr, JButton b) { 
-        typeAction = "add change"; 
+        typeAction = "addSej change"; 
         hotel=h; pane = p; group = g; paneInnerScroll = ps; nameTF = n; priceTF = pr; button = b;
     }
 
@@ -62,8 +64,14 @@ public class OptionsControl implements ActionListener {
                         newType = nameTF.getText();
                         newPrix = priceTF.getText();
                         // modifie le model
-                        option = hotel.searchOption(oldType, Double.parseDouble(oldPrix));
-                        hotel.changeOption(option, newType, Double.parseDouble(newPrix));
+                        if (typeAction.startsWith("modifyCh")) {
+                            option = hotel.searchOption(oldType, Double.parseDouble(oldPrix));
+                            hotel.changeOption(option, newType, Double.parseDouble(newPrix));
+                        }
+                        else {
+                            produit = hotel.searchProd(oldType, Double.parseDouble(oldPrix));
+                            hotel.changeProd(produit, newType, Double.parseDouble(newPrix));
+                        }
                         // modifie la view
                         button.setText(newType + ", " + newPrix + "€");
                         button.setActionCommand(newType + " " + newPrix);
@@ -82,10 +90,6 @@ public class OptionsControl implements ActionListener {
         if (typeAction.startsWith("add")) {
             newType = nameTF.getText();
             newPrix = priceTF.getText();
-            // ajout au model
-            option = new Option(newType, Double.parseDouble(newPrix));
-            hotel.addOption(option);
-
             // ajout à la view
             JRadioButton RadioButton = new JRadioButton(newType + ", " + newPrix + "€");
             RadioButton.setActionCommand(newType + " " + newPrix);
@@ -94,11 +98,18 @@ public class OptionsControl implements ActionListener {
             paneInnerScroll.add(RadioButton);
             nameTF.setText("");
             priceTF.setText("");
-            // Ajout à la view dans GestionChambre
+            // ajout au model
             if (typeAction.startsWith("addCh")) {
+                option = new Option(newType, Double.parseDouble(newPrix));
+                hotel.addOption(option);
+                // Ajout à la view dans GestionChambre
                 JCheckBox tmp = new JCheckBox(newType + ", " + newPrix + "€");
                 tmp.setActionCommand(newType + ";" + newPrix);
                 paneFromChView.add(tmp);
+            }
+            else {
+                produit = hotel.searchProd(oldType, Double.parseDouble(oldPrix));
+                hotel.changeProd(produit, newType, Double.parseDouble(newPrix));
             }
         }
     }
