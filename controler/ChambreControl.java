@@ -94,7 +94,6 @@ public class ChambreControl implements ActionListener {
                     infoChOption.removeAll();
     
                     for (Option o : hotel.listOption) {
-                        System.out.println(o);
                         JCheckBox tmp = new JCheckBox(o.type + ", " + o.prix + "€");
                         tmp.setActionCommand(o.type + ";" + o.prix);
                         for (int i=3; i<splitedText.length; i+=2) {

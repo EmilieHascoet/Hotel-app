@@ -60,7 +60,7 @@ class MainPage extends JFrame {
     //GestionEnregistrements p1 = new GestionEnregistrements();
     //GestionClient p2 = new GestionClient();
     GestionChambre p3 = new GestionChambre(hotel);
-    OptionsView p4 = new OptionsView(hotel, p3.buttonsPane);
+    OptionsView p4 = new OptionsView(hotel, p3.addOptionButtonsPane);
 
     // Ajoute les cards au container principal
     //c.add("Enregistrements", p1);
