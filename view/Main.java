@@ -25,6 +25,18 @@ public class Main {
         hotel.addOption(o2);
         hotel.addOption(o3);
         hotel.addOption(o4);
+        hotel.addOption(o2);
+        hotel.addOption(o3);
+        hotel.addOption(o4);
+        hotel.addOption(o2);
+        hotel.addOption(o3);
+        hotel.addOption(o4);
+        hotel.addOption(o2);
+        hotel.addOption(o3);
+        hotel.addOption(o4);
+        hotel.addOption(o2);
+        hotel.addOption(o3);
+        hotel.addOption(o4);
 
         Chambre ch1 = new Chambre(1, 4);
         Chambre ch2 = new Chambre(2, 4);

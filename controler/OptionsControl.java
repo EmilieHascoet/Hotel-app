@@ -15,7 +15,6 @@ public class OptionsControl implements ActionListener {
     Produit produit;
     String typeAction, text, oldType, newType, oldPrix, newPrix;
     JButton button;
-    boolean isOption;
     // constructeur pour changer de cards
     public OptionsControl(JPanel p) { typeAction = "change"; pane = p; }
     // constructeur pour rendre le button clickable lorsqu'un jRadioButton est selctionné
