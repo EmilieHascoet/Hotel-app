@@ -2,9 +2,10 @@
     "java.project.referencedLibraries": {
         "include": [
             "lib/**/*.jar",
-            "/home/hascoet/Téléchargements/jcalendar-1.4/lib/jgoodies-looks-2.4.1.jar",
-            "/home/hascoet/Téléchargements/jcalendar-1.4/lib/jgoodies-common-1.2.0.jar",
-            "/home/hascoet/Téléchargements/jcalendar-1.4/lib/jcalendar-1.4.jar"
+            "jcalendar-1.4/lib/jcalendar-1.4.jar",
+            "jcalendar-1.4/lib/jgoodies-common-1.2.0.jar",
+            "jcalendar-1.4/lib/jgoodies-looks-2.4.1.jar",
+            "jcalendar-1.4/lib/junit-4.6.jar"
         ],
         "exclude": [
             "/home/hascoet/Téléchargements/jcalendar-1.4.jar"

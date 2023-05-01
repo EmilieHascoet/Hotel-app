@@ -23,12 +23,30 @@ public class Hotel {
     public void suppRes(Reservation res) { listRes.remove(res); }
     
 	// Methods chambre
-	public Vector<Option> chooseOption() { 
-		/* Demande au moment de la réservation si le client veut des options pour sa chambre */ 
-		return new Vector<Option>();
+	public Vector<Chambre> everyOption(Vector<Chambre> listChambres, Vector<Option> listOptions) { 
+		Vector<Chambre> listChambresFilte = new Vector<Chambre>();
+		for(Chambre ch : listChambres) {
+			if(ch.listOption.containsAll(listOptions)) listChambresFilte.add(ch);
+		}
+		return listChambresFilte;
+	}
+
+	public Vector<Chambre> someOption(Vector<Chambre> listChambres, Vector<Option> listOptions) { 
+		Vector<Chambre> listChambresFilte = new Vector<Chambre>();
+		for(Chambre ch : listChambres) {
+			if(!(ch.listOption.containsAll(listOptions))) {
+				for(Option opt : listOptions){
+					if(ch.listOption.contains(opt)) {
+						listChambresFilte.add(ch);
+						break;
+					}
+				}
+			}
+		}
+		return listChambresFilte;
 	}
 	
-	public Vector<Chambre> triChambres(Vector<Chambre> ch, Vector<Option> o) { 
+	// public Vector<Chambre> triChambres(Vector<Chambre> ch, Vector<Option> o) { 
 		// Tri les chambres en fonction des préférences : du plus au moins d'option
 		/* tailleListOpt=5
 		Créé une liste et setSize(tailleListOpt)
@@ -38,9 +56,10 @@ public class Hotel {
 		nbrOpt=5
 		5-5
 		Add à la sous-liste à la position 0 si elle existe, sinon créé la sous-liste
-		Renvoie une liste de liste */
+		Renvoie une liste de liste 
 		return new Vector<Chambre>();
-	}
+	}*/
+
     public Vector<Chambre> searchChamber(Date start, Date end) { 
     	Vector<Chambre> rep = new Vector<Chambre>();
     	boolean dispo;
