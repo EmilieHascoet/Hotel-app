@@ -1,15 +1,10 @@
 package view;
 import model.Chambre;
 import model.*;
-
-import com.toedter.calendar.JCalendar;
-import com.toedter.calendar.JDateChooser;
-
 import controler.ReservationsControl;
 
+import com.toedter.calendar.JDateChooser;
 import java.util.*;
-import java.text.*;
-import java.time.LocalDate;
 
 import java.awt.*;
 import javax.swing.*;
@@ -17,12 +12,14 @@ import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class ReservationsView extends JPanel {
     // Attributs du model
     Hotel hotel;
     Client client;
-    int nbrPlacesMin, nbrPlacesMax, nbrPlaces;      // util pour filtre
+    int nbrPlacesMin, nbrPlacesMax, nbrPlaces = 0;      // util pour filtre
     // liste des chambres disponibles par rapport à la date donnée
     Vector<Chambre> listChDispo = new Vector<Chambre>();
     // liste des chambres selectionné par l'utilisateur
@@ -55,7 +52,7 @@ public class ReservationsView extends JPanel {
     TitledBorder titleOptions = BorderFactory.createTitledBorder("Options");
     JScrollPane paneScrollOptions = new JScrollPane(paneInnerScrollOpt);
     JLabel labelSlider = new JLabel("Nombre de places");
-    JButton buttonFiltre = new JButton("Filtrer");
+    JSlider slider = new JSlider();
     // Partie affichage des chambres
     JPanel paneCenter = new JPanel();
     JPanel paneInnerScrollCh = new JPanel();
@@ -66,9 +63,11 @@ public class ReservationsView extends JPanel {
     public ReservationsView(Hotel h, Client cl) {
         hotel = h;
         client = cl;
+        // nbr places par rapport au model
         nbrPlacesMin = hotel.nbrPlacesMin();
         nbrPlacesMax = hotel.nbrPlacesMax();
-        nbrPlaces = nbrPlacesMin;
+        // Cherche toutes les chambres disponibles
+        listChDispo = hotel.searchChamberDispo(startDateChooser.getDate(), endDateChooser.getDate());
 
 
                             // ********** PANEL PRINCIPAL ********** //
@@ -106,14 +105,15 @@ public class ReservationsView extends JPanel {
         
 
                             // *********** PANEL CHOIX FILTRES *********** //
-        
+
         // Modification du format du titres
         labelFiltres.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         labelFiltres.setForeground(Color.RED);
         Font font = labelFiltres.getFont();
         float newSize = font.getSize() + 4;
         labelFiltres.setFont(font.deriveFont(newSize));
-
+        
+        
         // Définition des propriétés graphiques des panels
         paneWest.setLayout(new BoxLayout(paneWest, BoxLayout.Y_AXIS));
         paneWest.setBorder(borderPaneWest);
@@ -126,22 +126,32 @@ public class ReservationsView extends JPanel {
         for (Option opt : hotel.listOption) {
             JCheckBox checkBox = new JCheckBox(opt.type);
             checkBox.setActionCommand(opt.type + " " + opt.prix);
+            ReservationsControl crtOption = new ReservationsControl(hotel, paneInnerScrollCh, listChDispo, 
+            listFiltre, nbrPlaces, checkBox);
+            checkBox.addActionListener(crtOption);
             paneInnerScrollOpt.add(checkBox);
         }
         
         // Dimension du label
         labelSlider.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-        // Créer un slider 
-        JSlider slider = new JSlider(nbrPlacesMin, nbrPlacesMax, nbrPlacesMin); 
+        // Créer un slider
+        slider.setMinimum(nbrPlacesMin);
+        slider.setMaximum(nbrPlacesMax);
+        slider.setValue(nbrPlacesMin);
         slider.setPreferredSize(new Dimension(160, 50));
+        slider.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent event) {
+                nbrPlaces = slider.getValue();
+                ReservationsControl crtSlider = new ReservationsControl(hotel, paneInnerScrollCh, listChDispo, 
+                listFiltre, nbrPlaces, slider);
+                crtSlider.filtreChamber();
+            }
+        });
         // Peindre les ticks et l'étiquette 
         slider.setPaintTicks(true); 
         slider.setPaintLabels(true); 
         // Définir l'espacement
         slider.setMajorTickSpacing(1);
-
-        // Centre le bouton
-        buttonFiltre.setAlignmentX(CENTER_ALIGNMENT);
         
         // Ajout des objets au panel principal
         paneWest.add(labelFiltres);
@@ -151,16 +161,12 @@ public class ReservationsView extends JPanel {
         paneWest.add(labelSlider);
         paneWest.add(Box.createRigidArea(new Dimension(0, 10)));
         paneWest.add(slider);
-        paneWest.add(Box.createVerticalGlue());
-        paneWest.add(buttonFiltre);
 
 
                             // ********** PANEL CHAMBRES DISPO  ********** //
         
         // Définition du LayoutManager du panel
         paneCenter.setLayout(new BoxLayout(paneCenter, BoxLayout.Y_AXIS));
-        // Cherche toutes les chambres disponibles
-        listChDispo = hotel.searchChamberDispo(startDateChooser.getDate(), endDateChooser.getDate());
         paneInnerScrollCh.setLayout(new GridLayout(listChDispo.size()/2+1, 2, 20, 20));
         paneInnerScrollCh.setBorder(padding20);
 
@@ -201,10 +207,6 @@ public class ReservationsView extends JPanel {
 
             // Ajout du panel chambre au panel principal 
             paneInnerScrollCh.add(panel);
-
-            // Action checkbox selected
-            ReservationsControl ctrChSelected = new ReservationsControl(checkBox, listChSelected);
-            checkBox.addActionListener(ctrChSelected);
         }
 
         // Ajout des objets au panel principal
@@ -219,9 +221,6 @@ public class ReservationsView extends JPanel {
         // Choix date
         ReservationsControl ctrDate = new ReservationsControl(hotel, paneInnerScrollCh, listChDispo, listFiltre,  nbrPlaces, startDateChooser, endDateChooser);
         buttonValider.addActionListener(ctrDate);
-        // Filtrer chambre
-        ReservationsControl crtFiltre = new ReservationsControl(hotel, paneInnerScrollCh, listChDispo, listFiltre, nbrPlaces, paneInnerScrollOpt, slider);
-        buttonFiltre.addActionListener(crtFiltre);
     }
 }
                     

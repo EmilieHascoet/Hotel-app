@@ -20,7 +20,7 @@ import model.Chambre;
 public class ReservationsControl implements ActionListener {
     Hotel hotel;
     JFrame frame;
-    JPanel paneCh, paneOpt;
+    JPanel paneCh;
     JCheckBox checkBox;
     Vector<Chambre> listChDispo, listChSelected;
     Vector<Option> listFiltre;
@@ -29,21 +29,23 @@ public class ReservationsControl implements ActionListener {
     JDateChooser startDateChooser, endDateChooser;
     Date startDate, endDate;
     String textButton;
-    // Constructeur selectionne une chambre
-    public ReservationsControl(JCheckBox cb, Vector<Chambre> listCh) {
-        checkBox = cb; listChSelected = listCh;
+    // Constructeur selectionne une option
+    public ReservationsControl(Hotel h, JPanel p, Vector<Chambre> listCh, Vector<Option> listF, int places, JCheckBox cb) {
+        hotel = h; paneCh = p; listChDispo = listCh; nbrPlaces = places;
+        listFiltre = listF; checkBox = cb;
+    }
+    // Constructeur bouge le slider
+    public ReservationsControl(Hotel h, JPanel p, Vector<Chambre> listCh, Vector<Option> listF, int places, JSlider s) {
+        hotel = h; paneCh = p; listChDispo = listCh; listFiltre = listF;
+        nbrPlaces = places; slider = s;
     }
     // Constructeur choix date
     public ReservationsControl(Hotel h, JPanel p, Vector<Chambre> listCh, Vector<Option> listF, int places, JDateChooser sd, JDateChooser ed) {
         hotel = h; paneCh = p; listChDispo = listCh; listFiltre = listF; nbrPlaces = places;;
         startDateChooser = sd; endDateChooser = ed;
     }
-    // Constructeur filtre
-    public ReservationsControl(Hotel h, JPanel p, Vector<Chambre> listCh, Vector<Option> listF, int places, JPanel pOpt, JSlider s) {
-        hotel = h; paneCh = p; listChDispo = listCh; listFiltre = listF; nbrPlaces = places;
-        paneOpt = pOpt; slider = s;
-    }
 
+    // Ajoute les chambres filtré au panel chambre
     public void addChamberToView(Vector<Chambre> listChambres, JPanel panelCh) {
         for(Chambre ch : listChambres) {
             // panel chambre
@@ -76,24 +78,50 @@ public class ReservationsControl implements ActionListener {
             panel.add(checkBox);
             // Ajout du panel chambre au panel principal 
             panelCh.add(panel);
-            // Action checkbox selected
-            ReservationsControl ctrChSelected = new ReservationsControl(checkBox, listChSelected);
-            checkBox.addActionListener(ctrChSelected);
         }
+    }
+
+    // Filtre les chambres selon les options puis les affichent
+    public void filtreChamber() {
+        // Affiche les chambres lorsque les filtre ou chambres dispo ont été modifié
+        paneCh.removeAll();
+        paneCh.revalidate();
+        paneCh.repaint();
+
+        // Chambres ayant tous les options souhaitées
+        Vector<Chambre> listChAffichage1 = hotel.everyOption(listChDispo, listFiltre, nbrPlaces);
+        // JLabel label = new JLabel("Chambres avec tous les filtres selectionné");
+        // paneCh.add(label);
+        addChamberToView(listChAffichage1, paneCh);
+        
+        // Chambres ayant une ou plusiseurs options souhaitées
+        Vector<Chambre> listChAffichage2 = hotel.someOption(listChDispo, listFiltre, nbrPlaces);
+        // JLabel label2 = new JLabel("Chambres qui pourrait vous plaire");
+        // paneCh.add(label2);
+        addChamberToView(listChAffichage2, paneCh);
+
+        int nbrChambre = listChAffichage1.size() + listChAffichage2.size();
+        paneCh.setLayout(new GridLayout(nbrChambre/2+1, 2, 20, 20));
     }
 
     
     public void actionPerformed(ActionEvent e) {
         // Coche un checkButton
         if (checkBox != null) {
-            // cherche la chambre correspondante
-            checkBox.getActionCommand();
+            // Récupère les infos de l'option
+            String text = checkBox.getActionCommand();                 
+            String type = text.substring(0, text.lastIndexOf(" "));
+            String prix = text.substring(text.lastIndexOf(" ") + 1);
+            Option opt = hotel.searchOption(type, Double.parseDouble(prix));
+            // Si le checkbox est coché, ajoute l'option à la liste d'options
             if (checkBox.isSelected()) {
-                // ajoute à la liste
+                listFiltre.add(opt);
             }
+            // Sinon le retire de la liste
             else {
-                // retire de la liste
+                listFiltre.remove(opt);
             }
+            filtreChamber();
         }
         // Intéraction avec un bouton
         else {
@@ -127,47 +155,9 @@ public class ReservationsControl implements ActionListener {
                 // Actualise les chambres dispo si il n'y a aucune erreur de date
                 else {
                     listChDispo = hotel.searchChamberDispo(startDate, endDate);
+                    filtreChamber();
                 }
-                System.out.println(listChDispo);
             }
-            // Filtre 
-            if (textButton.equals("Filtrer")) {
-                // Vide la liste de filtre
-                listFiltre.removeAllElements();
-                // Parcours tous les checkbox options
-                Component[] checkBoxes = paneOpt.getComponents();
-                for (Component c : checkBoxes) {
-                    JCheckBox cb = (JCheckBox)c;
-                    // Si le checkbox est coché, ajoute l'option à la liste de filtre
-                    if (cb.isSelected()) {
-                        String text = cb.getActionCommand();                 
-                        String type = text.substring(0, text.lastIndexOf(" "));
-                        String prix = text.substring(text.lastIndexOf(" ") + 1);
-                        Option opt = hotel.searchOption(type, Double.parseDouble(prix));
-                        listFiltre.add(opt);
-                    }
-                }
-                nbrPlaces = slider.getValue();
-            }
-            // Affiche les chambres lorsque les filtre ou chambres dispo ont été modifié
-            paneCh.removeAll();
-            paneCh.revalidate();
-            paneCh.repaint();
-
-            // Chambres ayant tous les options souhaitées
-            Vector<Chambre> listChAffichage1 = hotel.everyOption(listChDispo, listFiltre, nbrPlaces);
-            // JLabel label = new JLabel("Chambres avec tous les filtres selectionné");
-            // paneCh.add(label);
-            addChamberToView(listChAffichage1, paneCh);
-            
-            // Chambres ayant une ou plusiseurs options souhaitées
-            Vector<Chambre> listChAffichage2 = hotel.someOption(listChDispo, listFiltre, nbrPlaces);
-            // JLabel label2 = new JLabel("Chambres qui pourrait vous plaire");
-            // paneCh.add(label2);
-            addChamberToView(listChAffichage2, paneCh);
-
-            int nbrChambre = listChAffichage1.size() + listChAffichage2.size();
-            paneCh.setLayout(new GridLayout(nbrChambre/2+1, 2, 20, 20));
         }
     }
 }
