@@ -48,6 +48,13 @@ public class Main {
         Chambre ch8 = new Chambre(8, 4);
         Chambre ch9 = new Chambre(9, 4);
 
+        ch1.addOption(o4);
+        ch1.addOption(o4);
+        ch1.addOption(o4);
+        ch1.addOption(o4);
+        ch1.addOption(o4);
+        ch1.addOption(o4);
+
         hotel.addChambre(ch1);
         hotel.addChambre(ch2);
         hotel.addChambre(ch3);

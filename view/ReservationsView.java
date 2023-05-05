@@ -128,11 +128,12 @@ public class ReservationsView extends JPanel {
             checkBox.setActionCommand(opt.type + " " + opt.prix);
             paneInnerScrollOpt.add(checkBox);
         }
-
+        
         // Dimension du label
         labelSlider.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         // Créer un slider 
         JSlider slider = new JSlider(nbrPlacesMin, nbrPlacesMax, nbrPlacesMin); 
+        slider.setPreferredSize(new Dimension(160, 50));
         // Peindre les ticks et l'étiquette 
         slider.setPaintTicks(true); 
         slider.setPaintLabels(true); 
@@ -160,28 +161,48 @@ public class ReservationsView extends JPanel {
         paneCenter.setLayout(new BoxLayout(paneCenter, BoxLayout.Y_AXIS));
         // Cherche toutes les chambres disponibles
         listChDispo = hotel.searchChamberDispo(startDateChooser.getDate(), endDateChooser.getDate());
-        paneInnerScrollCh.setLayout(new GridLayout(listChDispo.size()/2, 6, 0, 10));
-        
+        paneInnerScrollCh.setLayout(new GridLayout(listChDispo.size()/3, 3, 20, 20));
+        paneInnerScrollCh.setBorder(padding20);
+
         // Ajout des chambres dans le "panel scroll"
         for (Chambre ch : listChDispo) {
-            JPanel panel= new JPanel();
-            panel.setLayout(new FlowLayout(FlowLayout.LEADING, 15, 0));
-            JPanel panelLabel = new JPanel();
-            panelLabel.setLayout(new GridLayout(3,1, 0, 5));
+            // panel chambre
+            JPanel panel = new JPanel();
+            Border border = BorderFactory.createMatteBorder(1,1,1,1,Color.BLACK);
+            EmptyBorder padding = new EmptyBorder(7, 10, 7, 10);
+            panel.setLayout(new GridLayout(6, 1));
+            panel.setBorder(BorderFactory.createCompoundBorder(border, padding));
 
-            JLabel label = new JLabel("Chambre numéro : " + ch.num);
-            JLabel label2 = new JLabel("Etage : " + ch.etage + ", Places : " + ch.nbrPlaces);
+            // Labels
+            JLabel label = new JLabel("Etage : " + ch.etage);
+            JLabel label2 = new JLabel("Places : " + ch.nbrPlaces);
             JLabel label3 = new JLabel("Prix : " + ch.prix + "/nuit");
-            JCheckBox checkBox = new JCheckBox();
-            checkBox.setActionCommand(ch.num + "");
+            JLabel label4 = new JLabel("Liste options :");
+            label4.setForeground(Color.blue);
+
+            // comboBox contenant les options
+            JComboBox<String> optionList = new JComboBox<String>();
+            for (Option opt : ch.listOption) {
+                optionList.addItem(opt.type);
+            }
             
-            panelLabel.add(label);
-            panelLabel.add(label2);
-            panelLabel.add(label3);
+            // checkBox
+            JCheckBox checkBox = new JCheckBox();
+            checkBox.setHorizontalAlignment(JCheckBox.CENTER);
+            checkBox.setActionCommand(ch.num + "");
+
+            // Ajout des objets au panel chambre
+            panel.add(label);
+            panel.add(label2);
+            panel.add(label3);
+            panel.add(label4);
+            panel.add(optionList);
             panel.add(checkBox);
-            panel.add(panelLabel);
+
+            // Ajout du panel chambre au panel principal 
             paneInnerScrollCh.add(panel);
 
+            // Action checkbox selected
             ReservationsControl ctrChSelected = new ReservationsControl(checkBox, listChSelected);
             checkBox.addActionListener(ctrChSelected);
         }
