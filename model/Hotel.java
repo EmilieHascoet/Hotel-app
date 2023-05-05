@@ -23,18 +23,18 @@ public class Hotel {
     public void suppRes(Reservation res) { listRes.remove(res); }
     
 	// Methods reservation
-	public Vector<Chambre> everyOption(Vector<Chambre> listCh, Vector<Option> listOptions) { 
+	public Vector<Chambre> everyOption(Vector<Chambre> listCh, Vector<Option> listOptions, int places) { 
 		Vector<Chambre> listChFilte = new Vector<Chambre>();
 		for(Chambre ch : listCh) {
-			if(ch.listOption.containsAll(listOptions)) listChFilte.add(ch);
+			if(ch.nbrPlaces >= places && ch.listOption.containsAll(listOptions)) listChFilte.add(ch);
 		}
 		return listChFilte;
 	}
 
-	public Vector<Chambre> someOption(Vector<Chambre> listCh, Vector<Option> listOptions) { 
+	public Vector<Chambre> someOption(Vector<Chambre> listCh, Vector<Option> listOptions, int places) { 
 		Vector<Chambre> listChFilte = new Vector<Chambre>();
 		for(Chambre ch : listCh) {
-			if(!(ch.listOption.containsAll(listOptions))) {
+			if(ch.nbrPlaces >= places && !(ch.listOption.containsAll(listOptions))) {
 				for(Option opt : listOptions){
 					if(ch.listOption.contains(opt)) {
 						listChFilte.add(ch);

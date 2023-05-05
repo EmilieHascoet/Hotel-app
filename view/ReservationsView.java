@@ -22,8 +22,7 @@ public class ReservationsView extends JPanel {
     // Attributs du model
     Hotel hotel;
     Client client;
-    int nbrPlacesMin = 0;   // util pour filtre
-    int nbrPlacesMax = 0;
+    int nbrPlacesMin, nbrPlacesMax, nbrPlaces;      // util pour filtre
     // liste des chambres disponibles par rapport à la date donnée
     Vector<Chambre> listChDispo = new Vector<Chambre>();
     // liste des chambres selectionné par l'utilisateur
@@ -69,6 +68,7 @@ public class ReservationsView extends JPanel {
         client = cl;
         nbrPlacesMin = hotel.nbrPlacesMin();
         nbrPlacesMax = hotel.nbrPlacesMax();
+        nbrPlaces = nbrPlacesMin;
 
 
                             // ********** PANEL PRINCIPAL ********** //
@@ -161,7 +161,7 @@ public class ReservationsView extends JPanel {
         paneCenter.setLayout(new BoxLayout(paneCenter, BoxLayout.Y_AXIS));
         // Cherche toutes les chambres disponibles
         listChDispo = hotel.searchChamberDispo(startDateChooser.getDate(), endDateChooser.getDate());
-        paneInnerScrollCh.setLayout(new GridLayout(listChDispo.size()/3, 3, 20, 20));
+        paneInnerScrollCh.setLayout(new GridLayout(listChDispo.size()/2+1, 2, 20, 20));
         paneInnerScrollCh.setBorder(padding20);
 
         // Ajout des chambres dans le "panel scroll"
@@ -217,10 +217,11 @@ public class ReservationsView extends JPanel {
                             // *************** CONTROLER  *************** //
 
         // Choix date
-        ReservationsControl ctrDate = new ReservationsControl(hotel, paneInnerScrollCh, listChDispo, listFiltre, startDateChooser, endDateChooser);
+        ReservationsControl ctrDate = new ReservationsControl(hotel, paneInnerScrollCh, listChDispo, listFiltre,  nbrPlaces, startDateChooser, endDateChooser);
         buttonValider.addActionListener(ctrDate);
         // Filtrer chambre
-        ReservationsControl crtFiltre = new ReservationsControl(hotel, paneInnerScrollCh, listChDispo, listFiltre, paneInnerScrollOpt);
+        ReservationsControl crtFiltre = new ReservationsControl(hotel, paneInnerScrollCh, listChDispo, listFiltre, nbrPlaces, paneInnerScrollOpt, slider);
+        buttonFiltre.addActionListener(crtFiltre);
     }
 }
                     
