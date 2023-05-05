@@ -90,7 +90,7 @@ public class ReservationsControl implements ActionListener {
                 }
                 // Actualise les chambres dispo si il n'y a aucune erreur de date
                 else {
-                    listChDispo = hotel.searchChamber(startDate, endDate);
+                    listChDispo = hotel.searchChamberDispo(startDate, endDate);
                 }
                 System.out.println(listChDispo);
             }

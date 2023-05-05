@@ -22,6 +22,8 @@ public class ReservationsView extends JPanel {
     // Attributs du model
     Hotel hotel;
     Client client;
+    int nbrPlacesMin = 0;   // util pour filtre
+    int nbrPlacesMax = 0;
     // liste des chambres disponibles par rapport à la date donnée
     Vector<Chambre> listChDispo = new Vector<Chambre>();
     // liste des chambres selectionné par l'utilisateur
@@ -32,8 +34,8 @@ public class ReservationsView extends JPanel {
     // Attributs objets graphique
     // padding de 20 10 pixel
     EmptyBorder paddingPaneNorth = new EmptyBorder(20, 10, 20, 10);
-    // padding de 10 pixel
-    EmptyBorder padding10 = new EmptyBorder(10, 5, 0, 0);
+    // padding inner scroll
+    EmptyBorder paddingScroll = new EmptyBorder(10, 5, 0, 0);
     // padding de 20 pixel
     EmptyBorder padding20 = new EmptyBorder(20, 20, 20, 20);
     // Partie choix date
@@ -53,6 +55,7 @@ public class ReservationsView extends JPanel {
     JPanel paneInnerScrollOpt = new JPanel();
     TitledBorder titleOptions = BorderFactory.createTitledBorder("Options");
     JScrollPane paneScrollOptions = new JScrollPane(paneInnerScrollOpt);
+    JLabel labelSlider = new JLabel("Nombre de places");
     JButton buttonFiltre = new JButton("Filtrer");
     // Partie affichage des chambres
     JPanel paneCenter = new JPanel();
@@ -64,6 +67,9 @@ public class ReservationsView extends JPanel {
     public ReservationsView(Hotel h, Client cl) {
         hotel = h;
         client = cl;
+        nbrPlacesMin = hotel.nbrPlacesMin();
+        nbrPlacesMax = hotel.nbrPlacesMax();
+
 
                             // ********** PANEL PRINCIPAL ********** //
         
@@ -102,18 +108,18 @@ public class ReservationsView extends JPanel {
                             // *********** PANEL CHOIX FILTRES *********** //
         
         // Modification du format du titres
-        labelFiltres.setHorizontalAlignment(JLabel.CENTER);
+        labelFiltres.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         labelFiltres.setForeground(Color.RED);
         Font font = labelFiltres.getFont();
         float newSize = font.getSize() + 4;
         labelFiltres.setFont(font.deriveFont(newSize));
 
         // Définition des propriétés graphiques des panels
-        paneWest.setLayout(new BorderLayout(0, 20));
+        paneWest.setLayout(new BoxLayout(paneWest, BoxLayout.Y_AXIS));
         paneWest.setBorder(borderPaneWest);
         paneInnerScrollOpt.setLayout(new BoxLayout(paneInnerScrollOpt, BoxLayout.Y_AXIS));
-        paneInnerScrollOpt.setBorder(padding10);
-        paneScrollOptions.setPreferredSize(new Dimension(160, 300));
+        paneInnerScrollOpt.setBorder(paddingScroll);
+        paneScrollOptions.setPreferredSize(new Dimension(160, 200));
         paneScrollOptions.setBorder(titleOptions);
         
         // Ajout des options dans le "panel scroll"
@@ -122,11 +128,30 @@ public class ReservationsView extends JPanel {
             checkBox.setActionCommand(opt.type + " " + opt.prix);
             paneInnerScrollOpt.add(checkBox);
         }
+
+        // Dimension du label
+        labelSlider.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        // Créer un slider 
+        JSlider slider = new JSlider(nbrPlacesMin, nbrPlacesMax, nbrPlacesMin); 
+        // Peindre les ticks et l'étiquette 
+        slider.setPaintTicks(true); 
+        slider.setPaintLabels(true); 
+        // Définir l'espacement
+        slider.setMajorTickSpacing(1);
+
+        // Centre le bouton
+        buttonFiltre.setAlignmentX(CENTER_ALIGNMENT);
         
         // Ajout des objets au panel principal
-        paneWest.add(BorderLayout.NORTH, labelFiltres);
-        paneWest.add(BorderLayout.CENTER, paneScrollOptions);
-        paneWest.add(BorderLayout.SOUTH, buttonFiltre);
+        paneWest.add(labelFiltres);
+        paneWest.add(Box.createVerticalGlue());
+        paneWest.add(paneScrollOptions);
+        paneWest.add(Box.createVerticalGlue());
+        paneWest.add(labelSlider);
+        paneWest.add(Box.createRigidArea(new Dimension(0, 10)));
+        paneWest.add(slider);
+        paneWest.add(Box.createVerticalGlue());
+        paneWest.add(buttonFiltre);
 
 
                             // ********** PANEL CHAMBRES DISPO  ********** //
@@ -134,7 +159,7 @@ public class ReservationsView extends JPanel {
         // Définition du LayoutManager du panel
         paneCenter.setLayout(new BoxLayout(paneCenter, BoxLayout.Y_AXIS));
         // Cherche toutes les chambres disponibles
-        listChDispo = hotel.searchChamber(startDateChooser.getDate(), endDateChooser.getDate());
+        listChDispo = hotel.searchChamberDispo(startDateChooser.getDate(), endDateChooser.getDate());
         paneInnerScrollCh.setLayout(new GridLayout(listChDispo.size()/2, 6, 0, 10));
         
         // Ajout des chambres dans le "panel scroll"
@@ -163,6 +188,8 @@ public class ReservationsView extends JPanel {
 
         // Ajout des objets au panel principal
         paneCenter.add(paneScrollCh);
+        // Centre le button
+        buttonReserver.setAlignmentX(CENTER_ALIGNMENT);
         paneCenter.add(buttonReserver);
         
 

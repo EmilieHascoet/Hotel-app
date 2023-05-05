@@ -20,7 +20,7 @@ public class Main {
 		H.addClient(c1);
 		
 		
-		System.out.println(H.searchChamber(test, test2));
+		System.out.println(H.searchChamberDispo(test, test2));
 		Reservation res1 = new Reservation(test, test2);
 		res1.addChambre(ch1);
 		ch1.addRes(res1);
