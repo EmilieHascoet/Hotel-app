@@ -6,6 +6,9 @@ import java.text.SimpleDateFormat;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+
+import com.formdev.flatlaf.FlatLightLaf;
 
 import model.*;
 
@@ -52,6 +55,17 @@ public class Main {
         hotel.addChambre(ch7);
         hotel.addChambre(ch8);
         hotel.addChambre(ch9);
+        
+        // UIManager.LookAndFeelInfo[] looks = UIManager.getInstalledLookAndFeels();
+        // for (UIManager.LookAndFeelInfo look : looks) {
+        //     System.out.println(look.getClassName());
+        // }
+
+        // try {
+        //     UIManager.setLookAndFeel( new FlatLightLaf() );
+        // } catch( Exception ex ) {
+        //     System.err.println( "Failed to initialize LaF" );
+        // }
 
         JFrame main = new MainPage(hotel);
         JPanel reservation = new ReservationsView(hotel, client);
