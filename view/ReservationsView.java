@@ -28,14 +28,15 @@ public class ReservationsView extends JPanel {
     Vector<Option> listFiltre = new Vector<Option>();
 
     // Attributs objets graphique
-    // padding de 20 10 pixel
-    EmptyBorder paddingPaneNorth = new EmptyBorder(20, 10, 20, 10);
     // padding inner scroll
-    EmptyBorder paddingScroll = new EmptyBorder(10, 5, 0, 0);
+    EmptyBorder padding10 = new EmptyBorder(10, 10, 10, 10);
     // padding de 20 pixel
     EmptyBorder padding20 = new EmptyBorder(20, 20, 20, 20);
+    // padding de 30 pixel
+    EmptyBorder padding30 = new EmptyBorder(30, 30, 30, 30);
     // Partie choix date
     JPanel paneNorth = new JPanel();
+    EmptyBorder paddingPaneNorth = new EmptyBorder(20, 10, 20, 10);
     Border bottomBorder = BorderFactory.createMatteBorder(0,0,1,0,Color.BLACK);
     CompoundBorder borderPaneNorth = BorderFactory.createCompoundBorder(bottomBorder, paddingPaneNorth);
     JLabel labelStartDate = new JLabel("Date de début :");
@@ -57,6 +58,9 @@ public class ReservationsView extends JPanel {
     JPanel paneCenter = new JPanel();
     JPanel paneInnerScrollCh = new JPanel();
     JScrollPane paneScrollCh = new JScrollPane(paneInnerScrollCh);
+    JPanel paneReserver = new JPanel();
+    Border topBorder = BorderFactory.createMatteBorder(1,0,0,0,Color.BLACK);
+    CompoundBorder borderPaneReserver = BorderFactory.createCompoundBorder(topBorder, padding10);
     JButton buttonReserver = new JButton("Reserver");
 
     //public ReservationsView() throws ParseException {
@@ -118,7 +122,7 @@ public class ReservationsView extends JPanel {
         paneWest.setLayout(new BoxLayout(paneWest, BoxLayout.Y_AXIS));
         paneWest.setBorder(borderPaneWest);
         paneInnerScrollOpt.setLayout(new BoxLayout(paneInnerScrollOpt, BoxLayout.Y_AXIS));
-        paneInnerScrollOpt.setBorder(paddingScroll);
+        paneInnerScrollOpt.setBorder(new EmptyBorder(10, 5, 0, 0));
         paneScrollOptions.setPreferredSize(new Dimension(160, 200));
         paneScrollOptions.setBorder(titleOptions);
         
@@ -167,8 +171,9 @@ public class ReservationsView extends JPanel {
         
         // Définition du LayoutManager du panel
         paneCenter.setLayout(new BoxLayout(paneCenter, BoxLayout.Y_AXIS));
+        paneScrollCh.setBorder(null);
         paneInnerScrollCh.setLayout(new GridLayout(listChDispo.size()/2+1, 2, 20, 20));
-        paneInnerScrollCh.setBorder(padding20);
+        paneInnerScrollCh.setBorder(padding30);
 
         // Ajout des chambres dans le "panel scroll"
         for (Chambre ch : listChDispo) {
@@ -209,11 +214,13 @@ public class ReservationsView extends JPanel {
             paneInnerScrollCh.add(panel);
         }
 
+        // Ajout du button au panel
+        paneReserver.setBorder(borderPaneReserver);
+        paneReserver.add(buttonReserver);
+
         // Ajout des objets au panel principal
-        paneCenter.add(paneScrollCh);
-        // Centre le button
-        buttonReserver.setAlignmentX(CENTER_ALIGNMENT);
-        paneCenter.add(buttonReserver);
+        paneCenter.add(BorderLayout.NORTH, paneScrollCh);
+        paneCenter.add(BorderLayout.SOUTH, paneReserver);
         
 
                             // *************** CONTROLER  *************** //
