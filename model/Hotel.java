@@ -22,13 +22,47 @@ public class Hotel {
     
     public void suppRes(Reservation res) { listRes.remove(res); }
     
-	// Methods chambre
-	public Vector<Option> chooseOption() { 
-		/* Demande au moment de la réservation si le client veut des options pour sa chambre */ 
-		return new Vector<Option>();
+	// Methods reservation
+	public Vector<Chambre> everyOption(Vector<Chambre> listCh, Vector<Option> listOptions, int places) { 
+		Vector<Chambre> listChFilte = new Vector<Chambre>();
+		for(Chambre ch : listCh) {
+			if(ch.nbrPlaces >= places && ch.listOption.containsAll(listOptions)) listChFilte.add(ch);
+		}
+		return listChFilte;
+	}
+
+	public Vector<Chambre> someOption(Vector<Chambre> listCh, Vector<Option> listOptions, int places) { 
+		Vector<Chambre> listChFilte = new Vector<Chambre>();
+		for(Chambre ch : listCh) {
+			if(ch.nbrPlaces >= places && !(ch.listOption.containsAll(listOptions))) {
+				for(Option opt : listOptions){
+					if(ch.listOption.contains(opt)) {
+						listChFilte.add(ch);
+						break;
+					}
+				}
+			}
+		}
+		return listChFilte;
+	}
+
+	public int nbrPlacesMin() {
+		int min = 0;
+		for(Chambre ch : listChambre) {
+			min = ch.nbrPlaces < min ? ch.nbrPlaces : min;
+		}
+		return min;
+	}
+
+	public int nbrPlacesMax() {
+		int max = 0;
+		for(Chambre ch : listChambre) {
+			max = ch.nbrPlaces > max ? ch.nbrPlaces : max;
+		}
+		return max;
 	}
 	
-	public Vector<Chambre> triChambres(Vector<Chambre> ch, Vector<Option> o) { 
+	// public Vector<Chambre> triChambres(Vector<Chambre> ch, Vector<Option> o) { 
 		// Tri les chambres en fonction des préférences : du plus au moins d'option
 		/* tailleListOpt=5
 		Créé une liste et setSize(tailleListOpt)
@@ -38,10 +72,11 @@ public class Hotel {
 		nbrOpt=5
 		5-5
 		Add à la sous-liste à la position 0 si elle existe, sinon créé la sous-liste
-		Renvoie une liste de liste */
+		Renvoie une liste de liste 
 		return new Vector<Chambre>();
-	}
-    public Vector<Chambre> searchChamber(Date start, Date end) { 
+	}*/
+
+    public Vector<Chambre> searchChamberDispo(Date start, Date end) { 
     	Vector<Chambre> rep = new Vector<Chambre>();
     	boolean dispo;
     	for (Chambre c : listChambre) {
