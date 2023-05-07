@@ -11,9 +11,9 @@ public class Main {
 		Date test4 = f.parse("01-04-2023");
 		
 		Hotel H = new Hotel();
-		Chambre ch1 = new Chambre(103, 3);
+		Chambre ch1 = new Chambre("103", 3);
 		H.addChambre(ch1);
-		Chambre ch2 = new Chambre(305, 1);
+		Chambre ch2 = new Chambre("305", 1);
 		H.addChambre(ch2);
 		
 		Client c1 = new Client("Chat", test, "06");

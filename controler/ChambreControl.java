@@ -47,7 +47,7 @@ public class ChambreControl implements ActionListener {
 
                 if (numText.length() > 0 && placesText.length() > 0) {
                     //convertir String en int
-                    int numInt = Integer.parseInt(numText);
+                    String numInt = numText;
                     int placesInt = Integer.parseInt(placesText);
 
                     //Pour le model
@@ -111,7 +111,7 @@ public class ChambreControl implements ActionListener {
 
                 //Mettre la méthode searchChambre dans Hotel
                 for (Chambre ch : hotel.listChambre) {
-                    if (ch.num == Integer.parseInt(splitedText[0])) {
+                    if (ch.num == splitedText[0]) {
                         ch.nbrPlaces = Integer.parseInt(places.getText());
                         ch.prix = Double.parseDouble(price.getText());
                         ch.listOption.removeAllElements();

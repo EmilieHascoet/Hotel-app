@@ -93,9 +93,9 @@ public class Hotel {
     	return rep;
     }
 
-	public Chambre searchChamber(int num) {
+	public Chambre searchChamber(String num) {
 		for (Chambre ch : listChambre) {
-            if (num == ch.num) { return ch; }
+            if (num.equals(ch.num)) { return ch; }
         }
         return null;
 	}

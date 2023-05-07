@@ -180,7 +180,7 @@ public class ReservationsControl implements ActionListener {
                             JCheckBox cb = (JCheckBox)component;
                             if (cb.isSelected()) {
                                 // Récupère les infos de la chambre
-                                int num =  Integer.parseInt(cb.getActionCommand());
+                                String num =  cb.getActionCommand();
                                 Chambre chambre = hotel.searchChamber(num);
                                 res.addChambre(chambre);
                             }
