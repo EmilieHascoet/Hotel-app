@@ -29,15 +29,16 @@ public class Main {
         hotel.addOption(o3);
         hotel.addOption(o4);
 
-        Chambre ch1 = new Chambre(100, 6);
-        Chambre ch2 = new Chambre(204, 4);
-        Chambre ch3 = new Chambre(305, 3);
-        Chambre ch4 = new Chambre(405, 2);
-        Chambre ch5 = new Chambre(505, 4);
-        Chambre ch6 = new Chambre(610, 3);
-        Chambre ch7 = new Chambre(720, 4);
-        Chambre ch8 = new Chambre(805, 4);
-        Chambre ch9 = new Chambre(905, 4);
+        Chambre ch1 = new Chambre("100", 6);
+        Chambre ch2 = new Chambre("100", 6);
+        Chambre ch3 = new Chambre("100", 6);
+        Chambre ch4 = new Chambre("100", 6);
+        Chambre ch5 = new Chambre("100", 6);
+        Chambre ch6 = new Chambre("100", 6);
+        Chambre ch7 = new Chambre("100", 6);
+        Chambre ch8 = new Chambre("100", 6);
+        Chambre ch9 = new Chambre("100", 6);
+
 
         ch1.addOption(o1);
         ch1.addOption(o2);

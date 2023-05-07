@@ -19,6 +19,7 @@ import model.Chambre;
 
 public class ReservationsControl implements ActionListener {
     Hotel hotel;
+    Client client;
     JFrame frame;
     JPanel paneCh;
     JCheckBox checkBox;
@@ -39,10 +40,14 @@ public class ReservationsControl implements ActionListener {
         hotel = h; paneCh = p; listChDispo = listCh; listFiltre = listF;
         nbrPlaces = places; slider = s;
     }
-    // Constructeur choix date
-    public ReservationsControl(Hotel h, JPanel p, Vector<Chambre> listCh, Vector<Option> listF, int places, JDateChooser sd, JDateChooser ed) {
+    // Constructeur choix date  ADD START DATE AND END DATE FOR RESERVER
+    public ReservationsControl(Hotel h, JPanel p, Vector<Chambre> listCh, Vector<Option> listF, int places, JDateChooser sd, JDateChooser ed, Date s, Date e) {
         hotel = h; paneCh = p; listChDispo = listCh; listFiltre = listF; nbrPlaces = places;;
-        startDateChooser = sd; endDateChooser = ed;
+        startDateChooser = sd; endDateChooser = ed; startDate = s; endDate = e;
+    }
+    // Constructeur reserver les chambres
+    public ReservationsControl(Hotel h, Client c, JPanel p, Date s, Date e) {
+        hotel = h; client = c; paneCh = p; startDate = s; endDate = e;
     }
 
     // Ajoute les chambres filtré au panel chambre
@@ -157,6 +162,37 @@ public class ReservationsControl implements ActionListener {
                     listChDispo = hotel.searchChamberDispo(startDate, endDate);
                     filtreChamber();
                 }
+            }
+            // Reserver chambre
+            else {
+                // Crée une réservation
+                Reservation res = new Reservation(startDate, endDate);
+                res.setClient(client);
+                // Parcours la liste des component du panel contenant chaque chambre
+                for (Component panel : paneCh.getComponents()) {
+                    // les chambres sont de type panel
+                    JPanel pane = (JPanel)panel;
+                    Component[] panelC = pane.getComponents();
+                    // Parcours la liste des component du panel contenant les infos de la chambre
+                    // à la recherche du checkbox
+                    for(Component component : panelC) {
+                        if(component instanceof JCheckBox) {
+                            JCheckBox cb = (JCheckBox)component;
+                            if (cb.isSelected()) {
+                                // Récupère les infos de la chambre
+                                String num =  cb.getActionCommand();
+                                Chambre chambre = hotel.searchChamber(num);
+                                res.addChambre(chambre);
+                            }
+                        }
+                    }
+                }
+                // message d'erreur si reservation contient aucune chambre
+                if (res.listChambre.size() == 0) {
+
+                }
+                else { hotel.addRes(res); client.addRes(res);}
+                System.out.println(hotel.listRes);
             }
         }
     }

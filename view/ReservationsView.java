@@ -41,6 +41,7 @@ public class ReservationsView extends JPanel {
     CompoundBorder borderPaneNorth = BorderFactory.createCompoundBorder(bottomBorder, paddingPaneNorth);
     JLabel labelStartDate = new JLabel("Date de début :");
     JDateChooser startDateChooser = new JDateChooser();
+    Date startDate, endDate;
     JLabel labelEndDate = new JLabel("Date de fin :");
     JDateChooser endDateChooser = new JDateChooser();
     JButton buttonValider = new JButton("Valider");
@@ -90,9 +91,11 @@ public class ReservationsView extends JPanel {
         calendrier.set(Calendar.SECOND, 0);
         calendrier.set(Calendar.MINUTE, 0);
         calendrier.set(Calendar.HOUR_OF_DAY, 0);
-        startDateChooser.setDate(calendrier.getTime());
+        startDate = calendrier.getTime();
+        startDateChooser.setDate(startDate);
         calendrier.add(Calendar.DATE, 1);
-        endDateChooser.setDate(calendrier.getTime());
+        endDate = calendrier.getTime();
+        endDateChooser.setDate(endDate);
         // Change le format affiché
         startDateChooser.setDateFormatString("dd/MM/yyyy");
         endDateChooser.setDateFormatString("dd/MM/yyyy");
@@ -226,8 +229,11 @@ public class ReservationsView extends JPanel {
                             // *************** CONTROLER  *************** //
 
         // Choix date
-        ReservationsControl ctrDate = new ReservationsControl(hotel, paneInnerScrollCh, listChDispo, listFiltre,  nbrPlaces, startDateChooser, endDateChooser);
+        ReservationsControl ctrDate = new ReservationsControl(hotel, paneInnerScrollCh, listChDispo, listFiltre,  nbrPlaces, startDateChooser, endDateChooser, startDate, endDate);
         buttonValider.addActionListener(ctrDate);
+        // Reserver les chambres selectionné
+        ReservationsControl ctrRes = new ReservationsControl(hotel, client, paneInnerScrollCh, startDate, endDate);
+        buttonReserver.addActionListener(ctrRes);
     }
 }
                     

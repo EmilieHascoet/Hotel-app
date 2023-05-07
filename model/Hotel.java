@@ -92,6 +92,13 @@ public class Hotel {
     	}
     	return rep;
     }
+
+	public Chambre searchChamber(String num) {
+		for (Chambre ch : listChambre) {
+            if (num.equals(ch.num)) { return ch; }
+        }
+        return null;
+	}
     
 	// Methods client
     public Client searchClient(String t) {
