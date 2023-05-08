@@ -13,6 +13,7 @@ import com.formdev.flatlaf.FlatLightLaf;
 import model.*;
 
 public class Main {
+    static JFrame main;
     public static void main(String args[]) throws ParseException {
         Hotel hotel = new Hotel();
 
@@ -90,7 +91,7 @@ public class Main {
         //     System.err.println( "Failed to initialize LaF" );
         // }
 
-        JFrame main = new MainPage(hotel);
+        main = new MainPage(hotel);
         JPanel reservation = new ReservationsView(hotel, client);
         JDialog d = new JDialog(main, "Créer une reservation pour " + client.nom, true);
         d.add(reservation);

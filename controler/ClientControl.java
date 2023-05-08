@@ -2,7 +2,6 @@ package controler;
 import java.awt.*;
 import java.awt.event.*;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import javax.swing.*;
 import model.*;
@@ -10,10 +9,13 @@ import model.*;
 public class ClientControl implements ActionListener{
     Hotel hotel;
     JPanel pane, infosPane, groupPane;
+    JDialog confirm;
     ClientControl buttonClientControl;
-    ButtonGroup clientButtonGroup;
+    ButtonGroup clientButtonGroup, resButtonGroup;
     String actionType, name;
     JTextField firstName, lastName, tel;
+
+    public ClientControl(JPanel p, JDialog d) { pane=p; confirm=d; actionType="Supprimer"; }
 
     public ClientControl(JPanel p, ButtonGroup clientBG) { pane=p; clientButtonGroup=clientBG; actionType="AddClientLeft";}
 
@@ -23,7 +25,9 @@ public class ClientControl implements ActionListener{
 
     public ClientControl(Hotel h, JPanel p, JPanel infoP, ButtonGroup clientBG) {hotel=h; pane=p; infosPane=infoP; clientButtonGroup=clientBG; actionType="Consulter";}
 
-    public ClientControl(Hotel h, JPanel p, ButtonGroup clientBG) {hotel=h; pane=p; clientButtonGroup=clientBG; actionType="Ajouter";}
+    public ClientControl(Hotel h, JPanel p, JPanel infoP, ButtonGroup clientBG, ButtonGroup resBG) { 
+        hotel=h; pane=p; infosPane=infoP; clientButtonGroup=clientBG; resButtonGroup=resBG; actionType="yes/no";
+    }
 
     public void actionPerformed(ActionEvent e) {
         CardLayout card = (CardLayout)pane.getLayout();
@@ -83,5 +87,25 @@ public class ClientControl implements ActionListener{
                 groupPane.add(newClientRadioButton);
                 
             }   
+
+            else if (actionType.equals("Supprimer")) {
+                confirm.setLocationRelativeTo(null);
+                confirm.setVisible(true);
+
+                if (clientButtonGroup != null && clientButtonGroup.getSelection() != null) {
+                    // Trouve le Client correspondant au boutton sélectionné
+                    Client c = hotel.searchClient(clientButtonGroup.getSelection().getActionCommand());
+
+                    if (resButtonGroup != null && resButtonGroup.getSelection() != null) {  // Chercher comment récupérer le resButtonGroup dans la view car on le créé dans le controler
+                        //Dans la view, mettre dateDeb et dateFin dans l'actionCommand des radioBouttons res
+                        //Chercher dans c.listRes la reservation correspondante (convertir dateDeb et dateFin en string pour comparer)
+                        //Puis la supprimer du model et de la view
+                    }
+                } 
+            }
+
+            else if (actionType.equals("yes/no")) {
+
+            }
     }
 }

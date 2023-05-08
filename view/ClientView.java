@@ -199,5 +199,27 @@ public class ClientView extends JPanel {
         addFirstNameTextField.getDocument().addDocumentListener(ctrTextField);
         addLastNameTextField.getDocument().addDocumentListener(ctrTextField);
         addTelTextField.getDocument().addDocumentListener(ctrTextField);
+
+        //Test JDialog
+        JFrame mainFrame = Main.main;
+        JDialog popUp = new JDialog(mainFrame, true);
+        JPanel confirm = new JPanel(new BorderLayout());
+        JPanel yesNo = new JPanel(new GridLayout(1,2));
+        JLabel sure = new JLabel("Êtes-vous sûr de vouloir supprimer cette réservation ?");
+        JButton yes = new JButton("OUI");
+        JButton no = new JButton("NON");
+
+        sure.setHorizontalAlignment(JLabel.CENTER);
+        yesNo.add(yes);
+        yesNo.add(no);
+        confirm.add(sure, BorderLayout.CENTER);
+        confirm.add(yesNo, BorderLayout.SOUTH);
+
+        popUp.add(confirm);
+        popUp.setSize(400, 200);
+        //test2.setVisible(true);
+
+        ClientControl suppCtr = new ClientControl(PDroit, popUp);
+        suppResButton.addActionListener(suppCtr);
     }
 }
