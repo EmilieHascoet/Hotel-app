@@ -19,12 +19,12 @@ public class Main {
         SimpleDateFormat f = new SimpleDateFormat("dd-MM-yyyy");
         Date date = f.parse("26-03-2023");
         Date date2 = f.parse("30-03-2023");
-        Client client = new Client("Chat", date, "0624205906");
-        Client c1 = new Client("Client 1", date, "061");
-        Client c2 = new Client("Client 2", date, "062");
-        Client c3 = new Client("Client 3", date, "063");
-        Client c4 = new Client("Client 4", date, "064");
-        Client c5 = new Client("Client 5", date, "065");
+        Client client = new Client("Chat", "Test", "0624205906");
+        Client c1 = new Client("Client 1", "Test", "061");
+        Client c2 = new Client("Client 2", "Test", "062");
+        Client c3 = new Client("Client 3", "Test", "063");
+        Client c4 = new Client("Client 4", "Test", "064");
+        Client c5 = new Client("Client 5", "Test", "065");
 
         Reservation r1 = new Reservation(date, date2);
         c1.addRes(r1);
@@ -78,8 +78,6 @@ public class Main {
         hotel.addChambre(ch7);
         hotel.addChambre(ch8);
         hotel.addChambre(ch9);
-
-        
         
         // UIManager.LookAndFeelInfo[] looks = UIManager.getInstalledLookAndFeels();
         // for (UIManager.LookAndFeelInfo look : looks) {

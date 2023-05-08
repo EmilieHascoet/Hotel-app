@@ -17,50 +17,30 @@ public class ClientView extends JPanel {
     JLabel res = new JLabel("Reservations");
 
     //Panel Ajouter
-    JLabel titre = new JLabel("Ajout de clients");
-    JLabel nom = new JLabel("Nom : ");
-    JLabel prenom = new JLabel("Prénom : ");
-    JLabel tel = new JLabel("Numéro de tel : ");
-    JLabel dateNaiss = new JLabel("Date de naissance : ");
+    TitledBorder addClientTitle = BorderFactory.createTitledBorder("Ajout de client");
+    JLabel addLastNameLabel = new JLabel("Nom : ");
+    JLabel addFirstNameLabel = new JLabel("Prénom : ");
+    JLabel addTelLabel = new JLabel("Numéro de tel : ");
+    //JLabel addDateNaissLabel = new JLabel("Date de naissance : ");
     
-    JTextField no = new JTextField();
-    JTextField preno = new JTextField();
-    JTextField te = new JTextField();
-    JTextField dateN = new JTextField();
-    JButton add2 = new JButton("Ajouter !");
+    JTextField addLastNameTextField = new JTextField();
+    JTextField addFirstNameTextField = new JTextField();
+    JTextField addTelTextField = new JTextField();
+    //JTextField dateN = new JTextField();
+    JButton addClientRightButton = new JButton("Ajouter !");
 
     // consulter chambre
     JPanel paneConsultClient = new JPanel();
     TitledBorder titleConsultClient = BorderFactory.createTitledBorder("Liste des clients");
     JPanel paneInnerScrollClient = new JPanel();
     ButtonGroup groupClient = new ButtonGroup();
-    JButton addButtonClient = new JButton("Ajouter");
+    JButton addClientLeftButton = new JButton("Ajouter");
 
     public ClientView(Hotel hotel) {
         this.setLayout(new GridLayout(1, 2));
-
-        JPanel PGauche = new JPanel(new BorderLayout(10, 10));
         JPanel PDroit = new JPanel(new CardLayout());
 
         JPanel PDroit1 = new JPanel(new GridLayout(2,1));
-        JPanel PDroit2 = new JPanel();
-        
-        //Panel de gauche
-        /* 
-        JPanel NORTH = new JPanel(new FlowLayout());
-        JPanel SOUTH = new JPanel(new FlowLayout());
-        JPanel listClients = new JPanel(new GridLayout());
-
-        search.setPreferredSize(new Dimension(200, 25));
-        ajouter.setPreferredSize(new Dimension(200, 25));
-        
-        NORTH.add(search);
-        SOUTH.add(ajouter);
-        PGauche.add(BorderLayout.NORTH, NORTH);
-        //PGauche.add(BorderLayout.CENTER, client);
-        PGauche.add(BorderLayout.SOUTH,SOUTH);
-        PGauche.setBorder(BorderFactory.createMatteBorder(0,0,0,1,Color.BLACK));
-        */
 
         //PANEL RESERVATIONS ET SEJOUR DU CLIENT
         JPanel consultInfoClient = new JPanel(new GridLayout(2, 1));
@@ -77,7 +57,7 @@ public class ClientView extends JPanel {
         JButton suppResButton = new JButton("Supprimer");
         
         //SOUTH
-        modifResButton.setEnabled(false);    //Quand je sélectionne une réservation passe en true
+        modifResButton.setEnabled(false);    //Quand je sélectionne une réservation passe en true (à faire)
         resButtonPane.add(addResButton);
         resButtonPane.add(modifResButton);
         resButtonPane.add(suppResButton);
@@ -101,7 +81,7 @@ public class ClientView extends JPanel {
 
         // PANEL CONSULTER CLIENT
         
-        paneConsultClient.setLayout(new BorderLayout());
+        paneConsultClient.setLayout(new BorderLayout(0,15));
         paneConsultClient.setBorder(new EmptyBorder(15, 20, 15, 20));
 
         // Récupère la liste des chambres et créé des RadioBouttons puis les ajoutent dans un groupe
@@ -112,7 +92,7 @@ public class ClientView extends JPanel {
         ClientControl buttonControl = new ClientControl(hotel, PDroit, resClientInnerPane, groupClient);
 
         for (Client c : hotel.listClient) {
-            JRadioButton ClientButton = new JRadioButton(c.nom);
+            JRadioButton ClientButton = new JRadioButton(c.prenom + " "+ c.nom);
             
             ClientButton.setActionCommand(c.tel);
             ClientButton.setName("Consulter");
@@ -129,21 +109,20 @@ public class ClientView extends JPanel {
         paneScrollConsultClient.setBorder(titleConsultClient);
 
         // Ajout du scrollpanel et du bouton au panel
-        paneConsultClient.add(BorderLayout.NORTH, paneScrollConsultClient);
-        paneConsultClient.add(BorderLayout.SOUTH, addButtonClient);
+        paneConsultClient.add(BorderLayout.CENTER, paneScrollConsultClient);
+        paneConsultClient.add(BorderLayout.SOUTH, addClientLeftButton);
 
 
-        //Panel1 de droite
+        //Panel de droite
+        JPanel addClientGlobalPanel = new JPanel(new BorderLayout(0,15));
+        addClientGlobalPanel.setBorder(new EmptyBorder(15, 20, 15, 20));
+        
 
         JPanel ajoutClient = new JPanel(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
 
         //Modification du format du titre
-        titre.setHorizontalAlignment(JLabel.CENTER);
-        titre.setForeground(Color.RED);
-        Font font = titre.getFont();
-        float newSize = font.getSize() + 6;
-        titre.setFont(font.deriveFont(newSize));
+        ajoutClient.setBorder(addClientTitle);
 
         c.insets = new Insets(5, 10, 5,5);  // Pading
         c.fill = GridBagConstraints.HORIZONTAL; // étend l'élément dans les deux directions
@@ -152,39 +131,36 @@ public class ClientView extends JPanel {
 
         c.gridx = 0;
         c.gridy = 0;
-        c.gridwidth = 2;
         
-        ajoutClient.add(titre,c);
+        ajoutClient.add(addFirstNameLabel,c);
 
-        c.gridwidth = 1;
         c.gridx = 0;
         c.gridy = 1;
-        ajoutClient.add(nom,c);
+        ajoutClient.add(addLastNameLabel,c);
         c.gridy = 2;
-        ajoutClient.add(prenom,c);
-        c.gridy = 3;
-        ajoutClient.add(tel,c);
-        c.gridy = 4;
-        ajoutClient.add(dateNaiss,c);
+        ajoutClient.add(addTelLabel,c);
 
         c.weightx = 1.0; 
         c.gridx = 1;
-        c.gridy = 1;
+        c.gridy = 0;
         c.ipadx = 100;       //Largeur de l'élément
         c.ipady = 20;       //Hauteur de l'élément
-        ajoutClient.add(no,c);
+        ajoutClient.add(addFirstNameTextField,c);
+        c.gridy = 1;
+        ajoutClient.add(addLastNameTextField,c);
         c.gridy = 2;
-        ajoutClient.add(preno,c);
-        c.gridy = 3;
-        ajoutClient.add(te,c);
-        c.gridy = 4;
-        ajoutClient.add(dateN,c);
+        ajoutClient.add(addTelTextField,c);
         
-        c.gridx = 0;
-        c.gridy = 5;
-        c.gridwidth = 2;        //Pour que ça prenne les 2 cases
-        ajoutClient.add(add2,c);
+        // c.gridx = 0;
+        // c.gridy = 5;
+        // c.gridwidth = 2;        //Pour que ça prenne les 2 cases
+        // ajoutClient.add(add2,c);
     
+        addClientGlobalPanel.add(BorderLayout.CENTER ,ajoutClient);
+        addClientGlobalPanel.add(BorderLayout.SOUTH ,addClientRightButton);
+
+        addClientRightButton.setEnabled(false);
+
         //Panel2 de droite
         JPanel sejour = new JPanel(new BorderLayout());
         JPanel reservation = new JPanel(new BorderLayout());
@@ -202,16 +178,26 @@ public class ClientView extends JPanel {
         //Panel de droite
 
         PDroit.add(consultInfoClient, "Consulter");
-        PDroit.add(ajoutClient,"Ajouter");
+        PDroit.add(addClientGlobalPanel,"Ajouter");
 
         this.add(paneConsultClient);
         this.add(PDroit);
         this.setVisible(true);
 
         //Controler
-        addButtonClient.setName("Ajouter");
+        addClientLeftButton.setName("Ajouter");
+        addClientRightButton.setName("Consulter");
 
-        //ClientControl ctr = new ClientControl(PDroit);
-        //addButtonClient.addActionListener(ctr);
+        ClientControl ctrAddLeftButton = new ClientControl(PDroit,groupClient);
+        addClientLeftButton.addActionListener(ctrAddLeftButton);
+
+        ClientControl ctrAddRightButton = new ClientControl(hotel, PDroit, paneInnerScrollClient, buttonControl, groupClient,  addFirstNameTextField, addLastNameTextField, addTelTextField);
+        addClientRightButton.addActionListener(ctrAddRightButton);
+
+        //TextField controler
+        TextFieldListener ctrTextField = new TextFieldListener(addFirstNameTextField, addLastNameTextField, addTelTextField, addClientRightButton);
+        addFirstNameTextField.getDocument().addDocumentListener(ctrTextField);
+        addLastNameTextField.getDocument().addDocumentListener(ctrTextField);
+        addTelTextField.getDocument().addDocumentListener(ctrTextField);
     }
 }
