@@ -73,6 +73,6 @@ public class Main {
         JDialog d = new JDialog(main, "Créer une reservation pour " + client.nom, true);
         d.add(reservation);
         d.setSize(700, 500);
-        d.setVisible(true);
+        // d.setVisible(true);
     }
 }
