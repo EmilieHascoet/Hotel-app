@@ -21,10 +21,14 @@ public class EnregistrementsView extends JPanel {
     // Bordures
     Border bottomBorder = BorderFactory.createMatteBorder(0,0,1,0,Color.BLACK);
     EmptyBorder padding20 = new EmptyBorder(20, 20, 20, 20);
+    EmptyBorder centerPadding = new EmptyBorder(10, 20, 10, 20);
+    EmptyBorder buttonPadding = new EmptyBorder(10, 0, 0, 0);
     CompoundBorder borderPaneNorth = BorderFactory.createCompoundBorder(bottomBorder, padding20);
     // panel du titre
     JPanel paneNorth = new JPanel();
     JLabel titre = new JLabel("Enregistrements d'aujourd'hui");
+    // panel central 
+    JPanel paneCenter = new JPanel();
     // panel des arrivees
     JPanel paneWest = new JPanel();
     JPanel searchBarArr = new JPanel();
@@ -38,6 +42,14 @@ public class EnregistrementsView extends JPanel {
     JButton supprimer = new JButton("Supprimer");
     // panel des departs
     JPanel paneEast = new JPanel();
+    JPanel searchBarDep = new JPanel();
+    JButton searchButtonDep = new JButton(resizedIcon);
+    JTextField searchTFDep = new JTextField(15);
+    TitledBorder titleDep = BorderFactory.createTitledBorder("Departs");
+    JPanel innerScrollDep = new JPanel();
+    JScrollPane scrollDep = new JScrollPane(innerScrollDep);
+    JPanel paneButtonDep = new JPanel();
+    JButton facturer = new JButton("Facturer");
 
     public EnregistrementsView(Hotel h) {
         hotel = h;
@@ -55,25 +67,53 @@ public class EnregistrementsView extends JPanel {
         titre.setFont(font.deriveFont(newSize));
         paneNorth.add(titre);
 
+
+        // PANEL CENTRAL
+        paneCenter.setLayout(new GridLayout(1, 2));
+        paneCenter.add(paneWest);
+        paneCenter.add(paneEast);
+
         // PANEL DES ARRIVEES
         paneWest.setLayout(new BoxLayout(paneWest, BoxLayout.Y_AXIS));
+        paneWest.setBorder(centerPadding);
         // search panel
         searchButtonArr.setPreferredSize(new Dimension(25, 25));
         searchBarArr.add(searchButtonArr);
         searchBarArr.add(searchTFArr);
         // scroll panel des arrivants
         scrollArr.setBorder(titleArr);
+        scrollArr.setPreferredSize(new Dimension(100, 300));
         // panel des bouttons d'action
+        paneButtonArr.setBorder(buttonPadding);
         paneButtonArr.add(checkIn);
         paneButtonArr.add(supprimer);
-
+        
         // Ajout des objets au panel
         paneWest.add(searchBarArr);
         paneWest.add(scrollArr);
         paneWest.add(paneButtonArr);
 
+        
+        // PANEL DES DEPARTS
+        paneEast.setLayout(new BoxLayout(paneEast, BoxLayout.Y_AXIS));
+        paneEast.setBorder(centerPadding);
+        // search panel
+        searchButtonDep.setPreferredSize(new Dimension(25, 25));
+        searchBarDep.add(searchButtonDep);
+        searchBarDep.add(searchTFDep);
+        // scroll panel des arrivants
+        scrollDep.setBorder(titleDep);
+        scrollDep.setPreferredSize(new Dimension(100, 300));
+        // panel des bouttons d'action
+        paneButtonDep.setBorder(buttonPadding);
+        paneButtonDep.add(facturer);
+
+        // Ajout des objets au panel
+        paneEast.add(searchBarDep);
+        paneEast.add(scrollDep);
+        paneEast.add(paneButtonDep);
+
         this.add(BorderLayout.NORTH, paneNorth);
-        this.add(BorderLayout.WEST, paneWest);
-        this.add(BorderLayout.EAST, paneEast);
+        this.add(BorderLayout.CENTER, paneCenter);
     }
 }
