@@ -13,7 +13,7 @@ import com.formdev.flatlaf.FlatLightLaf;
 import model.*;
 
 public class Main {
-    static JFrame main;
+    public static JFrame main;
     public static void main(String args[]) throws ParseException {
         // HOTEL
         Hotel hotel = new Hotel();

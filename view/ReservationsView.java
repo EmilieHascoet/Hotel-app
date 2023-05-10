@@ -19,6 +19,7 @@ public class ReservationsView extends JPanel {
     // Attributs du model
     Hotel hotel;
     Client client;
+    JDialog dialog;
     int nbrPlacesMin, nbrPlacesMax, nbrPlaces = 0;      // util pour filtre
     // liste des chambres disponibles par rapport à la date donnée
     Vector<Chambre> listChDispo = new Vector<Chambre>();
@@ -63,9 +64,10 @@ public class ReservationsView extends JPanel {
     JButton buttonReserver = new JButton("Reserver");
 
     //public ReservationsView() throws ParseException {
-    public ReservationsView(Hotel h, Client cl) {
+    public ReservationsView(Hotel h, Client cl, JDialog d) {
         hotel = h;
         client = cl;
+        dialog = d;
         // nbr places par rapport au model
         nbrPlacesMin = hotel.nbrPlacesMin();
         nbrPlacesMax = hotel.nbrPlacesMax();
@@ -234,7 +236,7 @@ public class ReservationsView extends JPanel {
         ReservationsControl ctrDate = new ReservationsControl(hotel, paneInnerScrollCh, listChDispo, listFiltre,  nbrPlaces, startDateChooser, endDateChooser);
         buttonValider.addActionListener(ctrDate);
         // Reserver les chambres selectionné
-        ReservationsControl ctrRes = new ReservationsControl(hotel, client, paneInnerScrollCh);
+        ReservationsControl ctrRes = new ReservationsControl(hotel, client, paneInnerScrollCh, dialog);
         buttonReserver.addActionListener(ctrRes);
     }
 }

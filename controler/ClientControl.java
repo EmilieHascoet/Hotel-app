@@ -104,7 +104,7 @@ public class ClientControl implements ActionListener{
 
         else if (actionType.equals("AddRes")) {
             JDialog newRes = new JDialog(view.Main.main, "Créer une reservation pour " + c.prenom + " " + c.nom,true);
-            ReservationsView resPane = new ReservationsView(hotel, c);
+            ReservationsView resPane = new ReservationsView(hotel, c, newRes);
 
             newRes.setSize(new Dimension(700,500));
             newRes.setLocationRelativeTo(null);

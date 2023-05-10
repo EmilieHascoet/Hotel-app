@@ -129,14 +129,6 @@ public class Hotel {
         return lClients;
     }
 
-    public Client searchClient(String t) {
-		for (Client c : listClient) {
-				if (t.equals(c.tel)) { return c; }
-		}
-        return null;
-    }
-    
-
 	// Methods enregistrement
 	public Vector<Reservation> arrivees(String str) {
 		Vector<Client> lClients = listClient;

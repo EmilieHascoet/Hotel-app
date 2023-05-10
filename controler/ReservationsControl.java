@@ -21,6 +21,7 @@ import view.ReservationsView;
 public class ReservationsControl implements ActionListener {
     Hotel hotel;
     Client client;
+    JDialog dialog;
     JFrame frame;
     JPanel paneCh;
     JCheckBox checkBox;
@@ -46,8 +47,8 @@ public class ReservationsControl implements ActionListener {
         startDateChooser = sd; endDateChooser = ed;
     }
     // Constructeur reserver les chambres
-    public ReservationsControl(Hotel h, Client c, JPanel p) {
-        hotel = h; client = c; paneCh = p;
+    public ReservationsControl(Hotel h, Client c, JPanel p, JDialog d) {
+        hotel = h; client = c; paneCh = p; dialog = d;
     }
 
     // Ajoute les chambres filtré au panel chambre
@@ -157,7 +158,6 @@ public class ReservationsControl implements ActionListener {
                     "Veuillez choisir une date futur.\nLe " + formatter.format(ReservationsView.startDate) + " est déjà passé",
                     "Erreur de date !",
                     JOptionPane.ERROR_MESSAGE);
-                    System.out.println(ReservationsView.startDate);
                 }
                 // Actualise les chambres dispo si il n'y a aucune erreur de date
                 else {
@@ -169,6 +169,8 @@ public class ReservationsControl implements ActionListener {
             else {
                 // Crée une réservation
                 Reservation res = new Reservation(ReservationsView.startDate, ReservationsView.endDate);
+                // Chaine de caractère des numéros de chambre
+                Vector<String> chambresStr = new Vector<String>();
                 // Parcours la liste des component du panel contenant chaque chambre
                 for (Component panel : paneCh.getComponents()) {
                     // les chambres sont de type panel
@@ -184,16 +186,30 @@ public class ReservationsControl implements ActionListener {
                                 String num =  cb.getActionCommand();
                                 Chambre chambre = hotel.searchChamber(num);
                                 res.addChambre(chambre);
+                                chambresStr.add("Chambre n°"+ num);
                             }
                         }
                     }
                 }
                 // message d'erreur si reservation contient aucune chambre
                 if (res.listChambre.size() == 0) {
-
+                    JOptionPane.showMessageDialog(frame,
+                    "Vous n'avez selectionné aucune chambre",
+                    "Erreur de reservation !",
+                    JOptionPane.ERROR_MESSAGE);
                 }
-                else { hotel.addRes(res, client);}
-                System.out.println(hotel.listRes);
+                else {
+                    hotel.addRes(res, client);
+                    // Change le format des dates pour l'affichage
+                    SimpleDateFormat formatter = new SimpleDateFormat("EEEE dd MMMM yyyy");
+                    String dateDebStr = formatter.format(res.dateDeb);
+                    String dateFinStr = formatter.format(res.dateFin);
+                    JOptionPane.showMessageDialog(frame,"La reservation a été crée :\nClient : " 
+                    + client.nom + " " + client.prenom 
+                    + "\nDate : du " + dateDebStr + " au " + dateFinStr + "\n"+ chambresStr);
+                    // ferme la fenêtre
+                    dialog.dispose();
+                }
             }
         }
     }
