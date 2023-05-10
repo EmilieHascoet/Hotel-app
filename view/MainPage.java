@@ -46,7 +46,7 @@ class MainPage extends JFrame {
     this.setTitle("Hotel");
     this.setLayout(null);
     this.pack();
-    this.setSize(600,400);
+    this.setSize(800,500);
     // Centre la fenêtre
     this.setLocationRelativeTo (null);
     this.setVisible(true);
@@ -58,13 +58,13 @@ class MainPage extends JFrame {
     c.setLayout(new CardLayout());
     // Crée les panels (cards)
     //GestionEnregistrements p1 = new GestionEnregistrements();
-    //GestionClient p2 = new GestionClient();
+    ClientView p2 = new ClientView(hotel);
     GestionChambre p3 = new GestionChambre(hotel);
     OptionsView p4 = new OptionsView(hotel, p3.addOptionButtonsPane);
 
     // Ajoute les cards au container principal
     //c.add("Enregistrements", p1);
-    //c.add("Clients", p2);
+    c.add("Clients", p2);
     c.add("Chambres", p3);
     c.add("Options", p4);
 

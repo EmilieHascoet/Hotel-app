@@ -16,7 +16,7 @@ public class Main {
 		Chambre ch2 = new Chambre("305", 1);
 		H.addChambre(ch2);
 		
-		Client c1 = new Client("Chat", test, "06");
+		Client c1 = new Client("Chat", "test", "06");
 		H.addClient(c1);
 		
 		
