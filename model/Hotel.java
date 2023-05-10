@@ -112,6 +112,14 @@ public class Hotel {
 	}
     
 	// Methods client
+	public Client searchClient(String t) {
+		for (Client c : listClient) {
+			if (c.tel.equals(t)) return c;
+		}
+		return null;
+	}
+
+
     public Vector<Client> searchClients(String str) {
 		Vector<Client> lClients = new Vector<Client>();
 		String[] listStr = str.split(" ");

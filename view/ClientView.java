@@ -53,13 +53,10 @@ public class ClientView extends JPanel {
 
         JPanel resButtonPane = new JPanel(new GridLayout(1, 3));
         JButton addResButton = new JButton("Ajouter");
-        JButton modifResButton = new JButton("Modifier");
         JButton suppResButton = new JButton("Supprimer");
         
         //SOUTH
-        modifResButton.setEnabled(false);    //Quand je sélectionne une réservation passe en true (à faire)
         resButtonPane.add(addResButton);
-        resButtonPane.add(modifResButton);
         resButtonPane.add(suppResButton);
         
         //NORTH
@@ -200,7 +197,7 @@ public class ClientView extends JPanel {
         addLastNameTextField.getDocument().addDocumentListener(ctrTextField);
         addTelTextField.getDocument().addDocumentListener(ctrTextField);
 
-        //Test JDialog
+        //Test JDialog 
         JFrame mainFrame = Main.main;
         JDialog popUp = new JDialog(mainFrame, true);
         JPanel confirm = new JPanel(new BorderLayout());
@@ -219,7 +216,10 @@ public class ClientView extends JPanel {
         popUp.setSize(400, 200);
         //test2.setVisible(true);
 
-        ClientControl suppCtr = new ClientControl(PDroit, popUp);
+        ClientControl suppCtr = new ClientControl(hotel,PDroit,resClientInnerPane,groupClient,5);
         suppResButton.addActionListener(suppCtr);
+
+        ClientControl addResCtr = new ClientControl(hotel,PDroit,groupClient);
+        addResButton.addActionListener(addResCtr);
     }
 }
