@@ -22,8 +22,6 @@ public class ReservationsView extends JPanel {
     int nbrPlacesMin, nbrPlacesMax, nbrPlaces = 0;      // util pour filtre
     // liste des chambres disponibles par rapport à la date donnée
     Vector<Chambre> listChDispo = new Vector<Chambre>();
-    // liste des chambres selectionné par l'utilisateur
-    Vector<Chambre> listChSelected = new Vector<Chambre>();
     Calendar calendrier = Calendar.getInstance();
     Vector<Option> listFiltre = new Vector<Option>();
 
@@ -41,7 +39,7 @@ public class ReservationsView extends JPanel {
     CompoundBorder borderPaneNorth = BorderFactory.createCompoundBorder(bottomBorder, paddingPaneNorth);
     JLabel labelStartDate = new JLabel("Date de début :");
     JDateChooser startDateChooser = new JDateChooser();
-    Date startDate, endDate;
+    public static Date startDate, endDate;
     JLabel labelEndDate = new JLabel("Date de fin :");
     JDateChooser endDateChooser = new JDateChooser();
     JButton buttonValider = new JButton("Valider");
@@ -71,9 +69,6 @@ public class ReservationsView extends JPanel {
         // nbr places par rapport au model
         nbrPlacesMin = hotel.nbrPlacesMin();
         nbrPlacesMax = hotel.nbrPlacesMax();
-        // Cherche toutes les chambres disponibles
-        listChDispo = hotel.searchChamberDispo(startDateChooser.getDate(), endDateChooser.getDate());
-
 
                             // ********** PANEL PRINCIPAL ********** //
         
@@ -101,6 +96,8 @@ public class ReservationsView extends JPanel {
         endDateChooser.setDateFormatString("dd/MM/yyyy");
         startDateChooser.setPreferredSize(new Dimension(110, 25));
         endDateChooser.setPreferredSize(new Dimension(110, 25));
+        // Cherche toutes les chambres disponibles
+        listChDispo = hotel.searchChamberDispo(startDateChooser.getDate(), endDateChooser.getDate());
         // Définit le layout manager et ajoute les objets au panel
         paneNorth.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 0));
         paneNorth.setBorder(borderPaneNorth);
@@ -229,10 +226,10 @@ public class ReservationsView extends JPanel {
                             // *************** CONTROLER  *************** //
 
         // Choix date
-        ReservationsControl ctrDate = new ReservationsControl(hotel, paneInnerScrollCh, listChDispo, listFiltre,  nbrPlaces, startDateChooser, endDateChooser, startDate, endDate);
+        ReservationsControl ctrDate = new ReservationsControl(hotel, paneInnerScrollCh, listChDispo, listFiltre,  nbrPlaces, startDateChooser, endDateChooser);
         buttonValider.addActionListener(ctrDate);
         // Reserver les chambres selectionné
-        ReservationsControl ctrRes = new ReservationsControl(hotel, client, paneInnerScrollCh, startDate, endDate);
+        ReservationsControl ctrRes = new ReservationsControl(hotel, client, paneInnerScrollCh);
         buttonReserver.addActionListener(ctrRes);
     }
 }
