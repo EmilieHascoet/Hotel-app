@@ -99,10 +99,5 @@ public class Main {
         // }
 
         main = new MainPage(hotel);
-        JPanel reservation = new ReservationsView(hotel, c1);
-        JDialog d = new JDialog(main, "Créer une reservation pour " + c1.nom, true);
-        d.add(reservation);
-        d.setSize(700, 500);
-        d.setVisible(true);
     }
 }

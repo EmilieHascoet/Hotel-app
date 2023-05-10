@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 import controler.EnregistrementsControl;
+import controler.radioButtonListener;
 
 import java.awt.*;
 import java.util.Vector;
@@ -95,14 +96,17 @@ public class EnregistrementsView extends JPanel {
         for (Reservation res : hotel.arrivees("")) {
             JRadioButton RadioButton = new JRadioButton(res.client.nom + " " + res.client.prenom);
             // instance d'evenement pour rendre le button clickable
-            //RadioButton.addActionListener(new EnregistrementsControl(checkIn));
-            //RadioButton.setActionCommand(res);
+            RadioButton.addActionListener(new radioButtonListener(checkIn));
+            RadioButton.addActionListener(new radioButtonListener(supprimer));
+            //RadioButton.setActionCommand(res.id);
             groupArr.add(RadioButton);
             innerScrollArr.add(RadioButton);
         }
         
         // panel des bouttons d'action
         paneButtonArr.setBorder(buttonPadding);
+        checkIn.setEnabled(false);
+        supprimer.setEnabled(false);
         paneButtonArr.add(checkIn);
         paneButtonArr.add(supprimer);
         
@@ -129,7 +133,7 @@ public class EnregistrementsView extends JPanel {
         for (Reservation res : hotel.departs("")) {
             JRadioButton RadioButton = new JRadioButton(res.client.nom + " " + res.client.prenom);
             // instance d'evenement pour rendre le button clickable
-            //RadioButton.addActionListener(new EnregistrementsControl(checkIn));
+            RadioButton.addActionListener(new radioButtonListener(facturer));
             //RadioButton.setActionCommand(res);
             groupDep.add(RadioButton);
             innerScrollDep.add(RadioButton);
@@ -137,6 +141,7 @@ public class EnregistrementsView extends JPanel {
         
         // panel des bouttons d'action
         paneButtonDep.setBorder(buttonPadding);
+        facturer.setEnabled(false);
         paneButtonDep.add(facturer);
         
         // Ajout des objets au panel
