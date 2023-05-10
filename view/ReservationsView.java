@@ -71,8 +71,6 @@ public class ReservationsView extends JPanel {
         // nbr places par rapport au model
         nbrPlacesMin = hotel.nbrPlacesMin();
         nbrPlacesMax = hotel.nbrPlacesMax();
-        // Cherche toutes les chambres disponibles
-        listChDispo = hotel.searchChamberDispo(startDateChooser.getDate(), endDateChooser.getDate());
 
 
                             // ********** PANEL PRINCIPAL ********** //
@@ -96,6 +94,8 @@ public class ReservationsView extends JPanel {
         calendrier.add(Calendar.DATE, 1);
         endDate = calendrier.getTime();
         endDateChooser.setDate(endDate);
+        // Cherche toutes les chambres disponibles
+        listChDispo = hotel.searchChamberDispo(startDateChooser.getDate(), endDateChooser.getDate());
         // Change le format affiché
         startDateChooser.setDateFormatString("dd/MM/yyyy");
         endDateChooser.setDateFormatString("dd/MM/yyyy");
@@ -184,11 +184,12 @@ public class ReservationsView extends JPanel {
             JPanel panel = new JPanel();
             Border border = BorderFactory.createMatteBorder(1,1,1,1,Color.BLACK);
             EmptyBorder padding = new EmptyBorder(7, 10, 7, 10);
-            panel.setLayout(new GridLayout(6, 1));
+            panel.setLayout(new GridLayout(7, 1));
             panel.setBorder(BorderFactory.createCompoundBorder(border, padding));
 
             // Labels
-            JLabel label = new JLabel("Etage : " + ch.etage);
+            JLabel label = new JLabel("Chambre n° : " + ch.num);
+            JLabel label1 = new JLabel("Etage : " + ch.etage);
             JLabel label2 = new JLabel("Places : " + ch.nbrPlaces);
             JLabel label3 = new JLabel("Prix : " + ch.prix + "/nuit");
             JLabel label4 = new JLabel("Liste options :");
@@ -207,6 +208,7 @@ public class ReservationsView extends JPanel {
 
             // Ajout des objets au panel chambre
             panel.add(label);
+            panel.add(label1);
             panel.add(label2);
             panel.add(label3);
             panel.add(label4);

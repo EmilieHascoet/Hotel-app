@@ -88,7 +88,7 @@ public class OptionsView extends JPanel {
     JTextField prixAddSejTextField = new JTextField();
     JButton addSejR = new JButton("Ajouter");
 
-    public OptionsView(Hotel h, JPanel paneFromChView) {
+    public OptionsView(Hotel h) {
         hotel = h;
         this.setLayout(new GridLayout(1, 2));
         // PANELS DE GAUCHE
@@ -291,8 +291,8 @@ public class OptionsView extends JPanel {
         modifChInConsultCh.addActionListener(ctrModifCh);
         modifCh.addActionListener(ctrModifCh);
         // Ajouter options chambres
-        OptionsControl ctrAddCh = new OptionsControl(hotel, paneR, paneFromChView, groupCh, 
-        paneInnerScrollCh, nameAddChTextField, prixAddChTextField, modifChInConsultCh);
+        OptionsControl ctrAddCh = new OptionsControl(hotel, "Ch", paneR, groupCh, paneInnerScrollCh, 
+        nameAddChTextField, prixAddChTextField, modifChInConsultCh);
         addChR.addActionListener(ctrAddCh);
 
         // Modifier options sejours
@@ -300,7 +300,7 @@ public class OptionsView extends JPanel {
         modifSejInConsultSej.addActionListener(ctrModifSej);
         modifSej.addActionListener(ctrModifSej);
         // Ajouter options sejours
-        OptionsControl ctrAddSej = new OptionsControl(hotel, paneR, groupSej, paneInnerScrollSej, 
+        OptionsControl ctrAddSej = new OptionsControl(hotel, "Sej", paneR, groupSej, paneInnerScrollSej, 
         nameAddSejTextField, prixAddSejTextField, modifSejInConsultSej);
         addSejR.addActionListener(ctrAddSej);
 

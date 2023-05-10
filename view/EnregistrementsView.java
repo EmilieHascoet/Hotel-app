@@ -3,6 +3,8 @@ package view;
 import javax.swing.*;
 import javax.swing.border.*;
 
+import controler.EnregistrementsControl;
+
 import java.awt.*;
 import java.util.Vector;
 
@@ -34,7 +36,7 @@ public class EnregistrementsView extends JPanel {
     JPanel paneWest = new JPanel();
     JPanel searchBarArr = new JPanel();
     JButton searchButtonArr = new JButton(resizedIcon);
-    JTextField searchTFArr = new JTextField(15);
+    JTextField searchTFArr = new JTextField("Entrez nom, prenom", 20);
     TitledBorder titleArr = BorderFactory.createTitledBorder("Arrivées");
     JPanel innerScrollArr = new JPanel();
     JScrollPane scrollArr = new JScrollPane(innerScrollArr);
@@ -46,7 +48,7 @@ public class EnregistrementsView extends JPanel {
     JPanel paneEast = new JPanel();
     JPanel searchBarDep = new JPanel();
     JButton searchButtonDep = new JButton(resizedIcon);
-    JTextField searchTFDep = new JTextField(15);
+    JTextField searchTFDep = new JTextField("Entrez nom, prenom", 20);
     TitledBorder titleDep = BorderFactory.createTitledBorder("Departs");
     JPanel innerScrollDep = new JPanel();
     JScrollPane scrollDep = new JScrollPane(innerScrollDep);
@@ -80,6 +82,7 @@ public class EnregistrementsView extends JPanel {
         paneWest.setLayout(new BoxLayout(paneWest, BoxLayout.Y_AXIS));
         paneWest.setBorder(centerPadding);
         // search panel
+        searchButtonArr.setName("arrivees");
         searchButtonArr.setPreferredSize(new Dimension(25, 25));
         searchBarArr.add(searchButtonArr);
         searchBarArr.add(searchTFArr);
@@ -90,7 +93,7 @@ public class EnregistrementsView extends JPanel {
         innerScrollArr.setBorder(new EmptyBorder(10, 5, 0, 0));
         // liste des arrivees prevues aujourd'hui
         for (Reservation res : hotel.arrivees("")) {
-            JRadioButton RadioButton = new JRadioButton(res.client.nom);
+            JRadioButton RadioButton = new JRadioButton(res.client.nom + " " + res.client.prenom);
             // instance d'evenement pour rendre le button clickable
             //RadioButton.addActionListener(new EnregistrementsControl(checkIn));
             //RadioButton.setActionCommand(res);
@@ -113,6 +116,7 @@ public class EnregistrementsView extends JPanel {
         paneEast.setLayout(new BoxLayout(paneEast, BoxLayout.Y_AXIS));
         paneEast.setBorder(centerPadding);
         // search panel
+        searchButtonDep.setName("departs");
         searchButtonDep.setPreferredSize(new Dimension(25, 25));
         searchBarDep.add(searchButtonDep);
         searchBarDep.add(searchTFDep);
@@ -123,24 +127,34 @@ public class EnregistrementsView extends JPanel {
         innerScrollDep.setBorder(new EmptyBorder(10, 5, 0, 0));
         // Liste des départs prevues aujourd'hui
         for (Reservation res : hotel.departs("")) {
-            JRadioButton RadioButton = new JRadioButton(res.client.nom);
+            JRadioButton RadioButton = new JRadioButton(res.client.nom + " " + res.client.prenom);
             // instance d'evenement pour rendre le button clickable
             //RadioButton.addActionListener(new EnregistrementsControl(checkIn));
             //RadioButton.setActionCommand(res);
             groupDep.add(RadioButton);
             innerScrollDep.add(RadioButton);
         }
-
+        
         // panel des bouttons d'action
         paneButtonDep.setBorder(buttonPadding);
         paneButtonDep.add(facturer);
-
+        
         // Ajout des objets au panel
         paneEast.add(searchBarDep);
         paneEast.add(scrollDep);
         paneEast.add(paneButtonDep);
-
+        
         this.add(BorderLayout.NORTH, paneNorth);
         this.add(BorderLayout.CENTER, paneCenter);
+        
+
+
+                            // *************** CONTROLER  *************** //
+
+        // button rechercher
+        EnregistrementsControl ctrSearchArr = new EnregistrementsControl(hotel, searchTFArr, innerScrollArr, groupArr);
+        searchButtonArr.addActionListener(ctrSearchArr);
+        EnregistrementsControl ctrSearchDep = new EnregistrementsControl(hotel, searchTFDep, innerScrollDep, groupDep);
+        searchButtonDep.addActionListener(ctrSearchDep);
     }
 }
