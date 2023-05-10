@@ -16,6 +16,7 @@ import javax.swing.border.EmptyBorder;
 import com.toedter.calendar.JDateChooser;
 
 import model.Chambre;
+import view.ReservationsView;
 
 public class ReservationsControl implements ActionListener {
     Hotel hotel;
@@ -28,7 +29,6 @@ public class ReservationsControl implements ActionListener {
     JSlider slider;
     int nbrPlaces;
     JDateChooser startDateChooser, endDateChooser;
-    Date startDate, endDate;
     String textButton;
     // Constructeur selectionne une option
     public ReservationsControl(Hotel h, JPanel p, Vector<Chambre> listCh, Vector<Option> listF, int places, JCheckBox cb) {
@@ -40,14 +40,14 @@ public class ReservationsControl implements ActionListener {
         hotel = h; paneCh = p; listChDispo = listCh; listFiltre = listF;
         nbrPlaces = places; slider = s;
     }
-    // Constructeur choix date  ADD START DATE AND END DATE FOR RESERVER
-    public ReservationsControl(Hotel h, JPanel p, Vector<Chambre> listCh, Vector<Option> listF, int places, JDateChooser sd, JDateChooser ed, Date s, Date e) {
-        hotel = h; paneCh = p; listChDispo = listCh; listFiltre = listF; nbrPlaces = places;;
-        startDateChooser = sd; endDateChooser = ed; startDate = s; endDate = e;
+    // Constructeur choix date
+    public ReservationsControl(Hotel h, JPanel p, Vector<Chambre> listCh, Vector<Option> listF, int places, JDateChooser sd, JDateChooser ed) {
+        hotel = h; paneCh = p; listChDispo = listCh; listFiltre = listF; nbrPlaces = places;
+        startDateChooser = sd; endDateChooser = ed;
     }
     // Constructeur reserver les chambres
-    public ReservationsControl(Hotel h, Client c, JPanel p, Date s, Date e) {
-        hotel = h; client = c; paneCh = p; startDate = s; endDate = e;
+    public ReservationsControl(Hotel h, Client c, JPanel p) {
+        hotel = h; client = c; paneCh = p;
     }
 
     // Ajoute les chambres filtré au panel chambre
@@ -136,39 +136,39 @@ public class ReservationsControl implements ActionListener {
             // Choix date
             if (textButton.equals("Valider")) {
                 // Initialise la date de début et de fin avec ce qu'à rentré l'utilisateur
-                startDate = startDateChooser.getDate();
-                endDate = endDateChooser.getDate();
+                ReservationsView.startDate = startDateChooser.getDate();
+                ReservationsView.endDate = endDateChooser.getDate();
+
                 // update le calendrier à hier pour le test de la date déjà passée
                 Calendar calendrier = Calendar.getInstance();
                 calendrier.add(Calendar.DATE, -1);
     
                 // Affiche un message d'erreur si la date de début excède celle de fin
-                System.out.println(startDate + " " + endDate);
-                if (startDate.compareTo(endDate) >= 0) {
+                if (ReservationsView.startDate.compareTo(ReservationsView.endDate) >= 0) {
                     JOptionPane.showMessageDialog(frame,
                     "Veuillez choisir une date de début inférieur à celle de fin.",
                     "Erreur de date !",
                     JOptionPane.ERROR_MESSAGE);
                 }
                 // Affiche un message d'erreur si la date est déjà passé
-                else if (startDate.compareTo(calendrier.getTime()) < 0) {
+                else if (ReservationsView.startDate.compareTo(calendrier.getTime()) < 0) {
                     SimpleDateFormat formatter = new SimpleDateFormat("d MMM yyyy");
                     JOptionPane.showMessageDialog(frame,
-                    "Veuillez choisir une date futur.\nLe " + formatter.format(startDate) + " est déjà passé",
+                    "Veuillez choisir une date futur.\nLe " + formatter.format(ReservationsView.startDate) + " est déjà passé",
                     "Erreur de date !",
                     JOptionPane.ERROR_MESSAGE);
-                    System.out.println(startDate);
+                    System.out.println(ReservationsView.startDate);
                 }
                 // Actualise les chambres dispo si il n'y a aucune erreur de date
                 else {
-                    listChDispo = hotel.searchChamberDispo(startDate, endDate);
+                    listChDispo = hotel.searchChamberDispo(ReservationsView.startDate, ReservationsView.endDate);
                     filtreChamber();
                 }
             }
             // Reserver chambre
             else {
                 // Crée une réservation
-                Reservation res = new Reservation(startDate, endDate);
+                Reservation res = new Reservation(ReservationsView.startDate, ReservationsView.endDate);
                 // Parcours la liste des component du panel contenant chaque chambre
                 for (Component panel : paneCh.getComponents()) {
                     // les chambres sont de type panel

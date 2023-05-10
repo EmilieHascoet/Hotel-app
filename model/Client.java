@@ -19,5 +19,12 @@ public class Client {
     public void suppRes(Reservation res) { listRes.remove(res); }
     public void setSejour(Sejour sej) { sejour = sej; }
     
+    public Reservation searchRes(int i) { 
+        for (Reservation r : listRes) {
+            if (r.id == i) return r;
+        }
+        return null;
+    }
+    
     
 }
