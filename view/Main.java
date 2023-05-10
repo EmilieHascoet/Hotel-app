@@ -15,61 +15,49 @@ import model.*;
 public class Main {
     static JFrame main;
     public static void main(String args[]) throws ParseException {
+        // HOTEL
         Hotel hotel = new Hotel();
 
-        SimpleDateFormat f = new SimpleDateFormat("dd-MM-yyyy");
-        Date date = f.parse("26-03-2023");
-        Date date2 = f.parse("30-03-2023");
-        Client client = new Client("Chat", "Test", "0624205906");
-        Client c1 = new Client("Client 1", "Test", "061");
-        Client c2 = new Client("Client 2", "Test", "062");
-        Client c3 = new Client("Client 3", "Test", "063");
-        Client c4 = new Client("Client 4", "Test", "064");
-        Client c5 = new Client("Client 5", "Test", "065");
+        // CLIENTS
+        Client c1 = new Client("Chat", "Bapin", "061");
+        Client c2 = new Client("Chaton", "Hascoët", "062");
+        Client c3 = new Client("Nathan", "Bapin", "063");
+        Client c4 = new Client("Emilie", "Hascoët", "064");
+        Client c5 = new Client("Mayu", "Hascoët", "065");
 
-        Reservation r1 = new Reservation(date, date2);
-        c1.addRes(r1);
-        c1.addRes(r1);
-        c1.addRes(r1);
-        c1.addRes(r1);
-        c1.addRes(r1);
-        c1.addRes(r1);
-        c1.addRes(r1);
-        c1.addRes(r1);
-        c1.addRes(r1);
-        c1.addRes(r1);
         hotel.addClient(c1);
         hotel.addClient(c2);
         hotel.addClient(c3);
         hotel.addClient(c4);
         hotel.addClient(c5);
 
+        // OPTIONS
         Option o1 = new Option("douche", 5);
         Option o2 = new Option("salle de bain", 10);
         Option o3 = new Option("vue sur la mer", 10);
         Option o4 = new Option("grand lit", 1);
+
         hotel.addOption(o1);
         hotel.addOption(o2);
         hotel.addOption(o3);
         hotel.addOption(o4);
 
-        Chambre ch1 = new Chambre("100", 6);
-        Chambre ch2 = new Chambre("100", 6);
-        Chambre ch3 = new Chambre("100", 6);
-        Chambre ch4 = new Chambre("100", 6);
-        Chambre ch5 = new Chambre("100", 6);
-        Chambre ch6 = new Chambre("100", 6);
-        Chambre ch7 = new Chambre("100", 6);
-        Chambre ch8 = new Chambre("100", 6);
-        Chambre ch9 = new Chambre("100", 6);
-
-
+        // CHAMBRES
+        Chambre ch1 = new Chambre("101", 6);
         ch1.addOption(o1);
         ch1.addOption(o2);
         ch1.addOption(o3);
+        Chambre ch2 = new Chambre("102", 6);
         ch2.addOption(o4);
         ch2.addOption(o2);
+        Chambre ch3 = new Chambre("103", 6);
         ch3.addOption(o1);
+        Chambre ch4 = new Chambre("104", 6);
+        Chambre ch5 = new Chambre("105", 6);
+        Chambre ch6 = new Chambre("106", 6);
+        Chambre ch7 = new Chambre("107", 6);
+        Chambre ch8 = new Chambre("108", 6);
+        Chambre ch9 = new Chambre("109", 6);
 
         hotel.addChambre(ch1);
         hotel.addChambre(ch2);
@@ -81,20 +69,21 @@ public class Main {
         hotel.addChambre(ch8);
         hotel.addChambre(ch9);
 
-		Date date1 = f.parse("10-05-2023");
+
+        // RESERVATIONS
+        SimpleDateFormat f = new SimpleDateFormat("dd-MM-yyyy");
+        Date date1 = f.parse("10-05-2023");
 		Date date2 = f.parse("12-05-2023");
 		Date date3 = f.parse("04-05-2023");
 		Date date4 = f.parse("10-05-2023");
-		
+
 		Reservation res1 = new Reservation(date1, date2);
 		res1.addChambre(ch1);
-        res1.setClient(client);
-        client.addRes(res1);
+        hotel.addRes(res1, c1);
 		
 		Reservation res2 = new Reservation(date3, date4);
 		res2.addChambre(ch2);
-        res2.setClient(client2);
-        client.addRes(res2);
+        hotel.addRes(res2, c2);
         hotel.check_in(res2);
 
         
@@ -110,10 +99,5 @@ public class Main {
         // }
 
         main = new MainPage(hotel);
-        JPanel reservation = new ReservationsView(hotel, client);
-        JDialog d = new JDialog(main, "Créer une reservation pour " + client.nom, true);
-        d.add(reservation);
-        d.setSize(700, 500);
-        // d.setVisible(true);
     }
 }

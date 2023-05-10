@@ -41,35 +41,26 @@ class MainPage extends JFrame {
     menubar.add(Box.createHorizontalGlue());
     menubar.add(gain);
 
+    // Récupère le panel de base et ajoute le panel enregistrements
+    Container c = this.getContentPane();
+    EnregistrementsView p1 = new EnregistrementsView(hotel);
+    c.add(p1);
+    p1.setBounds(0, 0, 800, 455);
+
     // Ajoute la barre de menu au frame
     this.setJMenuBar(menubar);
     this.setTitle("Hotel");
     this.setLayout(null);
     this.pack();
     this.setSize(800,500);
+    this.setResizable(false);
     // Centre la fenêtre
     this.setLocationRelativeTo (null);
     this.setVisible(true);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-
-    // Crée le container principal de la page (CardLayout)
-    Container c = this.getContentPane();
-    c.setLayout(new CardLayout());
-    // Crée les panels (cards)
-    EnregistrementsView p1 = new EnregistrementsView(hotel);
-    ClientView p2 = new ClientView(hotel);
-    GestionChambre p3 = new GestionChambre(hotel);
-    OptionsView p4 = new OptionsView(hotel, p3.addOptionButtonsPane);
-
-    // Ajoute les cards au container principal
-    c.add("Enregistrements", p1);
-    c.add("Clients", p2);
-    c.add("Chambres", p3);
-    c.add("Options", p4);
-
     // Creation dune instance de gestionnaire d'evenement
-    MenuControl ctr = new MenuControl(titre, c);
+    MenuControl ctr = new MenuControl(hotel, titre, c);
     e1.addActionListener(ctr);
     e2.addActionListener(ctr);
     e3.addActionListener(ctr);

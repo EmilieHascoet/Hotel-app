@@ -57,10 +57,11 @@ public class ReservationsControl implements ActionListener {
             JPanel panel = new JPanel();
             Border border = BorderFactory.createMatteBorder(1,1,1,1,Color.BLACK);
             EmptyBorder padding = new EmptyBorder(7, 10, 7, 10);
-            panel.setLayout(new GridLayout(6, 1));
+            panel.setLayout(new GridLayout(7, 1));
             panel.setBorder(BorderFactory.createCompoundBorder(border, padding));
             // Labels
-            JLabel label = new JLabel("Etage : " + ch.etage);
+            JLabel label = new JLabel("Chambre n° : " + ch.num);
+            JLabel label1 = new JLabel("Etage : " + ch.etage);
             JLabel label2 = new JLabel("Places : " + ch.nbrPlaces);
             JLabel label3 = new JLabel("Prix : " + ch.prix + "/nuit");
             JLabel label4 = new JLabel("Liste options :");
@@ -76,6 +77,7 @@ public class ReservationsControl implements ActionListener {
             checkBox.setActionCommand(ch.num + "");
             // Ajout des objets au panel chambre
             panel.add(label);
+            panel.add(label1);
             panel.add(label2);
             panel.add(label3);
             panel.add(label4);
@@ -165,11 +167,8 @@ public class ReservationsControl implements ActionListener {
             }
             // Reserver chambre
             else {
-                System.out.println("date de début : " + ReservationsView.startDate);
-                System.out.println("date de fin : " + ReservationsView.endDate);
                 // Crée une réservation
                 Reservation res = new Reservation(ReservationsView.startDate, ReservationsView.endDate);
-                res.setClient(client);
                 // Parcours la liste des component du panel contenant chaque chambre
                 for (Component panel : paneCh.getComponents()) {
                     // les chambres sont de type panel
@@ -193,9 +192,8 @@ public class ReservationsControl implements ActionListener {
                 if (res.listChambre.size() == 0) {
 
                 }
-                else { hotel.addRes(res);}
-                System.out.println(res.dateDeb);
-                System.out.println(res.dateFin);
+                else { hotel.addRes(res, client);}
+                System.out.println(hotel.listRes);
             }
         }
     }

@@ -88,7 +88,7 @@ public class OptionsView extends JPanel {
     JTextField prixAddSejTextField = new JTextField();
     JButton addSejR = new JButton("Ajouter");
 
-    public OptionsView(Hotel h, JPanel paneFromChView) {
+    public OptionsView(Hotel h) {
         hotel = h;
         this.setLayout(new GridLayout(1, 2));
         // PANELS DE GAUCHE
@@ -150,6 +150,11 @@ public class OptionsView extends JPanel {
         modifSejInConsultSej.setName("modifSej");
         modifSej.setName("consultSej");
         addSejR.setName("consultSej");
+        // met les boutons à false
+        modifCh.setEnabled(false);
+        addChR.setEnabled(false);
+        modifSej.setEnabled(false);
+        addSejR.setEnabled(false);
 
         // Crée les panels (cards)
 
@@ -161,7 +166,7 @@ public class OptionsView extends JPanel {
         for (Option o : hotel.listOption) {
             JRadioButton RadioButton = new JRadioButton(o.type + ", " + o.prix + "€");
             // instance d'evenement pour rendre le button clickable
-            RadioButton.addActionListener(new OptionsControl(modifChInConsultCh));
+            RadioButton.addActionListener(new radioButtonListener(modifChInConsultCh));
             RadioButton.setActionCommand(o.type + " " + o.prix);
             groupCh.add(RadioButton);
             paneInnerScrollCh.add(RadioButton);
@@ -217,7 +222,7 @@ public class OptionsView extends JPanel {
         paneInnerScrollSej.setLayout(new BoxLayout(paneInnerScrollSej, BoxLayout.Y_AXIS));
         for (Produit p : hotel.listProd) {
             JRadioButton RadioButton = new JRadioButton(p.type + ", " + p.prix + "€");
-            RadioButton.addActionListener(new OptionsControl(modifSejInConsultSej));
+            RadioButton.addActionListener(new radioButtonListener(modifSejInConsultSej));
             RadioButton.setActionCommand(p.type + " " + p.prix);
             groupSej.add(RadioButton);
             paneInnerScrollSej.add(RadioButton);
@@ -291,8 +296,8 @@ public class OptionsView extends JPanel {
         modifChInConsultCh.addActionListener(ctrModifCh);
         modifCh.addActionListener(ctrModifCh);
         // Ajouter options chambres
-        OptionsControl ctrAddCh = new OptionsControl(hotel, paneR, paneFromChView, groupCh, 
-        paneInnerScrollCh, nameAddChTextField, prixAddChTextField, modifChInConsultCh);
+        OptionsControl ctrAddCh = new OptionsControl(hotel, "Ch", paneR, groupCh, paneInnerScrollCh, 
+        nameAddChTextField, prixAddChTextField, modifChInConsultCh);
         addChR.addActionListener(ctrAddCh);
 
         // Modifier options sejours
@@ -300,9 +305,26 @@ public class OptionsView extends JPanel {
         modifSejInConsultSej.addActionListener(ctrModifSej);
         modifSej.addActionListener(ctrModifSej);
         // Ajouter options sejours
-        OptionsControl ctrAddSej = new OptionsControl(hotel, paneR, groupSej, paneInnerScrollSej, 
+        OptionsControl ctrAddSej = new OptionsControl(hotel, "Sej", paneR, groupSej, paneInnerScrollSej, 
         nameAddSejTextField, prixAddSejTextField, modifSejInConsultSej);
         addSejR.addActionListener(ctrAddSej);
+
+        //TextField controler
+        TextFieldListener ctrTextField1 = new TextFieldListener(nameChTextField, prixChTextField, modifCh);
+        nameChTextField.getDocument().addDocumentListener(ctrTextField1);
+        prixChTextField.getDocument().addDocumentListener(ctrTextField1);
+
+        TextFieldListener ctrTextField2 = new TextFieldListener(nameAddChTextField, prixAddChTextField, addChR);
+        nameAddChTextField.getDocument().addDocumentListener(ctrTextField2);
+        prixAddChTextField.getDocument().addDocumentListener(ctrTextField2);
+
+        TextFieldListener ctrTextField3 = new TextFieldListener(nameSejTextField, prixSejTextField, modifSej);
+        nameSejTextField.getDocument().addDocumentListener(ctrTextField3);
+        prixSejTextField.getDocument().addDocumentListener(ctrTextField3);
+
+        TextFieldListener ctrTextField4 = new TextFieldListener(nameAddSejTextField, prixAddSejTextField, addSejR);
+        nameAddSejTextField.getDocument().addDocumentListener(ctrTextField4);
+        prixAddSejTextField.getDocument().addDocumentListener(ctrTextField4);
 
     }
 }

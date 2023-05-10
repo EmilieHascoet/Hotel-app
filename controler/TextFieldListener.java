@@ -8,6 +8,7 @@ public class TextFieldListener implements DocumentListener {
     JButton button;
 
     public TextFieldListener(JTextField t1, JTextField t2, JTextField t3, JButton b) { textField1=t1; textField2=t2; textField3=t3; button=b; }
+    public TextFieldListener(JTextField t1, JTextField t2, JButton b) { textField1=t1; textField2=t2; button=b; }
 
 
     public void insertUpdate(DocumentEvent e) {
@@ -23,7 +24,8 @@ public class TextFieldListener implements DocumentListener {
     }
 
     private void updateText(DocumentEvent e) {
-        if (textField1.getText().isEmpty() || textField2.getText().isEmpty() || textField3.getText().isEmpty()) {
+        if (textField1.getText().isEmpty() || textField2.getText().isEmpty() || 
+        textField3 != null && textField3.getText().isEmpty()) {
             button.setEnabled(false);
         }
         else {

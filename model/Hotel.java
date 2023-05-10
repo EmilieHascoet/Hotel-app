@@ -17,8 +17,8 @@ public class Hotel {
     //Methods
     public void addChambre(Chambre ch) { listChambre.add(ch); }
     public void addClient(Client c) { listClient.add(c); }
-    public void addRes(Reservation res) { 
-		listRes.add(res); res.client.addRes(res);
+    public void addRes(Reservation res, Client c) { 
+		listRes.add(res); res.setClient(c); c.addRes(res);
 		for (Chambre ch : res.listChambre) {
 			ch.addRes(res);
 		}
@@ -122,16 +122,21 @@ public class Hotel {
 
     public Vector<Client> searchClients(String str) {
 		Vector<Client> lClients = new Vector<Client>();
-		String[] listStr = str.split(" ");
 		for (Client c : listClient) {
-			for(String mot : listStr){
-				if (c.nom.contains(mot)) { lClients.add(c); break; }
-				// if(c.prenom.contains(mot)) { lClients.add(c); break; }
-			}
+			String nomPrenom = c.nom + " " + c.prenom;
+				if (nomPrenom.contains(str)) { lClients.add(c); }
 		}
         return lClients;
     }
+
+    public Client searchClient(String t) {
+		for (Client c : listClient) {
+				if (t.equals(c.tel)) { return c; }
+		}
+        return null;
+    }
     
+
 	// Methods enregistrement
 	public Vector<Reservation> arrivees(String str) {
 		Vector<Client> lClients = listClient;

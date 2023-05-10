@@ -24,14 +24,9 @@ public class OptionsControl implements ActionListener {
         typeAction = "modify"+str+" change"; 
         hotel=h; pane = p; group = g; nameTF = n; priceTF = pr; 
     }
-    // constructeur pour ajouter une option chambre
-    public OptionsControl(Hotel h, JPanel p, JPanel pCh, ButtonGroup g, JPanel ps, JTextField n, JTextField pr, JButton b) { 
-        typeAction = "addCh change"; 
-        hotel=h; pane = p;  paneFromChView = pCh; group = g; paneInnerScroll = ps; nameTF = n; priceTF = pr; button = b;
-    }
-    // constructeur pour ajouter une option sejour
-    public OptionsControl(Hotel h, JPanel p, ButtonGroup g, JPanel ps, JTextField n, JTextField pr, JButton b) { 
-        typeAction = "addSej change"; 
+    // constructeur pour ajouter une option
+    public OptionsControl(Hotel h, String str, JPanel p, ButtonGroup g, JPanel ps, JTextField n, JTextField pr, JButton b) { 
+        typeAction = "add"+str+" change"; ; 
         hotel=h; pane = p; group = g; paneInnerScroll = ps; nameTF = n; priceTF = pr; button = b;
     }
 
@@ -102,10 +97,6 @@ public class OptionsControl implements ActionListener {
                 // ajout au model
                 option = new Option(newType, Double.parseDouble(newPrix));
                 hotel.addOption(option);
-                // Ajout à la view dans GestionChambre
-                JCheckBox tmp = new JCheckBox(newType + ", " + newPrix + "€");
-                tmp.setActionCommand(newType + ";" + newPrix);
-                paneFromChView.add(tmp);
             }
             // Option de sejour
             else {
