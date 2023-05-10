@@ -1,5 +1,6 @@
 package model;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.text.*;
 
 public class Hotel {
@@ -16,11 +17,21 @@ public class Hotel {
     //Methods
     public void addChambre(Chambre ch) { listChambre.add(ch); }
     public void addClient(Client c) { listClient.add(c); }
-    public void addRes(Reservation res) { listRes.add(res); }
+    public void addRes(Reservation res) { 
+		listRes.add(res); res.client.addRes(res);
+		for (Chambre ch : res.listChambre) {
+			ch.addRes(res);
+		}
+	}
     public void addProduit(Produit p) { listProd.add(p); }
     public void addOption(Option o) { listOption.add(o); }
     
-    public void suppRes(Reservation res) { listRes.remove(res); }
+    public void suppRes(Reservation res) { 
+		listRes.remove(res); res.client.suppRes(res);
+		for (Chambre ch : res.listChambre) {
+			ch.addRes(res);
+		}
+	}
     
 	// Methods reservation
 	public Vector<Chambre> everyOption(Vector<Chambre> listCh, Vector<Option> listOptions, int places) { 
@@ -101,33 +112,67 @@ public class Hotel {
 	}
     
 	// Methods client
-    public Client searchClient(String t) {
-        for (Client c : listClient) {
-            if (t.equals(c.tel)) { return c; }
-        }
-        return null;
+    public Vector<Client> searchClients(String str) {
+		Vector<Client> lClients = new Vector<Client>();
+		String[] listStr = str.split(" ");
+		for (Client c : listClient) {
+			for(String mot : listStr){
+				if (c.nom.contains(mot)) { lClients.add(c); break; }
+				// if(c.prenom.contains(mot)) { lClients.add(c); break; }
+			}
+		}
+        return lClients;
     }
     
 	// Methods enregistrement
-    public void check_in(String tel) {
-    	Client c = searchClient(tel);
-    	Date today = new Date();
-    	for (Reservation r : c.listRes) {
-    		// si la date d'aujourd'hui est égale ou dépasse la date de debut de la reservation
-    		if (today.compareTo(r.dateDeb) >= 0 && r.sejour==null && today.compareTo(r.dateFin) < 0) {  
-    			double prix = 0;
-    			//ajoute le prix de chaque chambre au prix du séjour
-    			for (Chambre ch : r.listChambre) { prix += ch.prix; }
-    			Sejour s = new Sejour(prix);
-    			s.setReservation(r);
-    			listSejour.add(s);
-    			r.setSejour(s);
-    			System.out.println("Sejour cree !");
-    		}
-    	}
+	public Vector<Reservation> arrivees(String str) {
+		Vector<Client> lClients = listClient;
+		if (!str.isEmpty()) {
+			lClients = searchClients(str);
+		}
+		Vector<Reservation> lReservations = new Vector<Reservation>();
+		Date today = new Date();
+		for (Client cl : lClients) {
+			for (Reservation res : cl.listRes) {
+				// si la date d'aujourd'hui est égale ou dépasse la date de debut de la reservation
+				if (today.compareTo(res.dateDeb) >= 0 && res.sejour==null && today.compareTo(res.dateFin) < 0) {
+					lReservations.add(res);
+				}
+			}
+		}
+		return lReservations;
+	}
+
+	public Vector<Reservation> departs(String str) {
+		Vector<Client> lClients = listClient;
+		if (!str.isEmpty()) {
+			lClients = searchClients(str);
+		}
+		Vector<Reservation> lReservations = new Vector<Reservation>();
+		Date today = new Date();
+		for (Client cl : lClients) {
+			if (cl.sejour != null && today.compareTo(cl.sejour.reservation.dateFin) >= 0) {
+				lReservations.add(cl.sejour.reservation);
+			}
+		}
+		return lReservations;
+	}
+
+    public void check_in(Reservation res) {
+		// Calcul le nombe de jours entre la date de début et de fin
+		long diffInMillies = res.dateFin.getTime() - res.dateDeb.getTime();
+		long diffInDays = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+		//ajoute le prix de chaque chambre au prix du séjour
+		double prix = 0;
+		for (Chambre ch : res.listChambre) { prix += ch.prix * diffInDays; }
+		Sejour sej = new Sejour(prix);
+		sej.setReservation(res);
+		res.setSejour(sej);
+		res.client.setSejour(sej);
     }
     
-	public void check_out(String t) { /* Cherche le séjour et facture le client */ }
+	public void check_out(String t) { /* Cherche le séjour, le supprime et facture le client */ }
+
 
 	public Vector<Produit> chooseProduit() { /* Demande après le check-in si le client veut des
 	options pour son séjour */

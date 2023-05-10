@@ -20,6 +20,7 @@ public class Chambre {
     
     //Methods
     public void addRes (Reservation res) { listRes.add(res); }
+    public void suppRes(Reservation res) { listRes.remove(res) ;}
     public void addOption (Option opt) { listOption.add(opt); prix+=opt.prix; }
 
     

@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 import java.awt.*;
+import java.util.Vector;
 
 import model.*;
 
@@ -37,6 +38,7 @@ public class EnregistrementsView extends JPanel {
     TitledBorder titleArr = BorderFactory.createTitledBorder("Arrivées");
     JPanel innerScrollArr = new JPanel();
     JScrollPane scrollArr = new JScrollPane(innerScrollArr);
+    ButtonGroup groupArr = new ButtonGroup();
     JPanel paneButtonArr = new JPanel();
     JButton checkIn = new JButton("Check-in");
     JButton supprimer = new JButton("Supprimer");
@@ -48,6 +50,7 @@ public class EnregistrementsView extends JPanel {
     TitledBorder titleDep = BorderFactory.createTitledBorder("Departs");
     JPanel innerScrollDep = new JPanel();
     JScrollPane scrollDep = new JScrollPane(innerScrollDep);
+    ButtonGroup groupDep = new ButtonGroup();
     JPanel paneButtonDep = new JPanel();
     JButton facturer = new JButton("Facturer");
 
@@ -83,6 +86,18 @@ public class EnregistrementsView extends JPanel {
         // scroll panel des arrivants
         scrollArr.setBorder(titleArr);
         scrollArr.setPreferredSize(new Dimension(100, 300));
+        innerScrollArr.setLayout(new BoxLayout(innerScrollArr, BoxLayout.Y_AXIS));
+        innerScrollArr.setBorder(new EmptyBorder(10, 5, 0, 0));
+        // liste des arrivees prevues aujourd'hui
+        for (Reservation res : hotel.arrivees("")) {
+            JRadioButton RadioButton = new JRadioButton(res.client.nom);
+            // instance d'evenement pour rendre le button clickable
+            //RadioButton.addActionListener(new EnregistrementsControl(checkIn));
+            //RadioButton.setActionCommand(res);
+            groupArr.add(RadioButton);
+            innerScrollArr.add(RadioButton);
+        }
+        
         // panel des bouttons d'action
         paneButtonArr.setBorder(buttonPadding);
         paneButtonArr.add(checkIn);
@@ -92,7 +107,7 @@ public class EnregistrementsView extends JPanel {
         paneWest.add(searchBarArr);
         paneWest.add(scrollArr);
         paneWest.add(paneButtonArr);
-
+        
         
         // PANEL DES DEPARTS
         paneEast.setLayout(new BoxLayout(paneEast, BoxLayout.Y_AXIS));
@@ -101,9 +116,21 @@ public class EnregistrementsView extends JPanel {
         searchButtonDep.setPreferredSize(new Dimension(25, 25));
         searchBarDep.add(searchButtonDep);
         searchBarDep.add(searchTFDep);
-        // scroll panel des arrivants
+        // scroll panel des départs
         scrollDep.setBorder(titleDep);
         scrollDep.setPreferredSize(new Dimension(100, 300));
+        innerScrollDep.setLayout(new BoxLayout(innerScrollDep, BoxLayout.Y_AXIS));
+        innerScrollDep.setBorder(new EmptyBorder(10, 5, 0, 0));
+        // Liste des départs prevues aujourd'hui
+        for (Reservation res : hotel.departs("")) {
+            JRadioButton RadioButton = new JRadioButton(res.client.nom);
+            // instance d'evenement pour rendre le button clickable
+            //RadioButton.addActionListener(new EnregistrementsControl(checkIn));
+            //RadioButton.setActionCommand(res);
+            groupDep.add(RadioButton);
+            innerScrollDep.add(RadioButton);
+        }
+
         // panel des bouttons d'action
         paneButtonDep.setBorder(buttonPadding);
         paneButtonDep.add(facturer);
