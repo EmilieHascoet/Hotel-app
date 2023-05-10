@@ -57,13 +57,13 @@ class MainPage extends JFrame {
     Container c = this.getContentPane();
     c.setLayout(new CardLayout());
     // Crée les panels (cards)
-    //GestionEnregistrements p1 = new GestionEnregistrements();
+    EnregistrementsView p1 = new EnregistrementsView(hotel);
     ClientView p2 = new ClientView(hotel);
     GestionChambre p3 = new GestionChambre(hotel);
     OptionsView p4 = new OptionsView(hotel, p3.addOptionButtonsPane);
 
     // Ajoute les cards au container principal
-    //c.add("Enregistrements", p1);
+    c.add("Enregistrements", p1);
     c.add("Clients", p2);
     c.add("Chambres", p3);
     c.add("Options", p4);

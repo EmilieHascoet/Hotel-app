@@ -191,7 +191,7 @@ public class ReservationsControl implements ActionListener {
                 if (res.listChambre.size() == 0) {
 
                 }
-                else { hotel.addRes(res); client.addRes(res);}
+                else { hotel.addRes(res);}
                 System.out.println(hotel.listRes);
             }
         }

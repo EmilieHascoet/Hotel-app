@@ -80,6 +80,23 @@ public class Main {
         hotel.addChambre(ch7);
         hotel.addChambre(ch8);
         hotel.addChambre(ch9);
+
+		Date date1 = f.parse("10-05-2023");
+		Date date2 = f.parse("12-05-2023");
+		Date date3 = f.parse("04-05-2023");
+		Date date4 = f.parse("10-05-2023");
+		
+		Reservation res1 = new Reservation(date1, date2);
+		res1.addChambre(ch1);
+        res1.setClient(client);
+        client.addRes(res1);
+		
+		Reservation res2 = new Reservation(date3, date4);
+		res2.addChambre(ch2);
+        res2.setClient(client2);
+        client.addRes(res2);
+        hotel.check_in(res2);
+
         
         // UIManager.LookAndFeelInfo[] looks = UIManager.getInstalledLookAndFeels();
         // for (UIManager.LookAndFeelInfo look : looks) {
@@ -97,6 +114,6 @@ public class Main {
         JDialog d = new JDialog(main, "Créer une reservation pour " + client.nom, true);
         d.add(reservation);
         d.setSize(700, 500);
-        //d.setVisible(true);
+        // d.setVisible(true);
     }
 }
