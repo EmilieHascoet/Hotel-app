@@ -13,16 +13,36 @@ import com.formdev.flatlaf.FlatLightLaf;
 import model.*;
 
 public class Main {
+    static JFrame main;
     public static void main(String args[]) throws ParseException {
         Hotel hotel = new Hotel();
 
         SimpleDateFormat f = new SimpleDateFormat("dd-MM-yyyy");
         Date date = f.parse("26-03-2023");
-        Client client = new Client("Chat", date, "0624205906");
-        hotel.addClient(client);
+        Date date2 = f.parse("30-03-2023");
+        Client client = new Client("Chat", "Test", "0624205906");
+        Client c1 = new Client("Client 1", "Test", "061");
+        Client c2 = new Client("Client 2", "Test", "062");
+        Client c3 = new Client("Client 3", "Test", "063");
+        Client c4 = new Client("Client 4", "Test", "064");
+        Client c5 = new Client("Client 5", "Test", "065");
 
-        Client client2 = new Client("Chaton", date, "0624205906");
-        hotel.addClient(client2);
+        Reservation r1 = new Reservation(date, date2);
+        c1.addRes(r1);
+        c1.addRes(r1);
+        c1.addRes(r1);
+        c1.addRes(r1);
+        c1.addRes(r1);
+        c1.addRes(r1);
+        c1.addRes(r1);
+        c1.addRes(r1);
+        c1.addRes(r1);
+        c1.addRes(r1);
+        hotel.addClient(c1);
+        hotel.addClient(c2);
+        hotel.addClient(c3);
+        hotel.addClient(c4);
+        hotel.addClient(c5);
 
         Option o1 = new Option("douche", 5);
         Option o2 = new Option("salle de bain", 10);
@@ -89,7 +109,7 @@ public class Main {
         //     System.err.println( "Failed to initialize LaF" );
         // }
 
-        JFrame main = new MainPage(hotel);
+        main = new MainPage(hotel);
         JPanel reservation = new ReservationsView(hotel, client);
         JDialog d = new JDialog(main, "Créer une reservation pour " + client.nom, true);
         d.add(reservation);
