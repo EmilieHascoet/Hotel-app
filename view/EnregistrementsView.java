@@ -96,9 +96,10 @@ public class EnregistrementsView extends JPanel {
         for (Reservation res : hotel.arrivees("")) {
             JRadioButton RadioButton = new JRadioButton(res.client.nom + " " + res.client.prenom);
             // instance d'evenement pour rendre le button clickable
-            RadioButton.addActionListener(new RadioButtonListener(checkIn));
-            RadioButton.addActionListener(new RadioButtonListener(supprimer));
-            //RadioButton.setActionCommand(res.id);
+            RadioButton.addActionListener(new radioButtonListener(checkIn));
+            RadioButton.addActionListener(new radioButtonListener(supprimer));
+            RadioButton.setActionCommand(res.id+"");
+
             groupArr.add(RadioButton);
             innerScrollArr.add(RadioButton);
         }
@@ -130,11 +131,11 @@ public class EnregistrementsView extends JPanel {
         innerScrollDep.setLayout(new BoxLayout(innerScrollDep, BoxLayout.Y_AXIS));
         innerScrollDep.setBorder(new EmptyBorder(10, 5, 0, 0));
         // Liste des départs prevues aujourd'hui
-        for (Reservation res : hotel.departs("")) {
-            JRadioButton RadioButton = new JRadioButton(res.client.nom + " " + res.client.prenom);
+        for (Sejour sej : hotel.departs("")) {
+            JRadioButton RadioButton = new JRadioButton(sej.reservation.client.nom + " " + sej.reservation.client.prenom);
             // instance d'evenement pour rendre le button clickable
-            RadioButton.addActionListener(new RadioButtonListener(facturer));
-            //RadioButton.setActionCommand(res);
+            RadioButton.addActionListener(new radioButtonListener(facturer));
+            RadioButton.setActionCommand(sej.reservation.id+"");
             groupDep.add(RadioButton);
             innerScrollDep.add(RadioButton);
         }
@@ -157,9 +158,13 @@ public class EnregistrementsView extends JPanel {
                             // *************** CONTROLER  *************** //
 
         // button rechercher
-        EnregistrementsControl ctrSearchArr = new EnregistrementsControl(hotel, searchTFArr, innerScrollArr, groupArr);
+        EnregistrementsControl ctrSearchArr = new EnregistrementsControl(hotel, searchTFArr, innerScrollArr, checkIn, supprimer);
         searchButtonArr.addActionListener(ctrSearchArr);
-        EnregistrementsControl ctrSearchDep = new EnregistrementsControl(hotel, searchTFDep, innerScrollDep, groupDep);
+        EnregistrementsControl ctrSearchDep = new EnregistrementsControl(hotel, searchTFDep, innerScrollDep, facturer);
         searchButtonDep.addActionListener(ctrSearchDep);
+
+        // button check in
+        EnregistrementsControl ctrCheckIn = new EnregistrementsControl(hotel, groupArr, innerScrollArr);
+        checkIn.addActionListener(ctrCheckIn);
     }
 }

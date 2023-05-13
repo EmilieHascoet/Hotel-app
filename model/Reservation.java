@@ -9,6 +9,7 @@ public class Reservation {
     public Date dateDeb;
     public Date dateFin;
     public int id;
+    public double prix;
     
     public Client client;
     public Vector<Chambre> listChambre = new Vector<Chambre>();
@@ -19,6 +20,7 @@ public class Reservation {
 
     public void setClient(Client c) { client = c; }
     public void setSejour(Sejour s) { sejour = s; }
+    public double getCaution() { return prix*0.2; }
     
     //Methods
     public void addChambre(Chambre ch) { listChambre.add(ch); }
