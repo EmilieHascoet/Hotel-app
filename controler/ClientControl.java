@@ -4,20 +4,24 @@ import java.awt.event.*;
 import java.text.SimpleDateFormat;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
+
 import model.*;
 import view.*;
 
 public class ClientControl implements ActionListener{
     Hotel hotel;
-    JPanel pane, infosPane, clientGroupPane;
+    JPanel pane, resInfoPane, sejInfoPane, clientGroupPane, produitsPane;
     ClientControl buttonClientControl;
     ButtonGroup clientButtonGroup; 
     String actionType, name;
     JTextField firstName, lastName, tel;
     Client c;
+    Reservation res;
+    JLabel prixSej;
     static ButtonGroup resButtonGroup;
 
-    public ClientControl(Hotel h, JPanel p, JPanel resP, ButtonGroup clientBG, int i) {hotel=h; pane=p; infosPane=resP; clientButtonGroup=clientBG; actionType="SuppRes"; }
+    public ClientControl(Hotel h, JPanel p, JPanel resP, ButtonGroup clientBG, int i) {hotel=h; pane=p; resInfoPane=resP; clientButtonGroup=clientBG; actionType="SuppRes"; }
 
     public ClientControl(Hotel h, JPanel p, ButtonGroup clientBG) {hotel=h; pane=p; clientButtonGroup=clientBG; actionType="AddRes";}
 
@@ -27,7 +31,9 @@ public class ClientControl implements ActionListener{
         hotel=h; pane=p; clientGroupPane=gP; buttonClientControl=cBG; clientButtonGroup=clientBG; firstName=firstN; lastName=lastN; tel=t; actionType="AddClientRight";
     }
 
-    public ClientControl(Hotel h, JPanel p, JPanel infoP, ButtonGroup clientBG) {hotel=h; pane=p; infosPane=infoP; clientButtonGroup=clientBG; actionType="Consulter";}
+    public ClientControl(Hotel h, JPanel p, JPanel produitP, Reservation r, JLabel prix) { hotel=h; pane=p; produitsPane=produitP; res=r; prixSej=prix; actionType="AddProduits";}
+
+    public ClientControl(Hotel h, JPanel p, JPanel infoP, JPanel sejP, ButtonGroup clientBG) {hotel=h; pane=p; resInfoPane=infoP; sejInfoPane=sejP; clientButtonGroup=clientBG; actionType="Consulter";}
 
 
     public void actionPerformed(ActionEvent e) {
@@ -40,7 +46,7 @@ public class ClientControl implements ActionListener{
         }
         card.show(pane, name);
 
-        if (clientButtonGroup != null && clientButtonGroup.getSelection() != null) {
+        if (clientButtonGroup != null && clientButtonGroup.getSelection() != null && !actionType.equals("AddClientLeft")) {
             // Trouve le Client correspondant au boutton sélectionné
             c = hotel.searchClient(clientButtonGroup.getSelection().getActionCommand());
         }
@@ -50,17 +56,71 @@ public class ClientControl implements ActionListener{
                 SimpleDateFormat formatter = new SimpleDateFormat("EEEE dd MMMM yyyy");
                 resButtonGroup = new ButtonGroup();
 
-                infosPane.removeAll();
+                resInfoPane.removeAll();
+                sejInfoPane.removeAll();
                 for (Reservation res : c.listRes) {
                     String dateDebStr = formatter.format(res.dateDeb);
                     String dateFinStr = formatter.format(res.dateFin);
-                    JRadioButton infoRes = new JRadioButton("Du " + dateDebStr + " au " + dateFinStr);
-                    infoRes.setActionCommand(res.id + "");
-                    resButtonGroup.add(infoRes);
-                    infosPane.add(infoRes);            
+
+                    if (c.sejour == null) {
+                        JRadioButton infoRes = new JRadioButton("Du " + dateDebStr + " au " + dateFinStr);
+                        infoRes.setActionCommand(res.id + "");
+                        resButtonGroup.add(infoRes);
+                        resInfoPane.add(infoRes);      
+                    }
+                    else {
+                        JLabel sejInfo = new JLabel("Du " + dateDebStr + " au " + dateFinStr);
+                        JLabel sejPrix = new JLabel("Prix du séjour : " + res.sejour.prix);
+                        JButton addProduits = new JButton("Ajouter des produtis");
+                        JPanel south = new JPanel(new GridLayout(1,2));
+                        
+                        south.add(sejPrix);
+                        south.add(addProduits);
+
+                        sejInfo.setHorizontalAlignment(JLabel.CENTER);
+
+                        JPanel sejProduitsInnerPane = new JPanel();
+                        JScrollPane sejProduitsScrollPane = new JScrollPane(sejProduitsInnerPane);
+                        
+                        sejProduitsInnerPane.setLayout(new BoxLayout(sejProduitsInnerPane, BoxLayout.Y_AXIS));
+                        sejProduitsScrollPane.setBorder(new TitledBorder("Produits"));
+
+                        for (Produit p : hotel.listProd) {
+                            JCheckBox tmp = new JCheckBox(p.type + ", " + p.prix + "€");
+                            tmp.setActionCommand(p.type);
+                            if (res.sejour.listProduit.contains(p)) {tmp.setSelected(true); tmp.setEnabled(false);}
+
+                            sejProduitsInnerPane.add(tmp);
+                        }
+
+                        ClientControl addProdCtr = new ClientControl(hotel,pane,sejProduitsInnerPane,res,sejPrix);
+                        addProduits.addActionListener(addProdCtr);
+
+                        sejInfoPane.add(BorderLayout.NORTH, sejInfo);
+                        sejInfoPane.add(BorderLayout.CENTER, sejProduitsScrollPane);
+                        sejInfoPane.add(BorderLayout.SOUTH, south);  
+                    }
                 }
-                infosPane.revalidate();
-                infosPane.repaint();
+                resInfoPane.revalidate();
+                resInfoPane.repaint();
+                sejInfoPane.revalidate();
+                sejInfoPane.repaint();    
+        }
+
+        else if (actionType.equals("AddProduits")) {
+            for (Component c : produitsPane.getComponents()) {
+                JCheckBox cb = (JCheckBox)c;
+                if (cb.isEnabled() && cb.isSelected()) {
+                    for (Produit p : hotel.listProd) {
+                        if (cb.getActionCommand().equals(p.type)) {
+                            res.sejour.addProduit(p);
+                            cb.setEnabled(false);
+                            prixSej.setText("Prix du séjour : " + res.sejour.prix);
+                            break;
+                        }
+                    }
+                } 
+            }
         }
 
         else if (actionType.equals("AddClientLeft")) {

@@ -7,11 +7,6 @@ import controler.*;
 import model.*;
 
 public class ClientView extends JPanel {
-    //Panel de gauche
-    JTextField search = new JTextField();
-    JLabel client = new JLabel(" client1....");
-    JButton ajouter = new JButton("Ajouter");
-
     //Panel de droite
     JLabel sej = new JLabel("Sejours");
     JLabel res = new JLabel("Reservations");
@@ -34,10 +29,12 @@ public class ClientView extends JPanel {
     TitledBorder titleConsultClient = BorderFactory.createTitledBorder("Liste des clients");
     JPanel paneInnerScrollClient = new JPanel();
     ButtonGroup groupClient = new ButtonGroup();
-    JButton addClientLeftButton = new JButton("Ajouter");
+    JButton addClientLeftButton = new JButton("Ajouter un client");
 
     public ClientView(Hotel hotel) {
         this.setLayout(new GridLayout(1, 2));
+        this.setBorder(new EmptyBorder(10, 20, 30, 30));
+
         JPanel PDroit = new JPanel(new CardLayout());
 
         JPanel PDroit1 = new JPanel(new GridLayout(2,1));
@@ -47,7 +44,7 @@ public class ClientView extends JPanel {
         JPanel resClientGlobalPane = new JPanel(new BorderLayout());
 
         JPanel resClientInnerPane = new JPanel();
-        JPanel sejClient = new JPanel();
+        JPanel sejClient = new JPanel(new BorderLayout(0,15));
         TitledBorder titleResClient = BorderFactory.createTitledBorder("Réservations");
         TitledBorder titleSejClient = BorderFactory.createTitledBorder("Séjour");
 
@@ -61,7 +58,6 @@ public class ClientView extends JPanel {
         
         //NORTH
         resClientInnerPane.setLayout(new BoxLayout(resClientInnerPane, BoxLayout.Y_AXIS));
-        sejClient.setLayout(new BoxLayout(sejClient, BoxLayout.Y_AXIS));
 
         sejClient.setBorder(titleSejClient);
 
@@ -79,14 +75,14 @@ public class ClientView extends JPanel {
         // PANEL CONSULTER CLIENT
         
         paneConsultClient.setLayout(new BorderLayout(0,15));
-        paneConsultClient.setBorder(new EmptyBorder(15, 20, 15, 20));
+        paneConsultClient.setBorder(new EmptyBorder(0, 0, 0, 20));
 
         // Récupère la liste des chambres et créé des RadioBouttons puis les ajoutent dans un groupe
         // Met les information de chaque chambre dans l'ActionCommand du boutton correspondant
         paneInnerScrollClient.setLayout(new BoxLayout(paneInnerScrollClient, BoxLayout.Y_AXIS));
         //paneInnerScrollClient.add(search);
 
-        ClientControl buttonControl = new ClientControl(hotel, PDroit, resClientInnerPane, groupClient);
+        ClientControl buttonControl = new ClientControl(hotel, PDroit, resClientInnerPane, sejClient, groupClient);
 
         for (Client c : hotel.listClient) {
             JRadioButton ClientButton = new JRadioButton(c.prenom + " "+ c.nom);
@@ -112,7 +108,6 @@ public class ClientView extends JPanel {
 
         //Panel de droite
         JPanel addClientGlobalPanel = new JPanel(new BorderLayout(0,15));
-        addClientGlobalPanel.setBorder(new EmptyBorder(15, 20, 15, 20));
         
 
         JPanel ajoutClient = new JPanel(new GridBagLayout());

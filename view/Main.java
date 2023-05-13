@@ -86,6 +86,17 @@ public class Main {
         hotel.addRes(res2, c2);
         hotel.check_in(res2);
 
+        Produit p1 = new Produit("Petit dej", 5);
+        Produit p2 = new Produit("Resto à volonté", 50);
+        Produit p3 = new Produit("Ménage", 20);
+        Produit p4 = new Produit("Test", 200);
+
+        hotel.listProd.add(p1);
+        hotel.listProd.add(p2);
+        hotel.listProd.add(p3);
+        hotel.listProd.add(p4);
+        res2.sejour.listProduit.add(p1);
+        res2.sejour.listProduit.add(p2);
         
         // UIManager.LookAndFeelInfo[] looks = UIManager.getInstalledLookAndFeels();
         // for (UIManager.LookAndFeelInfo look : looks) {
