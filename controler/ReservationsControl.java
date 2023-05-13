@@ -206,7 +206,8 @@ public class ReservationsControl implements ActionListener {
                     String dateFinStr = formatter.format(res.dateFin);
                     JOptionPane.showMessageDialog(frame,"La reservation a été crée :\nClient : " 
                     + client.nom + " " + client.prenom 
-                    + "\nDate : du " + dateDebStr + " au " + dateFinStr + "\n"+ chambresStr);
+                    + "\nDate : du " + dateDebStr + " au " + dateFinStr + "\n"+ 
+                    "\nChambres : " + chambresStr);
                     // ferme la fenêtre
                     dialog.dispose();
                 }

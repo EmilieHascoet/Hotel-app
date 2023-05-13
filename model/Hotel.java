@@ -123,6 +123,13 @@ public class Hotel {
     }
 
 	// Methods enregistrement
+	// Cherche une réservation à l'aide de son identifiant
+	public Reservation searchRes(int identifiant){
+		for (Reservation res : listRes) {
+				if (res.id == identifiant) { return res; }
+		}
+		return null;
+	}
 	// Liste des réservations qui commence aujourd'hui
 	public Vector<Reservation> arrivees(String str) {
 		Vector<Client> lClients = listClient;

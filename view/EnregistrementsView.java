@@ -98,7 +98,7 @@ public class EnregistrementsView extends JPanel {
             // instance d'evenement pour rendre le button clickable
             RadioButton.addActionListener(new radioButtonListener(checkIn));
             RadioButton.addActionListener(new radioButtonListener(supprimer));
-            //RadioButton.setActionCommand(res.id);
+            RadioButton.setActionCommand(res.id+"");
             groupArr.add(RadioButton);
             innerScrollArr.add(RadioButton);
         }
@@ -134,7 +134,7 @@ public class EnregistrementsView extends JPanel {
             JRadioButton RadioButton = new JRadioButton(sej.reservation.client.nom + " " + sej.reservation.client.prenom);
             // instance d'evenement pour rendre le button clickable
             RadioButton.addActionListener(new radioButtonListener(facturer));
-            //RadioButton.setActionCommand(res);
+            RadioButton.setActionCommand(sej.reservation.id+"");
             groupDep.add(RadioButton);
             innerScrollDep.add(RadioButton);
         }
@@ -157,9 +157,13 @@ public class EnregistrementsView extends JPanel {
                             // *************** CONTROLER  *************** //
 
         // button rechercher
-        EnregistrementsControl ctrSearchArr = new EnregistrementsControl(hotel, searchTFArr, innerScrollArr, groupArr);
+        EnregistrementsControl ctrSearchArr = new EnregistrementsControl(hotel, searchTFArr, innerScrollArr, checkIn, supprimer);
         searchButtonArr.addActionListener(ctrSearchArr);
-        EnregistrementsControl ctrSearchDep = new EnregistrementsControl(hotel, searchTFDep, innerScrollDep, groupDep);
+        EnregistrementsControl ctrSearchDep = new EnregistrementsControl(hotel, searchTFDep, innerScrollDep, facturer);
         searchButtonDep.addActionListener(ctrSearchDep);
+
+        // button check in
+        EnregistrementsControl ctrCheckIn = new EnregistrementsControl(hotel, groupArr);
+        checkIn.addActionListener(ctrCheckIn);
     }
 }
