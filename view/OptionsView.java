@@ -166,7 +166,7 @@ public class OptionsView extends JPanel {
         for (Option o : hotel.listOption) {
             JRadioButton RadioButton = new JRadioButton(o.type + ", " + o.prix + "€");
             // instance d'evenement pour rendre le button clickable
-            RadioButton.addActionListener(new radioButtonListener(modifChInConsultCh));
+            RadioButton.addActionListener(new RadioButtonListener(modifChInConsultCh));
             RadioButton.setActionCommand(o.type + " " + o.prix);
             groupCh.add(RadioButton);
             paneInnerScrollCh.add(RadioButton);
@@ -222,7 +222,7 @@ public class OptionsView extends JPanel {
         paneInnerScrollSej.setLayout(new BoxLayout(paneInnerScrollSej, BoxLayout.Y_AXIS));
         for (Produit p : hotel.listProd) {
             JRadioButton RadioButton = new JRadioButton(p.type + ", " + p.prix + "€");
-            RadioButton.addActionListener(new radioButtonListener(modifSejInConsultSej));
+            RadioButton.addActionListener(new RadioButtonListener(modifSejInConsultSej));
             RadioButton.setActionCommand(p.type + " " + p.prix);
             groupSej.add(RadioButton);
             paneInnerScrollSej.add(RadioButton);

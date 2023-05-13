@@ -4,7 +4,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 import controler.EnregistrementsControl;
-import controler.radioButtonListener;
+import controler.RadioButtonListener;
 
 import java.awt.*;
 import java.util.Vector;
@@ -96,8 +96,8 @@ public class EnregistrementsView extends JPanel {
         for (Reservation res : hotel.arrivees("")) {
             JRadioButton RadioButton = new JRadioButton(res.client.nom + " " + res.client.prenom);
             // instance d'evenement pour rendre le button clickable
-            RadioButton.addActionListener(new radioButtonListener(checkIn));
-            RadioButton.addActionListener(new radioButtonListener(supprimer));
+            RadioButton.addActionListener(new RadioButtonListener(checkIn));
+            RadioButton.addActionListener(new RadioButtonListener(supprimer));
             //RadioButton.setActionCommand(res.id);
             groupArr.add(RadioButton);
             innerScrollArr.add(RadioButton);
@@ -133,7 +133,7 @@ public class EnregistrementsView extends JPanel {
         for (Reservation res : hotel.departs("")) {
             JRadioButton RadioButton = new JRadioButton(res.client.nom + " " + res.client.prenom);
             // instance d'evenement pour rendre le button clickable
-            RadioButton.addActionListener(new radioButtonListener(facturer));
+            RadioButton.addActionListener(new RadioButtonListener(facturer));
             //RadioButton.setActionCommand(res);
             groupDep.add(RadioButton);
             innerScrollDep.add(RadioButton);
