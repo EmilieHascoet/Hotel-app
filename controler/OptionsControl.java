@@ -54,15 +54,19 @@ public class OptionsControl implements ActionListener {
                     oldType = text.substring(0, text.lastIndexOf(" "));
                     oldPrix = text.substring(text.lastIndexOf(" ") + 1);
                     // modifie l'option avec les nouvelles données
-                    if (nameButton.equals("consultCh")) {
+                    if (nameButton.startsWith("consult")) {
                         newType = nameTF.getText();
                         newPrix = priceTF.getText();
                         // modifie le model
                         if (typeAction.startsWith("modifyCh")) {
+                            System.out.println("Option" + oldType + " " +oldPrix);
+                            System.out.println(newType + " " + newPrix);
                             option = hotel.searchOption(oldType, Double.parseDouble(oldPrix));
                             hotel.changeOption(option, newType, Double.parseDouble(newPrix));
                         }
                         else {
+                            System.out.println("Produit" + oldType + " " +oldPrix);
+                            System.out.println(newType + " " + newPrix);
                             produit = hotel.searchProd(oldType, Double.parseDouble(oldPrix));
                             hotel.changeProd(produit, newType, Double.parseDouble(newPrix));
                         }

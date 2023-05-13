@@ -25,25 +25,25 @@ public class MenuControl implements ActionListener {
             case "Enregistrements" :
             EnregistrementsView p1 = new EnregistrementsView(hotel);
             contain.add(p1);
-            p1.setBounds(0, 0, 800, 455);
+            p1.setBounds(0, 0, 785, 440);
             break;
 
             case "Clients" :
             ClientView p2 = new ClientView(hotel);
             contain.add(p2);
-            p2.setBounds(0, 0, 800, 455);
+            p2.setBounds(0, 0, 785, 440);
             break;
 
             case "Chambres" :
             GestionChambre p3 = new GestionChambre(hotel);
             contain.add(p3);
-            p3.setBounds(0, 0, 800, 455);
+            p3.setBounds(0, 0, 785, 440);
             break;
 
             case "Options" :
             OptionsView p4 = new OptionsView(hotel);
             contain.add(p4);
-            p4.setBounds(0, 0, 800, 455);
+            p4.setBounds(0, 0, 785, 440);
             break;
         }
     }

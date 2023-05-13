@@ -45,7 +45,7 @@ class MainPage extends JFrame {
     Container c = this.getContentPane();
     EnregistrementsView p1 = new EnregistrementsView(hotel);
     c.add(p1);
-    p1.setBounds(0, 0, 800, 455);
+    p1.setBounds(0, 0, 785, 440);
 
     // Ajoute la barre de menu au frame
     this.setJMenuBar(menubar);
