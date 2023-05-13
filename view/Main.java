@@ -72,16 +72,16 @@ public class Main {
 
         // RESERVATIONS
         SimpleDateFormat f = new SimpleDateFormat("dd-MM-yyyy");
-        Date date1 = f.parse("10-05-2023");
-		Date date2 = f.parse("12-05-2023");
+        Date today = new Date();
+		Date date2 = f.parse("25-05-2023");
 		Date date3 = f.parse("04-05-2023");
-		Date date4 = f.parse("10-05-2023");
+		Date date4 = f.parse("20-05-2023");
 
-		Reservation res1 = new Reservation(date1, date2);
+		Reservation res1 = new Reservation(today, date2);
 		res1.addChambre(ch1);
         hotel.addRes(res1, c1);
 		
-		Reservation res2 = new Reservation(date3, date4);
+		Reservation res2 = new Reservation(today, date4);
 		res2.addChambre(ch2);
         hotel.addRes(res2, c2);
         hotel.check_in(res2);

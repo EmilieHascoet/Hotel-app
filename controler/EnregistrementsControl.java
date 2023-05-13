@@ -23,8 +23,8 @@ public class EnregistrementsControl implements ActionListener {
         hotel = h; textField = tf; panel = p; button1 = b1;
     }
     // Constructeur check in
-    public EnregistrementsControl(Hotel h, ButtonGroup g) {
-        hotel = h; group = g;
+    public EnregistrementsControl(Hotel h, ButtonGroup g, JPanel p) {
+        hotel = h; group = g; panel = p;
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -76,7 +76,9 @@ public class EnregistrementsControl implements ActionListener {
                     Reservation res = hotel.searchRes(id);
                     System.out.println(res);
                     hotel.check_in(res);
-                    group.remove(button);
+                    panel.remove(button);
+                    panel.revalidate();
+                    panel.repaint();
                     // remove panel
                 }
             }

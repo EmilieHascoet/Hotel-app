@@ -163,7 +163,7 @@ public class EnregistrementsView extends JPanel {
         searchButtonDep.addActionListener(ctrSearchDep);
 
         // button check in
-        EnregistrementsControl ctrCheckIn = new EnregistrementsControl(hotel, groupArr);
+        EnregistrementsControl ctrCheckIn = new EnregistrementsControl(hotel, groupArr, innerScrollArr);
         checkIn.addActionListener(ctrCheckIn);
     }
 }

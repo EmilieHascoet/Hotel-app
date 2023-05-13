@@ -166,7 +166,7 @@ public class Hotel {
 	}
 
     public void check_in(Reservation res) {
-		Sejour sej = new Sejour(res.prix);
+		Sejour sej = new Sejour(res.prix-res.getCaution());
 		listSejour.add(sej);
 		sej.setReservation(res);
 		res.setSejour(sej);
