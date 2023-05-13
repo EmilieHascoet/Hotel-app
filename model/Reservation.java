@@ -20,7 +20,7 @@ public class Reservation {
 
     public void setClient(Client c) { client = c; }
     public void setSejour(Sejour s) { sejour = s; }
-    public double getArrhes() { return prix*0.2; }
+    public double getCaution() { return prix*0.2; }
     
     //Methods
     public void addChambre(Chambre ch) { listChambre.add(ch); }
