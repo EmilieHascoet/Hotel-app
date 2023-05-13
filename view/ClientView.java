@@ -82,7 +82,7 @@ public class ClientView extends JPanel {
         paneInnerScrollClient.setLayout(new BoxLayout(paneInnerScrollClient, BoxLayout.Y_AXIS));
         //paneInnerScrollClient.add(search);
 
-        ClientControl buttonControl = new ClientControl(hotel, PDroit, resClientInnerPane, sejClient, groupClient);
+        ClientControl buttonControl = new ClientControl(hotel, PDroit, resClientInnerPane, sejClient, groupClient, suppResButton);
 
         for (Client c : hotel.listClient) {
             JRadioButton ClientButton = new JRadioButton(c.prenom + " "+ c.nom);
@@ -213,6 +213,8 @@ public class ClientView extends JPanel {
 
         ClientControl suppCtr = new ClientControl(hotel,PDroit,resClientInnerPane,groupClient,5);
         suppResButton.addActionListener(suppCtr);
+        suppResButton.setEnabled(false);
+        
 
         ClientControl addResCtr = new ClientControl(hotel,PDroit,groupClient);
         addResButton.addActionListener(addResCtr);
