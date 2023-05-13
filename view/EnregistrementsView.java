@@ -130,8 +130,8 @@ public class EnregistrementsView extends JPanel {
         innerScrollDep.setLayout(new BoxLayout(innerScrollDep, BoxLayout.Y_AXIS));
         innerScrollDep.setBorder(new EmptyBorder(10, 5, 0, 0));
         // Liste des départs prevues aujourd'hui
-        for (Reservation res : hotel.departs("")) {
-            JRadioButton RadioButton = new JRadioButton(res.client.nom + " " + res.client.prenom);
+        for (Sejour sej : hotel.departs("")) {
+            JRadioButton RadioButton = new JRadioButton(sej.reservation.client.nom + " " + sej.reservation.client.prenom);
             // instance d'evenement pour rendre le button clickable
             RadioButton.addActionListener(new radioButtonListener(facturer));
             //RadioButton.setActionCommand(res);

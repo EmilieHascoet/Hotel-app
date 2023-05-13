@@ -19,9 +19,16 @@ public class Hotel {
     public void addClient(Client c) { listClient.add(c); }
     public void addRes(Reservation res, Client c) { 
 		listRes.add(res); res.setClient(c); c.addRes(res);
+		// Calcul le nombe de jours entre la date de début et de fin
+		long diffInMillies = res.dateFin.getTime() - res.dateDeb.getTime();
+		long diffInDays = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+		//ajoute le prix de chaque chambre au prix du séjour
+		double prix = 0;
 		for (Chambre ch : res.listChambre) {
+			prix += ch.prix * diffInDays;
 			ch.addRes(res);
 		}
+		res.prix = prix;
 	}
     public void addProduit(Produit p) { listProd.add(p); }
     public void addOption(Option o) { listOption.add(o); }
@@ -72,20 +79,6 @@ public class Hotel {
 		}
 		return max;
 	}
-	
-	// public Vector<Chambre> triChambres(Vector<Chambre> ch, Vector<Option> o) { 
-		// Tri les chambres en fonction des préférences : du plus au moins d'option
-		/* tailleListOpt=5
-		Créé une liste et setSize(tailleListOpt)
-		nbrOptCommun=3
-		5-3
-		Add à la sous-liste à la position 2 si elle existe, sinon créé la sous-liste
-		nbrOpt=5
-		5-5
-		Add à la sous-liste à la position 0 si elle existe, sinon créé la sous-liste
-		Renvoie une liste de liste 
-		return new Vector<Chambre>();
-	}*/
 
     public Vector<Chambre> searchChamberDispo(Date start, Date end) { 
     	Vector<Chambre> rep = new Vector<Chambre>();
@@ -130,6 +123,7 @@ public class Hotel {
     }
 
 	// Methods enregistrement
+	// Liste des réservations qui commence aujourd'hui
 	public Vector<Reservation> arrivees(String str) {
 		Vector<Client> lClients = listClient;
 		if (!str.isEmpty()) {
@@ -148,29 +142,25 @@ public class Hotel {
 		return lReservations;
 	}
 
-	public Vector<Reservation> departs(String str) {
+	// Liste des séjours qui s'arrête aujourd'hui
+	public Vector<Sejour> departs(String str) {
 		Vector<Client> lClients = listClient;
 		if (!str.isEmpty()) {
 			lClients = searchClients(str);
 		}
-		Vector<Reservation> lReservations = new Vector<Reservation>();
+		Vector<Sejour> lSejours = new Vector<Sejour>();
 		Date today = new Date();
 		for (Client cl : lClients) {
 			if (cl.sejour != null && today.compareTo(cl.sejour.reservation.dateFin) >= 0) {
-				lReservations.add(cl.sejour.reservation);
+				lSejours.add(cl.sejour);
 			}
 		}
-		return lReservations;
+		return lSejours;
 	}
 
     public void check_in(Reservation res) {
-		// Calcul le nombe de jours entre la date de début et de fin
-		long diffInMillies = res.dateFin.getTime() - res.dateDeb.getTime();
-		long diffInDays = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
-		//ajoute le prix de chaque chambre au prix du séjour
-		double prix = 0;
-		for (Chambre ch : res.listChambre) { prix += ch.prix * diffInDays; }
-		Sejour sej = new Sejour(prix);
+		Sejour sej = new Sejour(res.prix);
+		listSejour.add(sej);
 		sej.setReservation(res);
 		res.setSejour(sej);
 		res.client.setSejour(sej);

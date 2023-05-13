@@ -35,8 +35,8 @@ public class EnregistrementsControl implements ActionListener {
             panel.removeAll();
             panel.revalidate();
             panel.repaint();
-            for (Reservation res : hotel.departs(textField.getText())) {
-                JRadioButton RadioButton = new JRadioButton(res.client.nom + " " + res.client.prenom);
+            for (Sejour sej : hotel.departs(textField.getText())) {
+                JRadioButton RadioButton = new JRadioButton(sej.reservation.client.nom + " " + sej.reservation.client.prenom);
                 // instance d'evenement pour rendre le button clickable
                 //RadioButton.addActionListener(new EnregistrementsControl(checkIn));
                 //RadioButton.setActionCommand(res);
