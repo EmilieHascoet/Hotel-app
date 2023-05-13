@@ -4,7 +4,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 import controler.EnregistrementsControl;
-import controler.radioButtonListener;
+import controler.RadioButtonListener;
 
 import java.awt.*;
 import java.util.Vector;
@@ -99,6 +99,7 @@ public class EnregistrementsView extends JPanel {
             RadioButton.addActionListener(new radioButtonListener(checkIn));
             RadioButton.addActionListener(new radioButtonListener(supprimer));
             RadioButton.setActionCommand(res.id+"");
+
             groupArr.add(RadioButton);
             innerScrollArr.add(RadioButton);
         }

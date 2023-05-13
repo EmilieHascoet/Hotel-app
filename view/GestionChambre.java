@@ -62,7 +62,7 @@ public class GestionChambre extends JPanel{
 
     public GestionChambre(Hotel hotel) {
         // Layout du frame
-        this.setLayout(new GridLayout(1, 2, 20, 0));
+        this.setLayout(new GridLayout(1, 2, 10, 0));
 
                                                 // **************** PANEL DE GAUCHE ***************** //
 
@@ -132,6 +132,7 @@ public class GestionChambre extends JPanel{
         for (Chambre ch : hotel.listChambre) {
             JRadioButton RadioButton = new JRadioButton("Chambre n° : " + ch.num);
             RadioButton.setActionCommand(ch.num + ";" + ch.nbrPlaces + ";" + ch.prix);
+            RadioButton.addActionListener(new RadioButtonListener(modifChInConsultCh));
 
             String actionCommand;
             for (Option o : ch.listOption) {
@@ -147,6 +148,7 @@ public class GestionChambre extends JPanel{
         paneScrollConsultCh.setPreferredSize(new Dimension(200, 267));
         titleConsultCh.setTitleJustification(TitledBorder.CENTER);
         paneScrollConsultCh.setBorder(titleConsultCh);
+        paneScrollConsultCh.getVerticalScrollBar().setUnitIncrement(10);
 
         // Ajout du scrollpanel et du bouton au panel
         paneConsultCh.add(BorderLayout.NORTH, paneScrollConsultCh);
@@ -211,10 +213,17 @@ public class GestionChambre extends JPanel{
         modifChInConsultCh.addActionListener(ctrModifCh);
         modifChActionButton.addActionListener(ctrModifCh);
 
+        modifChInConsultCh.setEnabled(false);
+
         ChambreControl ctrAddCh = new ChambreControl(hotel, paneR, addOptionButtonsPane, paneInnerScrollCh, groupCh, numAddChTextField, placesAddChTextField);
         consultChLeftButton.addActionListener(ctrAddCh);
         addChLeftButton.addActionListener(ctrAddCh);
         addChActionButton.addActionListener(ctrAddCh);
+
+        TextFieldListener buttonEnable = new TextFieldListener(numAddChTextField, placesAddChTextField, addChActionButton);
+        addChActionButton.setEnabled(false);
+        numAddChTextField.getDocument().addDocumentListener(buttonEnable);
+        placesAddChTextField.getDocument().addDocumentListener(buttonEnable);
 
         this.add(paneR);
         this.setVisible(true);

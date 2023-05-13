@@ -5,9 +5,9 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
-public class radioButtonListener implements ActionListener {
+public class RadioButtonListener implements ActionListener {
     JButton button;
-    public radioButtonListener(JButton b) {
+    public RadioButtonListener(JButton b) {
         button = b;
     }
     public void actionPerformed(ActionEvent e) {

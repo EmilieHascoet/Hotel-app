@@ -19,6 +19,7 @@ public class ClientControl implements ActionListener{
     Client c;
     Reservation res;
     JLabel prixSej;
+    JButton suppResButton;
     static ButtonGroup resButtonGroup;
 
     public ClientControl(Hotel h, JPanel p, JPanel resP, ButtonGroup clientBG, int i) {hotel=h; pane=p; resInfoPane=resP; clientButtonGroup=clientBG; actionType="SuppRes"; }
@@ -33,7 +34,9 @@ public class ClientControl implements ActionListener{
 
     public ClientControl(Hotel h, JPanel p, JPanel produitP, Reservation r, JLabel prix) { hotel=h; pane=p; produitsPane=produitP; res=r; prixSej=prix; actionType="AddProduits";}
 
-    public ClientControl(Hotel h, JPanel p, JPanel infoP, JPanel sejP, ButtonGroup clientBG) {hotel=h; pane=p; resInfoPane=infoP; sejInfoPane=sejP; clientButtonGroup=clientBG; actionType="Consulter";}
+    public ClientControl(Hotel h, JPanel p, JPanel infoP, JPanel sejP, ButtonGroup clientBG, JButton supp) {
+        hotel=h; pane=p; resInfoPane=infoP; sejInfoPane=sejP; clientButtonGroup=clientBG; suppResButton=supp; actionType="Consulter";
+    }
 
 
     public void actionPerformed(ActionEvent e) {
@@ -58,6 +61,8 @@ public class ClientControl implements ActionListener{
 
                 resInfoPane.removeAll();
                 sejInfoPane.removeAll();
+
+                suppResButton.setEnabled(false);
                 for (Reservation res : c.listRes) {
                     String dateDebStr = formatter.format(res.dateDeb);
                     String dateFinStr = formatter.format(res.dateFin);
@@ -65,6 +70,7 @@ public class ClientControl implements ActionListener{
                     if (c.sejour == null) {
                         JRadioButton infoRes = new JRadioButton("Du " + dateDebStr + " au " + dateFinStr);
                         infoRes.setActionCommand(res.id + "");
+                        infoRes.addActionListener(new RadioButtonListener(suppResButton));
                         resButtonGroup.add(infoRes);
                         resInfoPane.add(infoRes);      
                     }
@@ -78,6 +84,7 @@ public class ClientControl implements ActionListener{
                         south.add(addProduits);
 
                         sejInfo.setHorizontalAlignment(JLabel.CENTER);
+                        sejPrix.setHorizontalAlignment(JLabel.CENTER);
 
                         JPanel sejProduitsInnerPane = new JPanel();
                         JScrollPane sejProduitsScrollPane = new JScrollPane(sejProduitsInnerPane);
@@ -152,7 +159,7 @@ public class ClientControl implements ActionListener{
         }   
 
         else if (actionType.equals("SuppRes")) {
-            if (clientButtonGroup != null && clientButtonGroup.getSelection() != null) {
+            if (clientButtonGroup != null && clientButtonGroup.getSelection() != null && resButtonGroup.getSelection()!=null) {
                 int confirm = JOptionPane.showConfirmDialog(null, "Êtes-vous sûr de vouloir supprimer ?", "Confirmation de suppression", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
     
                 if (confirm == JOptionPane.YES_OPTION) {
