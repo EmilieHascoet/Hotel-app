@@ -37,7 +37,7 @@ public class EnregistrementsView extends JPanel {
     JPanel paneWest = new JPanel();
     JPanel searchBarArr = new JPanel();
     JButton searchButtonArr = new JButton(resizedIcon);
-    JTextField searchTFArr = new JTextField("Entrez nom, prenom", 20);
+    JTextField searchTFArr = new JTextField("Entrez prenom, nom", 20);
     TitledBorder titleArr = BorderFactory.createTitledBorder("Arrivées");
     JPanel innerScrollArr = new JPanel();
     JScrollPane scrollArr = new JScrollPane(innerScrollArr);
@@ -49,7 +49,7 @@ public class EnregistrementsView extends JPanel {
     JPanel paneEast = new JPanel();
     JPanel searchBarDep = new JPanel();
     JButton searchButtonDep = new JButton(resizedIcon);
-    JTextField searchTFDep = new JTextField("Entrez nom, prenom", 20);
+    JTextField searchTFDep = new JTextField("Entrez prenom, nom", 20);
     TitledBorder titleDep = BorderFactory.createTitledBorder("Departs");
     JPanel innerScrollDep = new JPanel();
     JScrollPane scrollDep = new JScrollPane(innerScrollDep);
@@ -95,7 +95,7 @@ public class EnregistrementsView extends JPanel {
         innerScrollArr.setBorder(new EmptyBorder(10, 5, 0, 0));
         // liste des arrivees prevues aujourd'hui
         for (Reservation res : hotel.arrivees("")) {
-            JRadioButton RadioButton = new JRadioButton(res.client.nom + " " + res.client.prenom);
+            JRadioButton RadioButton = new JRadioButton(res.client.prenom + " " + res.client.nom);
             // instance d'evenement pour rendre le button clickable
             RadioButton.addActionListener(new RadioButtonListener(checkIn));
             RadioButton.addActionListener(new RadioButtonListener(supprimer));
@@ -134,7 +134,7 @@ public class EnregistrementsView extends JPanel {
         innerScrollDep.setBorder(new EmptyBorder(10, 5, 0, 0));
         // Liste des départs prevues aujourd'hui
         for (Sejour sej : hotel.departs("")) {
-            JRadioButton RadioButton = new JRadioButton(sej.reservation.client.nom + " " + sej.reservation.client.prenom);
+            JRadioButton RadioButton = new JRadioButton(sej.reservation.client.prenom + " " + sej.reservation.client.nom);
             // instance d'evenement pour rendre le button clickable
             RadioButton.addActionListener(new RadioButtonListener(facturer));
             RadioButton.setActionCommand(sej.reservation.id+"");

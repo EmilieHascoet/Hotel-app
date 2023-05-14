@@ -136,9 +136,9 @@ public class ReservationsView extends JPanel {
         for (Option opt : hotel.listOption) {
             JCheckBox checkBox = new JCheckBox(opt.type);
             checkBox.setActionCommand(opt.type + " " + opt.prix);
-            ReservationsControl crtOption = new ReservationsControl(hotel, paneInnerScrollCh, listChDispo, 
+            ReservationsControl ctrOption = new ReservationsControl(hotel, paneInnerScrollCh, listChDispo, 
             listFiltre, nbrPlaces, checkBox);
-            checkBox.addActionListener(crtOption);
+            checkBox.addActionListener(ctrOption);
             paneInnerScrollOpt.add(checkBox);
         }
         

@@ -73,9 +73,10 @@ public class EnregistrementsControl implements ActionListener {
                     panel.remove(button);
                     panel.revalidate();
                     panel.repaint();
+                    
                     // Jdialog avec choix des options de séjour
                     JDialog dialog = new JDialog(view.Main.main, "Creation d'un séjour", true);
-                    CheckInView paneCheckIn = new CheckInView(hotel, res.sejour);
+                    CheckInView paneCheckIn = new CheckInView(hotel, res.sejour, dialog);
 
                     dialog.setSize(new Dimension(450,350));
                     dialog.setResizable(false);
