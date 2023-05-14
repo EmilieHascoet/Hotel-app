@@ -174,6 +174,7 @@ public class ClientControl implements ActionListener{
             ReservationsView resPane = new ReservationsView(hotel, c, newRes);
 
             newRes.setSize(new Dimension(700,500));
+            newRes.setResizable(false);
             newRes.setLocationRelativeTo(null);
             newRes.add(resPane);
             newRes.setVisible(true);

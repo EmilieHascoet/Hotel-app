@@ -105,9 +105,7 @@ public class OptionsView extends JPanel {
 
         labelSej.setHorizontalAlignment(JLabel.CENTER);
         labelSej.setForeground(Color.RED);
-        Font font2 = labelSej.getFont();
-        float newSize2 = font2.getSize() + 5;
-        labelSej.setFont(font2.deriveFont(newSize2));
+        labelSej.setFont(font.deriveFont(newSize));
         
         // Design des panels de gauche contenant les bouttons
         paneL1Button.setLayout(new GridLayout(1, 2, 30, 0));

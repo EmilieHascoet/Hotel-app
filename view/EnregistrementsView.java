@@ -162,11 +162,11 @@ public class EnregistrementsView extends JPanel {
         // button rechercher
         EnregistrementsControl ctrSearchArr = new EnregistrementsControl(hotel, searchTFArr, innerScrollArr, checkIn, supprimer);
         searchButtonArr.addActionListener(ctrSearchArr);
-        EnregistrementsControl ctrSearchDep = new EnregistrementsControl(hotel, searchTFDep, innerScrollDep, facturer);
+        EnregistrementsControl ctrSearchDep = new EnregistrementsControl(hotel, searchTFDep, innerScrollDep, facturer, null);
         searchButtonDep.addActionListener(ctrSearchDep);
 
         // button check in
-        EnregistrementsControl ctrCheckIn = new EnregistrementsControl(hotel, groupArr, innerScrollArr);
+        EnregistrementsControl ctrCheckIn = new EnregistrementsControl(hotel, groupArr, innerScrollArr, checkIn, supprimer);
         checkIn.addActionListener(ctrCheckIn);
     }
 }
