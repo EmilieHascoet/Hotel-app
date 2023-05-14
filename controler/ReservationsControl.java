@@ -223,8 +223,6 @@ public class ReservationsControl implements ActionListener {
                     null, options, options[0]);
                     
                     if (userChoice == JOptionPane.YES_OPTION) {
-                        // Ajout de l'argent de la caution à l'hotel
-                        hotel.credit(res.getCaution());
                         MainPage.profit.setText("Profit : " + hotel.getProfit());
                         // ferme la fenêtre
                         dialog.dispose();

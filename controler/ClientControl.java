@@ -155,7 +155,6 @@ public class ClientControl implements ActionListener{
 
             clientButtonGroup.add(newClientRadioButton);
             clientGroupPane.add(newClientRadioButton);
-            
         }   
 
         else if (actionType.equals("SuppRes")) {
@@ -165,6 +164,7 @@ public class ClientControl implements ActionListener{
                 if (confirm == JOptionPane.YES_OPTION) {
                     Reservation resToSupp = c.searchRes(Integer.parseInt(resButtonGroup.getSelection().getActionCommand()));
                     c.suppRes(resToSupp);
+                    MainPage.profit.setText("Profit : " + hotel.getProfit());
                 }
             }
         } 

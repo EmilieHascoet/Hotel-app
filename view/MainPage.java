@@ -33,7 +33,7 @@ public class MainPage extends JFrame {
     // Crée les label
     titre = new JLabel("Enregistrements");
     titre.setForeground(Color.red);
-    profit = new JLabel("Profit : 0");
+    profit = new JLabel("Profit : " + hotel.getProfit());
     profit.setBorder(new EmptyBorder(0,0,0,10));
     // Ajoute le menu et les labels au barre de menu
     menubar.add(menu);

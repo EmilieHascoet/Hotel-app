@@ -76,10 +76,10 @@ public class EnregistrementsControl implements ActionListener {
                     Reservation res = hotel.searchRes(id);
                     System.out.println(res);
                     hotel.check_in(res);
+                    // remove button
                     panel.remove(button);
                     panel.revalidate();
                     panel.repaint();
-                    // remove panel
                 }
             }
         }
