@@ -6,9 +6,10 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
-class MainPage extends JFrame {
+public class MainPage extends JFrame {
   JMenuItem e1, e2, e3, e4;
-  JLabel titre, gain;
+  JLabel titre;
+  public static JLabel profit;
   Hotel hotel;
   MainPage(Hotel h) {
     hotel = h;
@@ -32,14 +33,14 @@ class MainPage extends JFrame {
     // Crée les label
     titre = new JLabel("Enregistrements");
     titre.setForeground(Color.red);
-    gain = new JLabel("Gain : 0");
-    gain.setBorder(new EmptyBorder(0,0,0,10));
+    profit = new JLabel("Profit : 0");
+    profit.setBorder(new EmptyBorder(0,0,0,10));
     // Ajoute le menu et les labels au barre de menu
     menubar.add(menu);
     menubar.add(Box.createHorizontalGlue());
     menubar.add(titre);
     menubar.add(Box.createHorizontalGlue());
-    menubar.add(gain);
+    menubar.add(profit);
 
     // Récupère le panel de base et ajoute le panel enregistrements
     Container c = this.getContentPane();

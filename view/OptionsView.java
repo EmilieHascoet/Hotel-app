@@ -35,7 +35,7 @@ public class OptionsView extends JPanel {
     // consulter chambre
     JPanel paneConsultCh = new JPanel();
     TitledBorder titleConsultCh = BorderFactory.createTitledBorder("Liste des options de chambre");
-    CompoundBorder borderConsultCh = BorderFactory.createCompoundBorder(titleConsultCh, padding);
+    CompoundBorder borderConsultCh = BorderFactory.createCompoundBorder(padding, titleConsultCh);
     JPanel paneInnerScrollCh = new JPanel();
     ButtonGroup groupCh = new ButtonGroup();
     JButton modifChInConsultCh = new JButton("Modifier");
@@ -62,8 +62,8 @@ public class OptionsView extends JPanel {
 
     // consulter sejours
     JPanel paneConsultSej = new JPanel();
-    TitledBorder titleConsultSej = BorderFactory.createTitledBorder("Liste des options de séjour");
-    CompoundBorder borderConsultSej = BorderFactory.createCompoundBorder(titleConsultSej, padding);
+    TitledBorder titleConsultSej = BorderFactory.createTitledBorder("Liste des options de chambre");
+    CompoundBorder borderConsultSej = BorderFactory.createCompoundBorder(padding, titleConsultSej);
     JPanel paneInnerScrollSej = new JPanel();
     ButtonGroup groupSej = new ButtonGroup();
     JButton modifSejInConsultSej = new JButton("Modifier");
@@ -160,7 +160,8 @@ public class OptionsView extends JPanel {
 
         // PANEL CONSULTER OPTIONS CHAMBRE
         paneConsultCh.setLayout(new BorderLayout());
-        paneConsultCh.setBorder(new EmptyBorder(15, 20, 15, 20));
+        titleConsultCh.setTitleJustification(TitledBorder.CENTER);
+        paneConsultCh.setBorder(borderConsultCh);
         // Récupère la liste des options de chambres et les affiche dans le scrollpanel
         paneInnerScrollCh.setLayout(new BoxLayout(paneInnerScrollCh, BoxLayout.Y_AXIS));
         for (Option o : hotel.listOption) {
@@ -173,11 +174,10 @@ public class OptionsView extends JPanel {
         }
         // Crée le scroll panel 
         JScrollPane paneScrollConsultCh = new JScrollPane(paneInnerScrollCh);
-        paneScrollConsultCh.setPreferredSize(new Dimension(200, 267));
-        titleConsultCh.setTitleJustification(TitledBorder.CENTER);
-        paneScrollConsultCh.setBorder(borderConsultCh);
+        paneScrollConsultCh.getVerticalScrollBar().setUnitIncrement(10);
+        paneScrollConsultCh.setBorder(null);
         // Ajout du scrollpanel et du bouton au panel
-        paneConsultCh.add(BorderLayout.NORTH, paneScrollConsultCh);
+        paneConsultCh.add(BorderLayout.CENTER, paneScrollConsultCh);
         paneConsultCh.add(BorderLayout.SOUTH, modifChInConsultCh);
         // Le bouton n'est pas clickable si aucun radio button n'est selectionné
         modifChInConsultCh.setEnabled(false);
@@ -217,7 +217,8 @@ public class OptionsView extends JPanel {
 
         // PANEL CONSULTER OPTIONS SEJOURS
         paneConsultSej.setLayout(new BorderLayout());
-        paneConsultSej.setBorder(new EmptyBorder(15, 20, 15, 20));
+        titleConsultSej.setTitleJustification(TitledBorder.CENTER);
+        paneConsultSej.setBorder(borderConsultSej);
         // Récupère la liste des options de sejour et les affiche dans le scrollpanel
         paneInnerScrollSej.setLayout(new BoxLayout(paneInnerScrollSej, BoxLayout.Y_AXIS));
         for (Produit p : hotel.listProd) {
@@ -229,14 +230,13 @@ public class OptionsView extends JPanel {
         }
         // Crée le scroll panel 
         JScrollPane paneScrollConsultSej = new JScrollPane(paneInnerScrollSej);
-        paneScrollConsultSej.setPreferredSize(new Dimension(200, 267));
-        titleConsultSej.setTitleJustification(TitledBorder.CENTER);
-        paneScrollConsultSej.setBorder(borderConsultSej);
+        paneScrollConsultSej.getVerticalScrollBar().setUnitIncrement(10);
+        paneScrollConsultSej.setBorder(null);
+        // Ajout du scrollpanel et du bouton au panel
+        paneConsultSej.add(BorderLayout.CENTER, paneScrollConsultSej);
+        paneConsultSej.add(BorderLayout.SOUTH, modifSejInConsultSej);
         // Le bouton n'est pas clickable si aucun radio button n'est selectionné
         modifSejInConsultSej.setEnabled(false);
-        // Ajout du scrollpanel et du bouton au panel
-        paneConsultSej.add(BorderLayout.NORTH, paneScrollConsultSej);
-        paneConsultSej.add(BorderLayout.SOUTH, modifSejInConsultSej);
 
         // PANEL MODIFIER OPTION SEJOUR
         paneModifSej.setLayout(new BorderLayout());

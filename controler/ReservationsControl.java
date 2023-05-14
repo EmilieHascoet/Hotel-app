@@ -1,5 +1,6 @@
 package controler;
 import model.*;
+import view.*;
 
 import java.util.Date;
 import java.util.Vector;
@@ -199,17 +200,38 @@ public class ReservationsControl implements ActionListener {
                     JOptionPane.ERROR_MESSAGE);
                 }
                 else {
+                    // ajout de la reservation au model
                     hotel.addRes(res, client);
                     // Change le format des dates pour l'affichage
                     SimpleDateFormat formatter = new SimpleDateFormat("EEEE dd MMMM yyyy");
                     String dateDebStr = formatter.format(res.dateDeb);
                     String dateFinStr = formatter.format(res.dateFin);
-                    JOptionPane.showMessageDialog(frame,"La reservation a été crée :\nClient : " 
-                    + client.nom + " " + client.prenom 
-                    + "\nDate : du " + dateDebStr + " au " + dateFinStr + "\n"+ 
-                    "\nChambres : " + chambresStr);
-                    // ferme la fenêtre
-                    dialog.dispose();
+                    
+                    String message = "Détails de la réservation :\nClient : " 
+                    + client.nom + " " + client.prenom + 
+                    "\nDate : du " + dateDebStr + " au " + dateFinStr + 
+                    "\nChambres : " + chambresStr + "\n\nLa caution s'élève à " + res.getCaution() + "€" +
+                    "\nVous pouvez annuler la réservation jusqu'à la dernière minute et vous serez rembourser." +
+                    "\nSouhaitez vous payer la caution ou annuler la réservation ?";
+                    
+                    int optionType = JOptionPane.YES_NO_OPTION;
+                    int messageType = JOptionPane.QUESTION_MESSAGE;
+                    Object[] options = {"Payer", "Annuler"};
+                    String title = "Confirmation";
+                    
+                    int userChoice = JOptionPane.showOptionDialog(null, message, title, optionType, messageType,
+                    null, options, options[0]);
+                    
+                    if (userChoice == JOptionPane.YES_OPTION) {
+                        // Ajout de l'argent de la caution à l'hotel
+                        hotel.credit(res.getCaution());
+                        MainPage.profit.setText("Profit : " + hotel.getProfit());
+                        // ferme la fenêtre
+                        dialog.dispose();
+                    } else {
+                        // Supprime la reservation
+                        hotel.suppRes(res);
+                    }
                 }
             }
         }

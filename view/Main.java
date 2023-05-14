@@ -41,6 +41,26 @@ public class Main {
         hotel.addOption(o2);
         hotel.addOption(o3);
         hotel.addOption(o4);
+        hotel.addOption(o1);
+        hotel.addOption(o2);
+        hotel.addOption(o3);
+        hotel.addOption(o4);
+        hotel.addOption(o1);
+        hotel.addOption(o2);
+        hotel.addOption(o3);
+        hotel.addOption(o4);
+        hotel.addOption(o1);
+        hotel.addOption(o2);
+        hotel.addOption(o3);
+        hotel.addOption(o4);
+        hotel.addOption(o1);
+        hotel.addOption(o2);
+        hotel.addOption(o3);
+        hotel.addOption(o4);
+        hotel.addOption(o1);
+        hotel.addOption(o2);
+        hotel.addOption(o3);
+        hotel.addOption(o4);
 
         // CHAMBRES
         Chambre ch1 = new Chambre("101", 6);
