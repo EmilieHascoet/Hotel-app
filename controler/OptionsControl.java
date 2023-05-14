@@ -59,14 +59,10 @@ public class OptionsControl implements ActionListener {
                         newPrix = priceTF.getText();
                         // modifie le model
                         if (typeAction.startsWith("modifyCh")) {
-                            System.out.println("Option" + oldType + " " +oldPrix);
-                            System.out.println(newType + " " + newPrix);
                             option = hotel.searchOption(oldType, Double.parseDouble(oldPrix));
                             hotel.changeOption(option, newType, Double.parseDouble(newPrix));
                         }
                         else {
-                            System.out.println("Produit" + oldType + " " +oldPrix);
-                            System.out.println(newType + " " + newPrix);
                             produit = hotel.searchProd(oldType, Double.parseDouble(oldPrix));
                             hotel.changeProd(produit, newType, Double.parseDouble(newPrix));
                         }

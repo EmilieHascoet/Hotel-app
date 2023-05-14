@@ -74,7 +74,6 @@ public class EnregistrementsControl implements ActionListener {
                 if (button.isSelected()) {
                     int id = Integer.parseInt(button.getActionCommand());
                     Reservation res = hotel.searchRes(id);
-                    System.out.println(res);
                     hotel.check_in(res);
                     // remove button
                     panel.remove(button);
