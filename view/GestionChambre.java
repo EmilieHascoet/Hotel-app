@@ -131,14 +131,9 @@ public class GestionChambre extends JPanel{
         paneInnerScrollCh.setLayout(new BoxLayout(paneInnerScrollCh, BoxLayout.Y_AXIS));
         for (Chambre ch : hotel.listChambre) {
             JRadioButton RadioButton = new JRadioButton("Chambre n° : " + ch.num);
-            RadioButton.setActionCommand(ch.num + ";" + ch.nbrPlaces + ";" + ch.prix);
+            RadioButton.setActionCommand(ch.num);
             RadioButton.addActionListener(new RadioButtonListener(modifChInConsultCh));
 
-            String actionCommand;
-            for (Option o : ch.listOption) {
-                actionCommand = RadioButton.getActionCommand();
-                RadioButton.setActionCommand(actionCommand + ";" + o.type + ";" + o.prix);
-            }
             groupCh.add(RadioButton);
             paneInnerScrollCh.add(RadioButton);
         }
@@ -215,7 +210,7 @@ public class GestionChambre extends JPanel{
 
         modifChInConsultCh.setEnabled(false);
 
-        ChambreControl ctrAddCh = new ChambreControl(hotel, paneR, addOptionButtonsPane, paneInnerScrollCh, groupCh, numAddChTextField, placesAddChTextField);
+        ChambreControl ctrAddCh = new ChambreControl(hotel, paneR, addOptionButtonsPane, paneInnerScrollCh, groupCh, numAddChTextField, placesAddChTextField, modifChInConsultCh);
         consultChLeftButton.addActionListener(ctrAddCh);
         addChLeftButton.addActionListener(ctrAddCh);
         addChActionButton.addActionListener(ctrAddCh);
