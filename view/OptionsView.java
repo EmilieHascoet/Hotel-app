@@ -62,7 +62,7 @@ public class OptionsView extends JPanel {
 
     // consulter sejours
     JPanel paneConsultSej = new JPanel();
-    TitledBorder titleConsultSej = BorderFactory.createTitledBorder("Liste des options de chambre");
+    TitledBorder titleConsultSej = BorderFactory.createTitledBorder("Liste des options de séjour");
     CompoundBorder borderConsultSej = BorderFactory.createCompoundBorder(titleConsultSej, padding);
     JPanel paneInnerScrollSej = new JPanel();
     ButtonGroup groupSej = new ButtonGroup();

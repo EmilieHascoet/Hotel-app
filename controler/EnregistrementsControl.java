@@ -43,8 +43,8 @@ public class EnregistrementsControl implements ActionListener {
             for (Reservation res : hotel.arrivees(textField.getText())) {
                 JRadioButton RadioButton = new JRadioButton(res.client.nom + " " + res.client.prenom);
                 // instance d'evenement pour rendre le button clickable
-                RadioButton.addActionListener(new radioButtonListener(button1));
-                RadioButton.addActionListener(new radioButtonListener(button2));
+                RadioButton.addActionListener(new RadioButtonListener(button1));
+                RadioButton.addActionListener(new RadioButtonListener(button2));
                 RadioButton.setActionCommand(res.id+"");
                 panel.add(RadioButton);
             }
@@ -61,7 +61,7 @@ public class EnregistrementsControl implements ActionListener {
             for (Sejour sej : hotel.departs(textField.getText())) {
                 JRadioButton RadioButton = new JRadioButton(sej.reservation.client.nom + " " + sej.reservation.client.prenom);
                 // instance d'evenement pour rendre le button clickable
-                RadioButton.addActionListener(new radioButtonListener(button1));
+                RadioButton.addActionListener(new RadioButtonListener(button1));
                 RadioButton.setActionCommand(sej.reservation.id+"");
                 panel.add(RadioButton);
             }

@@ -96,8 +96,8 @@ public class EnregistrementsView extends JPanel {
         for (Reservation res : hotel.arrivees("")) {
             JRadioButton RadioButton = new JRadioButton(res.client.nom + " " + res.client.prenom);
             // instance d'evenement pour rendre le button clickable
-            RadioButton.addActionListener(new radioButtonListener(checkIn));
-            RadioButton.addActionListener(new radioButtonListener(supprimer));
+            RadioButton.addActionListener(new RadioButtonListener(checkIn));
+            RadioButton.addActionListener(new RadioButtonListener(supprimer));
             RadioButton.setActionCommand(res.id+"");
 
             groupArr.add(RadioButton);
@@ -134,7 +134,7 @@ public class EnregistrementsView extends JPanel {
         for (Sejour sej : hotel.departs("")) {
             JRadioButton RadioButton = new JRadioButton(sej.reservation.client.nom + " " + sej.reservation.client.prenom);
             // instance d'evenement pour rendre le button clickable
-            RadioButton.addActionListener(new radioButtonListener(facturer));
+            RadioButton.addActionListener(new RadioButtonListener(facturer));
             RadioButton.setActionCommand(sej.reservation.id+"");
             groupDep.add(RadioButton);
             innerScrollDep.add(RadioButton);
