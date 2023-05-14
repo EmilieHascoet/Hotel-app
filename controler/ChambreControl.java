@@ -17,11 +17,12 @@ public class ChambreControl implements ActionListener {
     String[] splitedText;
     JTextField num, places, price;
     String typeAction;
+    JButton modifButton;
 
     public ChambreControl(JPanel p) { pane=p; }
 
-    public ChambreControl(Hotel h, JPanel p, JPanel cb, JPanel gp, ButtonGroup g, JTextField n, JTextField pl) { 
-        hotel = h; pane = p; checkBoxPane=cb; groupPane=gp; group=g; num = n; places=pl; typeAction="ajouter";
+    public ChambreControl(Hotel h, JPanel p, JPanel cb, JPanel gp, ButtonGroup g, JTextField n, JTextField pl, JButton b) { 
+        hotel = h; pane = p; checkBoxPane=cb; groupPane=gp; group=g; num = n; places=pl; modifButton=b; typeAction="ajouter";
     }
 
     public ChambreControl(Hotel h, JPanel p, JPanel cb, JPanel info, ButtonGroup g, JTextField n, JTextField pl, JTextField pr) { 
@@ -35,111 +36,129 @@ public class ChambreControl implements ActionListener {
         card.show(pane, name);
 
         if (typeAction.equals("ajouter")) {
-
             String text = ((JButton)e.getSource()).getText();
+
             if (text.equals("Ajouter !")) {
-                String numText = num.getText();
-                String placesText = places.getText();
-                Component[] checkBoxs = checkBoxPane.getComponents();
 
-                num.setText("");
-                places.setText("");
+                if (hotel.listChambre.contains(hotel.searchChamber(num.getText()))) {
+                    card.show(pane, "addCh");
+                    JOptionPane.showMessageDialog(null, "Veuillez saisir un autre numéro de chambre", "Chambre déjà existante", JOptionPane.ERROR_MESSAGE);
+                }
+                else {
+                    //Gestion des éventuelles erreurs
+                    String numText = num.getText();
+                    String placesText = places.getText();
 
-                if (numText.length() > 0 && placesText.length() > 0) {
-                    //convertir String en int
-                    String numInt = numText;
+                    try { Integer.parseInt(numText); }
+                    catch (NumberFormatException nE) {
+                        card.show(pane, "addCh");
+                        JOptionPane.showMessageDialog(null, "Veuillez saisir un entier", "Numéro de chambre invalide", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+ 
+                    try { Integer.parseInt(placesText); }
+                    catch (NumberFormatException nE) {
+                        card.show(pane, "addCh");
+                        JOptionPane.showMessageDialog(null, "Veuillez saisir un entier", "Nombre de places invalide", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+    
+                    num.setText("");
+                    places.setText("");
                     int placesInt = Integer.parseInt(placesText);
-
+    
                     //Pour le model
-                    Chambre newCh = new Chambre(numInt, placesInt);
+                    Chambre newCh = new Chambre(numText, placesInt);
                     hotel.addChambre(newCh);
-
+    
                     //Pour l'affichage
-                    JRadioButton RadioButton = new JRadioButton("Chambre n° : " + newCh.num);
-                    RadioButton.setActionCommand(newCh.num + ";" + newCh.nbrPlaces + ";" + newCh.prix);
-                    group.add(RadioButton);
-                    groupPane.add(RadioButton);
-
+                    JRadioButton newChRadioButton = new JRadioButton("Chambre n° : " + newCh.num);
+                    newChRadioButton.setActionCommand(newCh.num);
+                    newChRadioButton.addActionListener(new RadioButtonListener(modifButton));
+                    group.add(newChRadioButton);
+                    groupPane.add(newChRadioButton);
+    
+                    Component[] checkBoxs = checkBoxPane.getComponents();
                     for (Component c : checkBoxs) {
                         JCheckBox tmp = (JCheckBox)c;
                         if (tmp.isSelected()) {
                             splitedText = tmp.getActionCommand().split(";");
-
+    
                             Option newOpt = new Option(splitedText[0], Double.parseDouble(splitedText[1]));
                             newCh.addOption(newOpt);
-
-                            String actionCommand = RadioButton.getActionCommand();
-                            RadioButton.setActionCommand(actionCommand + ";" + splitedText[0] + ";" + splitedText[1]);
-
+    
                             tmp.setSelected(false);
                         }
                     }
-
                 }
+                
+
+                
             }
         }
 
         if (typeAction.equals("modifier")) {
             String text = ((JButton)e.getSource()).getText();
-            if (text.equals("Modifier")) {
-                if (group != null && group.getSelection() != null) {
-                    // Trouve le RadioButton selectionné et récupère ses données
-                    text = group.getSelection().getActionCommand();
-                    splitedText = text.split(";");
-                    num.setText(splitedText[0]);
-                    places.setText(splitedText[1]);
-                    price.setText(splitedText[2]);
     
+            // Trouve la chambre correspondant au RadioButton sélectionné
+            String numChToEdit = group.getSelection().getActionCommand();
+            Chambre chToEdit = hotel.searchChamber(numChToEdit);
+
+            if (text.equals("Modifier")) {
+                    num.setText(chToEdit.num);
+                    places.setText(chToEdit.nbrPlaces + "");
+                    price.setText(chToEdit.prix + "");
+
+                    num.setEnabled(false);
                     //Pour afficher les options
                     infoChOption.removeAll();
     
                     for (Option o : hotel.listOption) {
                         JCheckBox tmp = new JCheckBox(o.type + ", " + o.prix + "€");
                         tmp.setActionCommand(o.type + ";" + o.prix);
-                        for (int i=3; i<splitedText.length; i+=2) {
-                            if (splitedText[i].equals(o.type)) tmp.setSelected(true); 
+                        for (Option op : chToEdit.listOption) {
+                            if (o.type.equals(op.type)) tmp.setSelected(true); 
                         } 
                         infoChOption.add(tmp);
                     }
-                }
+                
             }
 
             if (text.equals("Modifier !")) {
                 ButtonModel chButton = group.getSelection();
-                text = group.getSelection().getActionCommand();
-                splitedText = text.split(";");
-
                 //Mettre la méthode searchChambre dans Hotel
-                for (Chambre ch : hotel.listChambre) {
-                    if (ch.num == splitedText[0]) {
-                        ch.nbrPlaces = Integer.parseInt(places.getText());
-                        ch.prix = Double.parseDouble(price.getText());
-                        ch.listOption.removeAllElements();
+                try { Integer.parseInt(places.getText()); }
+                catch (NumberFormatException nE) {
+                    card.show(pane, "modifCh");
+                    JOptionPane.showMessageDialog(null, "Veuillez saisir un entier", "Nombre de places invalide", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
 
-                        chButton.setActionCommand(ch.num + ";" + ch.nbrPlaces + ";" + ch.prix);
+                try { Double.parseDouble(price.getText()); }
+                catch (NumberFormatException nE) {
+                    card.show(pane, "modifCh");
+                    JOptionPane.showMessageDialog(null, "Veuillez saisir un entier ou un double", "Prix invalide", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
 
-                        Component[] checkBoxs = infoChOption.getComponents();
-                        for (Component c : checkBoxs) {
-                            
-                            JCheckBox tmp = (JCheckBox)c;
-                            if (tmp.isSelected()) {
-                                
-                                splitedText = tmp.getActionCommand().split(";");
-    
-                                Option newOpt = new Option(splitedText[0], Double.parseDouble(splitedText[1]));
-                                ch.addOption(newOpt);
-    
-                                String actionCommand = chButton.getActionCommand();
-                                chButton.setActionCommand(actionCommand + ";" + splitedText[0] + ";" + splitedText[1]);
-                                
-                            }
+                chToEdit.nbrPlaces = Integer.parseInt(places.getText());
+                chToEdit.prix = Double.parseDouble(price.getText());
+                chToEdit.listOption.removeAllElements();
 
-                        }
+                chButton.setActionCommand(chToEdit.num);
+
+                Component[] checkBoxs = infoChOption.getComponents();
+                for (Component c : checkBoxs) { 
+                    JCheckBox optionCheckBox = (JCheckBox)c;
+                    if (optionCheckBox.isSelected()) {
+                        
+                        splitedText = optionCheckBox.getActionCommand().split(";");
+
+                        Option newOpt = new Option(splitedText[0], Double.parseDouble(splitedText[1]));
+                        chToEdit.addOption(newOpt);                  
                     }
                 }
             }
-        }
-        
-        
+        } 
     }
 }

@@ -139,6 +139,13 @@ public class ClientControl implements ActionListener{
             String lastNameText = lastName.getText();
             String telText = tel.getText();
 
+            try { Integer.parseInt(telText); }
+            catch (NumberFormatException nE) {
+                card.show(pane, "Ajouter");
+                JOptionPane.showMessageDialog(null, "Veuillez saisir un entier", "Numéro de téléphone invalide", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
             firstName.setText("");
             lastName.setText("");
             tel.setText("");
