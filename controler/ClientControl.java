@@ -67,7 +67,7 @@ public class ClientControl implements ActionListener{
                     String dateDebStr = formatter.format(res.dateDeb);
                     String dateFinStr = formatter.format(res.dateFin);
 
-                    if (c.sejour == null) {
+                    if (res.sejour == null) {
                         JRadioButton infoRes = new JRadioButton("Du " + dateDebStr + " au " + dateFinStr);
                         infoRes.setActionCommand(res.id + "");
                         infoRes.addActionListener(new RadioButtonListener(suppResButton));

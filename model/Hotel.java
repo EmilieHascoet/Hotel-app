@@ -5,7 +5,7 @@ import java.text.*;
 
 public class Hotel {
 	//Attributes
-    public double gain=0;
+    private double profit=0;
 
     public Vector<Chambre> listChambre = new Vector<Chambre>();
     public Vector<Client> listClient = new Vector<Client>();;
@@ -14,7 +14,10 @@ public class Hotel {
     public Vector<Produit> listProd = new Vector<Produit>();
     public Vector<Option> listOption = new Vector<Option>();
 
-    //Methods
+    //Methods hotel
+	public void debit(double money) { profit -= money; }
+	public void credit(double money) { profit += money; }
+	public double getProfit() { return profit; }
     public void addChambre(Chambre ch) { listChambre.add(ch); }
     public void addClient(Client c) { listClient.add(c); }
     public void addRes(Reservation res, Client c) { 

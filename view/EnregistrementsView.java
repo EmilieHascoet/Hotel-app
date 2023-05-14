@@ -90,6 +90,7 @@ public class EnregistrementsView extends JPanel {
         // scroll panel des arrivants
         scrollArr.setBorder(titleArr);
         scrollArr.setPreferredSize(new Dimension(100, 300));
+        scrollArr.getVerticalScrollBar().setUnitIncrement(10);
         innerScrollArr.setLayout(new BoxLayout(innerScrollArr, BoxLayout.Y_AXIS));
         innerScrollArr.setBorder(new EmptyBorder(10, 5, 0, 0));
         // liste des arrivees prevues aujourd'hui
@@ -128,6 +129,7 @@ public class EnregistrementsView extends JPanel {
         // scroll panel des départs
         scrollDep.setBorder(titleDep);
         scrollDep.setPreferredSize(new Dimension(100, 300));
+        scrollDep.getVerticalScrollBar().setUnitIncrement(10);
         innerScrollDep.setLayout(new BoxLayout(innerScrollDep, BoxLayout.Y_AXIS));
         innerScrollDep.setBorder(new EmptyBorder(10, 5, 0, 0));
         // Liste des départs prevues aujourd'hui

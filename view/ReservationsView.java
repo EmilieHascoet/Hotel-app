@@ -129,6 +129,7 @@ public class ReservationsView extends JPanel {
         paneInnerScrollOpt.setLayout(new BoxLayout(paneInnerScrollOpt, BoxLayout.Y_AXIS));
         paneInnerScrollOpt.setBorder(new EmptyBorder(10, 5, 0, 0));
         paneScrollOptions.setPreferredSize(new Dimension(160, 200));
+        paneScrollOptions.getVerticalScrollBar().setUnitIncrement(10);
         paneScrollOptions.setBorder(titleOptions);
         
         // Ajout des options dans le "panel scroll"
@@ -177,6 +178,7 @@ public class ReservationsView extends JPanel {
         // Définition du LayoutManager du panel
         paneCenter.setLayout(new BoxLayout(paneCenter, BoxLayout.Y_AXIS));
         paneScrollCh.setBorder(null);
+        paneScrollCh.getVerticalScrollBar().setUnitIncrement(10);
         paneInnerScrollCh.setLayout(new GridLayout(listChDispo.size()/2+1, 2, 20, 20));
         paneInnerScrollCh.setBorder(padding30);
 
