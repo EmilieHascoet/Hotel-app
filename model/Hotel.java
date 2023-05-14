@@ -15,8 +15,6 @@ public class Hotel {
     public Vector<Option> listOption = new Vector<Option>();
 
     //Methods hotel
-	public void debit(double money) { profit -= money; }
-	public void credit(double money) { profit += money; }
 	public double getProfit() { return profit; }
     public void addChambre(Chambre ch) { listChambre.add(ch); }
     public void addClient(Client c) { listClient.add(c); }
@@ -32,11 +30,15 @@ public class Hotel {
 			ch.addRes(res);
 		}
 		res.prix = prix;
+		// Ajout de l'argent de la caution à l'hotel
+		profit += res.getCaution();
 	}
     public void addProduit(Produit p) { listProd.add(p); }
     public void addOption(Option o) { listOption.add(o); }
     
     public void suppRes(Reservation res) { 
+		// Rend l'argent de la caution au client
+		profit -= res.getCaution();
 		listRes.remove(res); res.client.suppRes(res);
 		for (Chambre ch : res.listChambre) {
 			ch.addRes(res);

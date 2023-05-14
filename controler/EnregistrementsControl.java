@@ -1,5 +1,6 @@
 package controler;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Enumeration;
@@ -7,6 +8,7 @@ import java.util.Enumeration;
 import javax.swing.*;
 
 import model.*;
+import view.CheckInView;
 
 public class EnregistrementsControl implements ActionListener {
     Hotel hotel;
@@ -19,21 +21,18 @@ public class EnregistrementsControl implements ActionListener {
     public EnregistrementsControl(Hotel h, JTextField tf, JPanel p, JButton b1, JButton b2) {
         hotel = h; textField = tf; panel = p; button1 = b1; button2 = b2;
     }
-    public EnregistrementsControl(Hotel h, JTextField tf, JPanel p, JButton b1) {
-        hotel = h; textField = tf; panel = p; button1 = b1;
-    }
-    // Constructeur check in
-    public EnregistrementsControl(Hotel h, ButtonGroup g, JPanel p) {
-        hotel = h; group = g; panel = p;
+    // Constructeur check in et check out
+    public EnregistrementsControl(Hotel h, ButtonGroup g, JPanel p, JButton b1, JButton b2) {
+        hotel = h; group = g; panel = p; button1 = b1; button2 = b2;
     }
 
     public void actionPerformed(ActionEvent e) {
-        if (((JButton)e.getSource()).getName() == null) {
-            nameButton = ((JButton)e.getSource()).getText();
-        }
-        else {
-            nameButton = ((JButton)e.getSource()).getName();
-        }
+        // désacive les boutons
+        button1.setEnabled(false);
+        if (button2 != null) { button2.setEnabled(false); }
+        // Récupère le nom du bouton
+        if (((JButton)e.getSource()).getName() == null) { nameButton = ((JButton)e.getSource()).getText(); }
+        else { nameButton = ((JButton)e.getSource()).getName(); }
         if (nameButton.equals("arrivees")) {
             // Vide le conteneur
             panel.removeAll();
@@ -48,9 +47,6 @@ public class EnregistrementsControl implements ActionListener {
                 RadioButton.setActionCommand(res.id+"");
                 panel.add(RadioButton);
             }
-            // désacive les boutons
-            button1.setEnabled(false);
-            button2.setEnabled(false);
         }
         if (nameButton.equals("departs")) {
             // Vide le conteneur
@@ -65,8 +61,6 @@ public class EnregistrementsControl implements ActionListener {
                 RadioButton.setActionCommand(sej.reservation.id+"");
                 panel.add(RadioButton);
             }
-            // désactive le bouton
-            button1.setEnabled(false);
         }
         if (nameButton.equals("Check-in")) {
             for (Enumeration<AbstractButton> buttons = group.getElements(); buttons.hasMoreElements();) {
@@ -74,12 +68,21 @@ public class EnregistrementsControl implements ActionListener {
                 if (button.isSelected()) {
                     int id = Integer.parseInt(button.getActionCommand());
                     Reservation res = hotel.searchRes(id);
-                    System.out.println(res);
                     hotel.check_in(res);
+                    // remove button
                     panel.remove(button);
                     panel.revalidate();
                     panel.repaint();
-                    // remove panel
+                    
+                    // Jdialog avec choix des options de séjour
+                    JDialog dialog = new JDialog(view.Main.main, "Creation d'un séjour", true);
+                    CheckInView paneCheckIn = new CheckInView(hotel, res.sejour, dialog);
+
+                    dialog.setSize(new Dimension(450,350));
+                    dialog.setResizable(false);
+                    dialog.setLocationRelativeTo(null);
+                    dialog.add(paneCheckIn);
+                    dialog.setVisible(true);
                 }
             }
         }

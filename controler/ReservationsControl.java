@@ -23,7 +23,6 @@ public class ReservationsControl implements ActionListener {
     Hotel hotel;
     Client client;
     JDialog dialog;
-    JFrame frame;
     JPanel paneCh;
     JCheckBox checkBox;
     Vector<Chambre> listChDispo, listChSelected;
@@ -147,7 +146,7 @@ public class ReservationsControl implements ActionListener {
     
                 // Affiche un message d'erreur si la date de début excède celle de fin
                 if (ReservationsView.startDate.compareTo(ReservationsView.endDate) >= 0) {
-                    JOptionPane.showMessageDialog(frame,
+                    JOptionPane.showMessageDialog(null,
                     "Veuillez choisir une date de début inférieur à celle de fin.",
                     "Erreur de date !",
                     JOptionPane.ERROR_MESSAGE);
@@ -155,7 +154,7 @@ public class ReservationsControl implements ActionListener {
                 // Affiche un message d'erreur si la date est déjà passé
                 else if (ReservationsView.startDate.compareTo(calendrier.getTime()) < 0) {
                     SimpleDateFormat formatter = new SimpleDateFormat("d MMM yyyy");
-                    JOptionPane.showMessageDialog(frame,
+                    JOptionPane.showMessageDialog(null,
                     "Veuillez choisir une date futur.\nLe " + formatter.format(ReservationsView.startDate) + " est déjà passé",
                     "Erreur de date !",
                     JOptionPane.ERROR_MESSAGE);
@@ -194,7 +193,7 @@ public class ReservationsControl implements ActionListener {
                 }
                 // message d'erreur si reservation contient aucune chambre
                 if (res.listChambre.size() == 0) {
-                    JOptionPane.showMessageDialog(frame,
+                    JOptionPane.showMessageDialog(null,
                     "Vous n'avez selectionné aucune chambre",
                     "Erreur de reservation !",
                     JOptionPane.ERROR_MESSAGE);
@@ -223,8 +222,6 @@ public class ReservationsControl implements ActionListener {
                     null, options, options[0]);
                     
                     if (userChoice == JOptionPane.YES_OPTION) {
-                        // Ajout de l'argent de la caution à l'hotel
-                        hotel.credit(res.getCaution());
                         MainPage.profit.setText("Profit : " + hotel.getProfit());
                         // ferme la fenêtre
                         dialog.dispose();

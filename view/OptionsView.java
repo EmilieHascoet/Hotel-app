@@ -31,7 +31,7 @@ public class OptionsView extends JPanel {
     // panels de droite
     JPanel paneR = new JPanel();
     // padding de 10 pixel
-    EmptyBorder padding = new EmptyBorder(10, 10, 10, 10);
+    EmptyBorder padding = new EmptyBorder(20, 20, 20, 20);
     // consulter chambre
     JPanel paneConsultCh = new JPanel();
     TitledBorder titleConsultCh = BorderFactory.createTitledBorder("Liste des options de chambre");
@@ -105,9 +105,7 @@ public class OptionsView extends JPanel {
 
         labelSej.setHorizontalAlignment(JLabel.CENTER);
         labelSej.setForeground(Color.RED);
-        Font font2 = labelSej.getFont();
-        float newSize2 = font2.getSize() + 5;
-        labelSej.setFont(font2.deriveFont(newSize2));
+        labelSej.setFont(font.deriveFont(newSize));
         
         // Design des panels de gauche contenant les bouttons
         paneL1Button.setLayout(new GridLayout(1, 2, 30, 0));
@@ -184,7 +182,7 @@ public class OptionsView extends JPanel {
 
         // PANEL MODIFIER OPTION CHAMBRE
         paneModifCh.setLayout(new BorderLayout());
-        paneModifCh.setBorder(new EmptyBorder(115, 20, 15, 20));
+        paneModifCh.setBorder(new EmptyBorder(115, 20, 20, 20));
         // Ajout des label et textField au panel formulaire
         paneFormCh.setLayout(new GridLayout(2, 2, 0, 10));
         titleModifCh.setTitleJustification(TitledBorder.CENTER);
@@ -200,7 +198,7 @@ public class OptionsView extends JPanel {
 
         // PANEL AJOUTER OPTION CHAMBRE
         paneAddCh.setLayout(new BorderLayout());
-        paneAddCh.setBorder(new EmptyBorder(115, 20, 15, 20));
+        paneAddCh.setBorder(new EmptyBorder(115, 20, 20, 20));
         // Ajout des label et textField au panel formulaire
         paneFormAddCh.setLayout(new GridLayout(2, 2, 0, 10));
         titleAddCh.setTitleJustification(TitledBorder.CENTER);
@@ -240,7 +238,7 @@ public class OptionsView extends JPanel {
 
         // PANEL MODIFIER OPTION SEJOUR
         paneModifSej.setLayout(new BorderLayout());
-        paneModifSej.setBorder(new EmptyBorder(115, 20, 15, 20));
+        paneModifSej.setBorder(new EmptyBorder(115, 20, 20, 20));
         // Ajout des label et textField au panel formulaire
         paneFormSej.setLayout(new GridLayout(2, 2, 0, 10));
         titleModifSej.setTitleJustification(TitledBorder.CENTER);
@@ -256,7 +254,7 @@ public class OptionsView extends JPanel {
 
         // PANEL AJOUTER OPTION SEJOUR
         paneAddSej.setLayout(new BorderLayout());
-        paneAddSej.setBorder(new EmptyBorder(115, 20, 15, 20));
+        paneAddSej.setBorder(new EmptyBorder(115, 20, 20, 20));
         // Ajout des label et textField au panel formulaire
         paneFormAddSej.setLayout(new GridLayout(2, 2, 0, 10));
         titleAddSej.setTitleJustification(TitledBorder.CENTER);

@@ -162,7 +162,6 @@ public class ClientControl implements ActionListener{
 
             clientButtonGroup.add(newClientRadioButton);
             clientGroupPane.add(newClientRadioButton);
-            
         }   
 
         else if (actionType.equals("SuppRes")) {
@@ -172,6 +171,7 @@ public class ClientControl implements ActionListener{
                 if (confirm == JOptionPane.YES_OPTION) {
                     Reservation resToSupp = c.searchRes(Integer.parseInt(resButtonGroup.getSelection().getActionCommand()));
                     c.suppRes(resToSupp);
+                    MainPage.profit.setText("Profit : " + hotel.getProfit());
                 }
             }
         } 
@@ -181,6 +181,7 @@ public class ClientControl implements ActionListener{
             ReservationsView resPane = new ReservationsView(hotel, c, newRes);
 
             newRes.setSize(new Dimension(700,500));
+            newRes.setResizable(false);
             newRes.setLocationRelativeTo(null);
             newRes.add(resPane);
             newRes.setVisible(true);

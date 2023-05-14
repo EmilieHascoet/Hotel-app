@@ -14,4 +14,5 @@ public class Sejour {
 
     public void setReservation(Reservation res) { reservation = res; }
     public void addProduit(Produit p) { listProduit.add(p); prix+=p.prix; }
+    public void removeProduit(Produit p) { listProduit.remove(p); prix-=p.prix; }
 }
