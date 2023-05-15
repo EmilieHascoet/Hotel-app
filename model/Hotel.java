@@ -16,13 +16,17 @@ public class Hotel {
 
     //Methods hotel
 	public double getProfit() { return profit; }
+	public long diffInDays(Date first, Date second) {
+		long diffInMillies = Math.abs(first.getTime() - second.getTime());
+		long diffInDays = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+		return diffInDays;
+	}
     public void addChambre(Chambre ch) { listChambre.add(ch); }
     public void addClient(Client c) { listClient.add(c); }
     public void addRes(Reservation res, Client c) { 
 		listRes.add(res); res.setClient(c); c.addRes(res);
 		// Calcul le nombe de jours entre la date de début et de fin
-		long diffInMillies = res.dateFin.getTime() - res.dateDeb.getTime();
-		long diffInDays = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+		long diffInDays = diffInDays(res.dateFin, res.dateDeb);
 		//ajoute le prix de chaque chambre au prix du séjour
 		double prix = 0;
 		for (Chambre ch : res.listChambre) {
@@ -36,9 +40,9 @@ public class Hotel {
     public void addProduit(Produit p) { listProd.add(p); }
     public void addOption(Option o) { listOption.add(o); }
     
-    public void suppRes(Reservation res) { 
-		// Rend l'argent de la caution au client
-		profit -= res.getCaution();
+    public void suppRes(Reservation res, double caution) {
+		// Rend l'argent de la caution au client si il l'annule
+		profit -= caution;
 		listRes.remove(res); res.client.suppRes(res);
 		for (Chambre ch : res.listChambre) {
 			ch.addRes(res);

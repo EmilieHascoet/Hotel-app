@@ -170,7 +170,7 @@ public class ClientControl implements ActionListener{
     
                 if (confirm == JOptionPane.YES_OPTION) {
                     Reservation resToSupp = c.searchRes(Integer.parseInt(resButtonGroup.getSelection().getActionCommand()));
-                    c.suppRes(resToSupp);
+                    hotel.suppRes(resToSupp, resToSupp.getCaution());
                     MainPage.profit.setText("Profit : " + hotel.getProfit());
                 }
             }

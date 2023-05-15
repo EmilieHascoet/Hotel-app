@@ -201,14 +201,9 @@ public class ReservationsControl implements ActionListener {
                 else {
                     // ajout de la reservation au model
                     hotel.addRes(res, client);
-                    // Change le format des dates pour l'affichage
-                    SimpleDateFormat formatter = new SimpleDateFormat("EEEE dd MMMM yyyy");
-                    String dateDebStr = formatter.format(res.dateDeb);
-                    String dateFinStr = formatter.format(res.dateFin);
-                    
                     String message = "Détails de la réservation :\nClient : " 
                     + client.nom + " " + client.prenom + 
-                    "\nDate : du " + dateDebStr + " au " + dateFinStr + 
+                    "\nDate : " + res.datesToString() + 
                     "\nChambres : " + chambresStr + "\n\nLa caution s'élève à " + res.getCaution() + "€" +
                     "\nVous pouvez annuler la réservation jusqu'à la dernière minute et vous serez rembourser." +
                     "\nSouhaitez vous payer la caution ou annuler la réservation ?";
@@ -227,7 +222,7 @@ public class ReservationsControl implements ActionListener {
                         dialog.dispose();
                     } else {
                         // Supprime la reservation
-                        hotel.suppRes(res);
+                        hotel.suppRes(res, res.getCaution());
                     }
                 }
             }
