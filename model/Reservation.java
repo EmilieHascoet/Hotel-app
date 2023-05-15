@@ -1,4 +1,5 @@
 package model;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Reservation {
@@ -20,10 +21,23 @@ public class Reservation {
 
     public void setClient(Client c) { client = c; }
     public void setSejour(Sejour s) { sejour = s; }
-    public double getCaution() { return prix*0.2; }
     
     //Methods
     public void addChambre(Chambre ch) { listChambre.add(ch); }
+    public double getCaution() { return prix*0.2; }
+    public Vector<String> chambresToString(){
+        Vector<String> chambresStr = new Vector<String>();
+            for(Chambre ch : listChambre) {
+                chambresStr.add("Chambre n°" + ch.num);
+            }
+        return chambresStr;
+    }
+    public String datesToString(){
+        SimpleDateFormat formatter = new SimpleDateFormat("EEEE dd MMMM yyyy");
+        String dateDebStr = formatter.format(dateDeb);
+        String dateFinStr = formatter.format(dateFin);
+        return "Date : du " + dateDebStr + " au " + dateFinStr;
+    }
     
     
 }

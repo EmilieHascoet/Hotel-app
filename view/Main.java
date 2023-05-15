@@ -41,26 +41,6 @@ public class Main {
         hotel.addOption(o2);
         hotel.addOption(o3);
         hotel.addOption(o4);
-        hotel.addOption(o1);
-        hotel.addOption(o2);
-        hotel.addOption(o3);
-        hotel.addOption(o4);
-        hotel.addOption(o1);
-        hotel.addOption(o2);
-        hotel.addOption(o3);
-        hotel.addOption(o4);
-        hotel.addOption(o1);
-        hotel.addOption(o2);
-        hotel.addOption(o3);
-        hotel.addOption(o4);
-        hotel.addOption(o1);
-        hotel.addOption(o2);
-        hotel.addOption(o3);
-        hotel.addOption(o4);
-        hotel.addOption(o1);
-        hotel.addOption(o2);
-        hotel.addOption(o3);
-        hotel.addOption(o4);
 
         // CHAMBRES
         Chambre ch1 = new Chambre("101", 6);
@@ -105,6 +85,11 @@ public class Main {
 		res2.addChambre(ch2);
         hotel.addRes(res2, c2);
         hotel.check_in(res2);
+
+		Reservation res3 = new Reservation(date3, date4);
+		res3.addChambre(ch4);
+        res3.addChambre(ch6);
+        hotel.addRes(res3, c3);
 
         Produit p1 = new Produit("Petit dej", 5);
         Produit p2 = new Produit("Resto à volonté", 50);

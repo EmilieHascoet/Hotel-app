@@ -7,6 +7,7 @@ import controler.EnregistrementsControl;
 import controler.RadioButtonListener;
 
 import java.awt.*;
+import java.util.Date;
 import java.util.Vector;
 
 import model.*;
@@ -45,6 +46,7 @@ public class EnregistrementsView extends JPanel {
     JPanel paneButtonArr = new JPanel();
     JButton checkIn = new JButton("Check-in");
     JButton supprimer = new JButton("Supprimer");
+    JButton info = new JButton("Infos");
     // panel des departs
     JPanel paneEast = new JPanel();
     JPanel searchBarDep = new JPanel();
@@ -66,7 +68,7 @@ public class EnregistrementsView extends JPanel {
         // PANEL TITRE
         paneNorth.setBorder(borderPaneNorth);
         paneNorth.setBackground(new Color(161,177,152));
-        // Modification du format du titres
+        // Modification du format du titre
         titre.setForeground(Color.WHITE);
         Font font = titre.getFont();
         float newSize = font.getSize() + 7;
@@ -95,22 +97,42 @@ public class EnregistrementsView extends JPanel {
         innerScrollArr.setBorder(new EmptyBorder(10, 5, 0, 0));
         // liste des arrivees prevues aujourd'hui
         for (Reservation res : hotel.arrivees("")) {
+            JPanel panel = new JPanel();
+            panel.setLayout(new FlowLayout(FlowLayout.LEADING, 5, 0));
+            // RadioButton
             JRadioButton RadioButton = new JRadioButton(res.client.prenom + " " + res.client.nom);
+            // label
+            Date today = new Date();
+            long retard = hotel.diffInDays(today, res.dateDeb);
+            JLabel label = new JLabel();
+            if (retard > 0) { 
+                label = new JLabel( retard + " jour de retard");
+                label.setForeground(Color.RED);
+                Font font2 = label.getFont();
+                float newSize2 = font2.getSize() - 2;
+                label.setFont(font.deriveFont(newSize2));
+                RadioButton.addActionListener(new RadioButtonListener(supprimer));
+            }
             // instance d'evenement pour rendre le button clickable
             RadioButton.addActionListener(new RadioButtonListener(checkIn));
-            RadioButton.addActionListener(new RadioButtonListener(supprimer));
+            RadioButton.addActionListener(new RadioButtonListener(info));
             RadioButton.setActionCommand(res.id+"");
-
             groupArr.add(RadioButton);
-            innerScrollArr.add(RadioButton);
+            // ajout aux panels
+            panel.add(RadioButton);
+            panel.add(label);
+            innerScrollArr.add(panel);
         }
         
         // panel des bouttons d'action
+        paneButtonArr.setLayout(new GridLayout(1, 3));
         paneButtonArr.setBorder(buttonPadding);
         checkIn.setEnabled(false);
         supprimer.setEnabled(false);
+        info.setEnabled(false);
         paneButtonArr.add(checkIn);
         paneButtonArr.add(supprimer);
+        paneButtonArr.add(info);
         
         // Ajout des objets au panel
         paneWest.add(searchBarArr);
@@ -160,13 +182,16 @@ public class EnregistrementsView extends JPanel {
                             // *************** CONTROLER  *************** //
 
         // button rechercher
-        EnregistrementsControl ctrSearchArr = new EnregistrementsControl(hotel, searchTFArr, innerScrollArr, checkIn, supprimer);
+        EnregistrementsControl ctrSearchArr = new EnregistrementsControl(hotel, searchTFArr, innerScrollArr, checkIn, supprimer, info);
         searchButtonArr.addActionListener(ctrSearchArr);
-        EnregistrementsControl ctrSearchDep = new EnregistrementsControl(hotel, searchTFDep, innerScrollDep, facturer, null);
+        EnregistrementsControl ctrSearchDep = new EnregistrementsControl(hotel, searchTFDep, innerScrollDep, facturer, null, null);
         searchButtonDep.addActionListener(ctrSearchDep);
 
-        // button check in
-        EnregistrementsControl ctrCheckIn = new EnregistrementsControl(hotel, groupArr, innerScrollArr, checkIn, supprimer);
-        checkIn.addActionListener(ctrCheckIn);
+        // button check in, supprimer et info
+        EnregistrementsControl ctrButtonLeft = new EnregistrementsControl(hotel, groupArr, innerScrollArr, checkIn, supprimer, info);
+        checkIn.addActionListener(ctrButtonLeft);
+        supprimer.addActionListener(ctrButtonLeft);
+        info.addActionListener(ctrButtonLeft);
+
     }
 }

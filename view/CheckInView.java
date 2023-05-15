@@ -32,18 +32,12 @@ public class CheckInView extends JPanel {
         labelTitle.setFont(font.deriveFont(newSize));
 
         // chambres
-        Vector<String> chambresStr = new Vector<String>();
-        for(Chambre ch : sej.reservation.listChambre) {
-            chambresStr.add("Chambre n°" + ch.num);
-        }
+        Vector<String> chambresStr = sej.reservation.chambresToString();
         JLabel labelChamber = new JLabel("Chambres : " + chambresStr);
 
         // dates
         // Change le format des dates pour l'affichage
-        SimpleDateFormat formatter = new SimpleDateFormat("EEEE dd MMMM yyyy");
-        String dateDebStr = formatter.format(sej.reservation.dateDeb);
-        String dateFinStr = formatter.format(sej.reservation.dateFin);
-        JLabel labelDate = new JLabel("Date : du " + dateDebStr + " au " + dateFinStr);
+        JLabel labelDate = new JLabel(sej.reservation.datesToString());
 
         // panel labels
         JPanel paneLabels = new JPanel(new GridLayout(4, 1, 0, 7));
