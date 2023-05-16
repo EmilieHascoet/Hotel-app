@@ -57,7 +57,7 @@ public class Hotel {
 		profit -= caution;
 		listRes.remove(res); res.client.suppRes(res);
 		for (Chambre ch : res.listChambre) {
-			ch.addRes(res);
+			ch.suppRes(res);
 		}
 	}
     

@@ -44,9 +44,9 @@ public class EnregistrementsView extends JPanel {
     JScrollPane scrollArr = new JScrollPane(innerScrollArr);
     ButtonGroup groupArr = new ButtonGroup();
     JPanel paneButtonArr = new JPanel();
-    JButton checkIn = new JButton("Check-in");
-    JButton supprimer = new JButton("Supprimer");
-    JButton info = new JButton("Infos");
+    public static JButton checkIn = new JButton("Check-in");
+    public static JButton supprimer = new JButton("Supprimer");
+    public static JButton info = new JButton("Infos");
     // panel des departs
     JPanel paneEast = new JPanel();
     JPanel searchBarDep = new JPanel();
@@ -57,8 +57,8 @@ public class EnregistrementsView extends JPanel {
     JScrollPane scrollDep = new JScrollPane(innerScrollDep);
     ButtonGroup groupDep = new ButtonGroup();
     JPanel paneButtonDep = new JPanel();
-    JButton facturer = new JButton("Facturer");
-    JButton infoR = new JButton("Infos");
+    public static JButton facturer = new JButton("Facturer");
+    public static JButton infoR = new JButton("Infos");
 
     public EnregistrementsView(Hotel h) {
         hotel = h;
@@ -113,8 +113,7 @@ public class EnregistrementsView extends JPanel {
                 Font font2 = label.getFont();
                 float newSize2 = font2.getSize() - 2;
                 label.setFont(font2.deriveFont(newSize2));
-                RadioButton.addActionListener(new RadioButtonListener(supprimer));
-                RadioButton.addActionListener(new RadioButtonListener(info));
+                RadioButton.addActionListener(new EnregistrementsControl(supprimer, info, null));
             }
             else if (retard > 0) { 
                 label = new JLabel( retard + " jour de retard");
@@ -122,13 +121,10 @@ public class EnregistrementsView extends JPanel {
                 Font font2 = label.getFont();
                 float newSize2 = font2.getSize() - 2;
                 label.setFont(font2.deriveFont(newSize2));
-                RadioButton.addActionListener(new RadioButtonListener(supprimer));
-                RadioButton.addActionListener(new RadioButtonListener(checkIn));
-                RadioButton.addActionListener(new RadioButtonListener(info));
+                RadioButton.addActionListener(new EnregistrementsControl(supprimer, info, checkIn));
             }
             else {
-                RadioButton.addActionListener(new RadioButtonListener(info));
-                RadioButton.addActionListener(new RadioButtonListener(checkIn));
+                RadioButton.addActionListener(new EnregistrementsControl(checkIn, info, null));
             }
             RadioButton.setActionCommand(res.id+"");
             groupArr.add(RadioButton);
@@ -172,8 +168,7 @@ public class EnregistrementsView extends JPanel {
         for (Sejour sej : hotel.departs("")) {
             JRadioButton RadioButton = new JRadioButton(sej.reservation.client.prenom + " " + sej.reservation.client.nom);
             // instance d'evenement pour rendre le button clickable
-            RadioButton.addActionListener(new RadioButtonListener(facturer));
-            RadioButton.addActionListener(new RadioButtonListener(infoR));
+            RadioButton.addActionListener(new EnregistrementsControl(facturer, infoR, null));
             RadioButton.setActionCommand(sej.reservation.id+"");
             groupDep.add(RadioButton);
             innerScrollDep.add(RadioButton);
