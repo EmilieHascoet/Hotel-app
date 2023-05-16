@@ -58,6 +58,7 @@ public class EnregistrementsView extends JPanel {
     ButtonGroup groupDep = new ButtonGroup();
     JPanel paneButtonDep = new JPanel();
     JButton facturer = new JButton("Facturer");
+    JButton infoR = new JButton("Infos");
 
     public EnregistrementsView(Hotel h) {
         hotel = h;
@@ -111,12 +112,10 @@ public class EnregistrementsView extends JPanel {
                 Font font2 = label.getFont();
                 float newSize2 = font2.getSize() - 2;
                 label.setFont(font2.deriveFont(newSize2));
-                RadioButton.addActionListener(new EnregistrementsControl(checkIn, info, supprimer));
+                RadioButton.addActionListener(new RadioButtonListener(supprimer));
             }
-            else  {
-                // instance d'evenement pour rendre les buttons clickable
-                RadioButton.addActionListener(new EnregistrementsControl(checkIn, info, null));
-            }
+            RadioButton.addActionListener(new RadioButtonListener(info));
+            RadioButton.addActionListener(new RadioButtonListener(checkIn));
             RadioButton.setActionCommand(res.id+"");
             groupArr.add(RadioButton);
             // ajout aux panels
@@ -160,15 +159,19 @@ public class EnregistrementsView extends JPanel {
             JRadioButton RadioButton = new JRadioButton(sej.reservation.client.prenom + " " + sej.reservation.client.nom);
             // instance d'evenement pour rendre le button clickable
             RadioButton.addActionListener(new RadioButtonListener(facturer));
+            RadioButton.addActionListener(new RadioButtonListener(infoR));
             RadioButton.setActionCommand(sej.reservation.id+"");
             groupDep.add(RadioButton);
             innerScrollDep.add(RadioButton);
         }
         
         // panel des bouttons d'action
+        paneButtonDep.setLayout(new GridLayout(1, 2));
         paneButtonDep.setBorder(buttonPadding);
         facturer.setEnabled(false);
+        infoR.setEnabled(false);
         paneButtonDep.add(facturer);
+        paneButtonDep.add(infoR);
         
         // Ajout des objets au panel
         paneEast.add(searchBarDep);
@@ -194,5 +197,9 @@ public class EnregistrementsView extends JPanel {
         supprimer.addActionListener(ctrButtonLeft);
         info.addActionListener(ctrButtonLeft);
 
+        // button facturer
+        EnregistrementsControl ctrButtonRight = new EnregistrementsControl(hotel, groupDep, innerScrollDep, facturer, infoR, null);
+        facturer.addActionListener(ctrButtonRight);
+        infoR.addActionListener(ctrButtonRight);
     }
 }

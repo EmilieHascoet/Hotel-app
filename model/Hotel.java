@@ -121,7 +121,7 @@ public class Hotel {
 		return null;
 	}
 
-
+	// Barre de recherche
     public Vector<Client> searchClients(String str) {
 		Vector<Client> lClients = new Vector<Client>();
 		for (Client c : listClient) {
@@ -182,7 +182,12 @@ public class Hotel {
 		res.client.setSejour(sej);
     }
     
-	public void check_out(String t) { /* Cherche le séjour, le supprime et facture le client */ }
+	public void check_out(Sejour sej) { 
+		profit += sej.prix;
+		sej.reservation.client.sejour = null;
+		suppRes(sej.reservation, 0);
+		listSejour.remove(sej);
+	}
 
 
 	public Vector<Produit> chooseProduit() { /* Demande après le check-in si le client veut des

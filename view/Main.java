@@ -81,7 +81,7 @@ public class Main {
 		res1.addChambre(ch1);
         hotel.addRes(res1, c1);
 		
-		Reservation res2 = new Reservation(today, date4);
+		Reservation res2 = new Reservation(date3, today);
 		res2.addChambre(ch2);
         hotel.addRes(res2, c2);
         hotel.check_in(res2);
