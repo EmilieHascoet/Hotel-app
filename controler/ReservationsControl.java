@@ -4,6 +4,7 @@ import view.*;
 
 import java.util.Vector;
 import java.util.Calendar;
+import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -127,30 +128,32 @@ public class ReservationsControl implements ActionListener {
             // Choix date
             if (textButton.equals("Valider")) {
                 // Initialise la date de début et de fin avec ce qu'à rentré l'utilisateur
-                ReservationsView.startDate = startDateChooser.getDate();
-                ReservationsView.endDate = endDateChooser.getDate();
-
+                Date dateDeb = startDateChooser.getDate();
+                Date dateFin = endDateChooser.getDate();
+                
                 // update le calendrier à hier pour le test de la date déjà passée
                 Calendar calendrier = Calendar.getInstance();
                 calendrier.add(Calendar.DATE, -1);
-    
+                
                 // Affiche un message d'erreur si la date de début excède celle de fin
-                if (ReservationsView.startDate.compareTo(ReservationsView.endDate) >= 0) {
+                if (dateDeb.compareTo(dateFin) >= 0) {
                     JOptionPane.showMessageDialog(null,
                     "Veuillez choisir une date de début inférieur à celle de fin.",
                     "Erreur de date !",
                     JOptionPane.ERROR_MESSAGE);
                 }
                 // Affiche un message d'erreur si la date est déjà passé
-                else if (ReservationsView.startDate.compareTo(calendrier.getTime()) < 0) {
+                else if (dateDeb.compareTo(calendrier.getTime()) < 0) {
                     SimpleDateFormat formatter = new SimpleDateFormat("d MMM yyyy");
                     JOptionPane.showMessageDialog(null,
-                    "Veuillez choisir une date futur.\nLe " + formatter.format(ReservationsView.startDate) + " est déjà passé",
+                    "Veuillez choisir une date futur.\nLe " + formatter.format(dateDeb) + " est déjà passé",
                     "Erreur de date !",
                     JOptionPane.ERROR_MESSAGE);
                 }
                 // Actualise les chambres dispo si il n'y a aucune erreur de date
                 else {
+                    ReservationsView.startDate = startDateChooser.getDate();
+                    ReservationsView.endDate = endDateChooser.getDate();
                     ReservationsView.listChDispo = hotel.searchChamberDispo(ReservationsView.startDate, ReservationsView.endDate);
                     filtreChamber();
                 }
