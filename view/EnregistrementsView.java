@@ -110,12 +110,13 @@ public class EnregistrementsView extends JPanel {
                 label.setForeground(Color.RED);
                 Font font2 = label.getFont();
                 float newSize2 = font2.getSize() - 2;
-                label.setFont(font.deriveFont(newSize2));
-                RadioButton.addActionListener(new RadioButtonListener(supprimer));
+                label.setFont(font2.deriveFont(newSize2));
+                RadioButton.addActionListener(new EnregistrementsControl(checkIn, info, supprimer));
             }
-            // instance d'evenement pour rendre le button clickable
-            RadioButton.addActionListener(new RadioButtonListener(checkIn));
-            RadioButton.addActionListener(new RadioButtonListener(info));
+            else  {
+                // instance d'evenement pour rendre les buttons clickable
+                RadioButton.addActionListener(new EnregistrementsControl(checkIn, info, null));
+            }
             RadioButton.setActionCommand(res.id+"");
             groupArr.add(RadioButton);
             // ajout aux panels
