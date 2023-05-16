@@ -92,7 +92,10 @@ public class EnregistrementsControl implements ActionListener {
                             panel.repaint();
                         }
                         else {
-                            button.setSelected(false);
+                            // Active les boutons
+                            button1.setEnabled(true);
+                            if (button2 != null) { button2.setEnabled(true); }
+                            if (button3 != null) { button3.setEnabled(true); }
                         }
                     }
                     i++;
@@ -112,11 +115,11 @@ public class EnregistrementsControl implements ActionListener {
                         "\nChambres : "+res.chambresToString()
                         );
                     }
-                    // Acive les boutons
-                    button1.setEnabled(true);
-                    if (button2 != null) { button2.setEnabled(true); }
-                    if (button3 != null) { button3.setEnabled(true); }
                 }
+                // Active les boutons
+                button1.setEnabled(true);
+                if (button2 != null) { button2.setEnabled(true); }
+                if (button3 != null) { button3.setEnabled(true); }
             }
             // Facturer client
             else {
@@ -148,7 +151,10 @@ public class EnregistrementsControl implements ActionListener {
                             panel.repaint();
                         }
                         else {
-                            button.setSelected(false);
+                            // Active les boutons
+                            button1.setEnabled(true);
+                            if (button2 != null) { button2.setEnabled(true); }
+                            if (button3 != null) { button3.setEnabled(true); }
                         }
                     }
                     i++;
