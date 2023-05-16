@@ -33,8 +33,6 @@ public class ClientView extends JPanel {
 
         JPanel PDroit = new JPanel(new CardLayout());
 
-        JPanel PDroit1 = new JPanel(new GridLayout(2,1));
-
         //PANEL RESERVATIONS ET SEJOUR DU CLIENT
         JPanel consultInfoClient = new JPanel(new GridLayout(2, 1));
         JPanel resClientGlobalPane = new JPanel(new BorderLayout());

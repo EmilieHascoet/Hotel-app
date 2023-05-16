@@ -4,7 +4,6 @@ import javax.swing.*;
 import model.Hotel;
 import view.*;
 
-import java.awt.CardLayout;
 import java.awt.Container;
 import java.awt.event.*;
 

@@ -2,7 +2,6 @@ package controler;
 import model.*;
 import view.*;
 
-import java.util.Date;
 import java.util.Vector;
 import java.util.Calendar;
 import java.text.SimpleDateFormat;
@@ -25,7 +24,6 @@ public class ReservationsControl implements ActionListener {
     JDialog dialog;
     JPanel paneCh;
     JCheckBox checkBox;
-    Vector<Chambre> listChSelected;
     JSlider slider;
     int nbrPlaces;
     JDateChooser startDateChooser, endDateChooser;

@@ -1,7 +1,6 @@
 package model;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
-import java.text.*;
 
 public class Hotel {
 	//Attributes

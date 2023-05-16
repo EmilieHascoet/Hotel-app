@@ -1,6 +1,5 @@
 package controler;
 
-import java.awt.Checkbox;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
