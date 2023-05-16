@@ -38,7 +38,6 @@ public class EnregistrementsControl implements ActionListener {
             if (nameButton.equals("Check-in")) {
                 int i = 0;
                 for (Enumeration<AbstractButton> buttons = group.getElements(); buttons.hasMoreElements();) {
-                    System.out.println(i);
                     AbstractButton button = buttons.nextElement();
                     if (button.isSelected()) {
                         int id = Integer.parseInt(button.getActionCommand());
@@ -77,6 +76,7 @@ public class EnregistrementsControl implements ActionListener {
                         "Infos réservation :\nClient : "+res.client.prenom+" "+res.client.nom+
                         "\nTéléphone : "+res.client.tel+"\n\nDate : "+res.datesToString()+
                         "\nChambres : "+res.chambresToString()+
+                        "\n\nLe client ne sera pas remboursé de sa caution." +
                         "\n\nEtes vous sur de vouloir supprimer la reservation ?",
                         "Confirmation",
                         JOptionPane.OK_CANCEL_OPTION,

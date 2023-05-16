@@ -15,7 +15,7 @@ public class Chambre {
     public Chambre(String n, int places) { 
     	num=n; nbrPlaces=places; 
         etage = n.substring(0, 1);
-    	prix=20+10*places;
+    	prix=15+5*places;
     }
     
     //Methods

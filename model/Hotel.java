@@ -144,6 +144,11 @@ public class Hotel {
     }
 
 	// Methods enregistrement
+	// Return true si le client a raté toute sa reservation
+	public boolean pasVenu(Reservation res) {
+		Date today = new Date();
+		return today.compareTo(res.dateFin) >= 0;
+	}
 	// Cherche une réservation à l'aide de son identifiant
 	public Reservation searchRes(int identifiant){
 		for (Reservation res : listRes) {
@@ -162,7 +167,7 @@ public class Hotel {
 		for (Client cl : lClients) {
 			for (Reservation res : cl.listRes) {
 				// si la date d'aujourd'hui est égale ou dépasse la date de debut de la reservation
-				if (today.compareTo(res.dateDeb) >= 0 && res.sejour==null && today.compareTo(res.dateFin) < 0) {
+				if (today.compareTo(res.dateDeb) >= 0 && res.sejour==null) {
 					lReservations.add(res);
 				}
 			}

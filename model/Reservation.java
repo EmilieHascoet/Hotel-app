@@ -36,7 +36,7 @@ public class Reservation {
         SimpleDateFormat formatter = new SimpleDateFormat("EEEE dd MMMM yyyy");
         String dateDebStr = formatter.format(dateDeb);
         String dateFinStr = formatter.format(dateFin);
-        return "Date : du " + dateDebStr + " au " + dateFinStr;
+        return "du " + dateDebStr + " au " + dateFinStr;
     }
     
     

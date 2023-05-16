@@ -106,16 +106,30 @@ public class EnregistrementsView extends JPanel {
             Date today = new Date();
             long retard = hotel.diffInDays(today, res.dateDeb);
             JLabel label = new JLabel();
-            if (retard > 0) { 
+            boolean pasVenu = hotel.pasVenu(res);
+            if(pasVenu) {
+                label = new JLabel("pas venu (à supprimer)");
+                label.setForeground(Color.RED);
+                Font font2 = label.getFont();
+                float newSize2 = font2.getSize() - 2;
+                label.setFont(font2.deriveFont(newSize2));
+                RadioButton.addActionListener(new RadioButtonListener(supprimer));
+                RadioButton.addActionListener(new RadioButtonListener(info));
+            }
+            else if (retard > 0) { 
                 label = new JLabel( retard + " jour de retard");
                 label.setForeground(Color.RED);
                 Font font2 = label.getFont();
                 float newSize2 = font2.getSize() - 2;
                 label.setFont(font2.deriveFont(newSize2));
                 RadioButton.addActionListener(new RadioButtonListener(supprimer));
+                RadioButton.addActionListener(new RadioButtonListener(checkIn));
+                RadioButton.addActionListener(new RadioButtonListener(info));
             }
-            RadioButton.addActionListener(new RadioButtonListener(info));
-            RadioButton.addActionListener(new RadioButtonListener(checkIn));
+            else {
+                RadioButton.addActionListener(new RadioButtonListener(info));
+                RadioButton.addActionListener(new RadioButtonListener(checkIn));
+            }
             RadioButton.setActionCommand(res.id+"");
             groupArr.add(RadioButton);
             // ajout aux panels
