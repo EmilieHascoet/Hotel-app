@@ -22,9 +22,9 @@ public class ReservationsView extends JPanel {
     JDialog dialog;
     int nbrPlacesMin, nbrPlacesMax, nbrPlaces = 0;      // util pour filtre
     // liste des chambres disponibles par rapport à la date donnée
-    Vector<Chambre> listChDispo = new Vector<Chambre>();
+    public static Vector<Chambre> listChDispo = new Vector<Chambre>();
     Calendar calendrier = Calendar.getInstance();
-    Vector<Option> listFiltre = new Vector<Option>();
+    public static Vector<Option> listFiltre = new Vector<Option>();
 
     // Attributs objets graphique
     // padding inner scroll

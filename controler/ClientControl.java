@@ -19,7 +19,7 @@ public class ClientControl implements ActionListener{
     Client c;
     Reservation res;
     JLabel prixSej;
-    JButton suppResButton;
+    JButton suppResButton, addResButton;
     static ButtonGroup resButtonGroup;
 
     public ClientControl(Hotel h, JPanel p, JPanel resP, ButtonGroup clientBG, int i) {hotel=h; pane=p; resInfoPane=resP; clientButtonGroup=clientBG; actionType="SuppRes"; }
@@ -28,8 +28,8 @@ public class ClientControl implements ActionListener{
 
     public ClientControl(JPanel p, ButtonGroup clientBG) { pane=p; clientButtonGroup=clientBG; actionType="AddClientLeft";}
 
-    public ClientControl(Hotel h, JPanel p, JPanel gP, ClientControl cBG, ButtonGroup clientBG, JTextField firstN, JTextField lastN, JTextField t) { 
-        hotel=h; pane=p; clientGroupPane=gP; buttonClientControl=cBG; clientButtonGroup=clientBG; firstName=firstN; lastName=lastN; tel=t; actionType="AddClientRight";
+    public ClientControl(Hotel h, JPanel p, JPanel gP, ClientControl cBG, ButtonGroup clientBG, JTextField firstN, JTextField lastN, JTextField t, JButton addB) { 
+        hotel=h; pane=p; clientGroupPane=gP; buttonClientControl=cBG; clientButtonGroup=clientBG; firstName=firstN; lastName=lastN; tel=t; addResButton=addB; actionType="AddClientRight";
     }
 
     public ClientControl(Hotel h, JPanel p, JPanel produitP, Reservation r, JLabel prix) { hotel=h; pane=p; produitsPane=produitP; res=r; prixSej=prix; actionType="AddProduits";}
@@ -77,7 +77,7 @@ public class ClientControl implements ActionListener{
                     else {
                         JLabel sejInfo = new JLabel("Du " + dateDebStr + " au " + dateFinStr);
                         JLabel sejPrix = new JLabel("Prix du séjour : " + res.sejour.prix);
-                        JButton addProduits = new JButton("Ajouter des produtis");
+                        JButton addProduits = new JButton("Ajouter la sélection");
                         JPanel south = new JPanel(new GridLayout(1,2));
                         
                         south.add(sejPrix);
@@ -159,6 +159,7 @@ public class ClientControl implements ActionListener{
             newClientRadioButton.setActionCommand(telText);
             newClientRadioButton.setName("Consulter");
             newClientRadioButton.addActionListener(buttonClientControl);
+            newClientRadioButton.addActionListener(new RadioButtonListener(addResButton));
 
             clientButtonGroup.add(newClientRadioButton);
             clientGroupPane.add(newClientRadioButton);

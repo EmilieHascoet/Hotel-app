@@ -19,7 +19,8 @@ public class EnregistrementsView extends JPanel {
     // Attributs objets graphique
 
     // Icons
-    ImageIcon icon = new ImageIcon("./icons/search.png");
+    ClassLoader classLoader = getClass().getClassLoader();
+    ImageIcon icon = new ImageIcon(classLoader.getResource("icons/search.png"));
     // modifie la taille de l'icone pour qu'elle cover le background du bouton
     Image img = icon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
     ImageIcon resizedIcon = new ImageIcon(img);

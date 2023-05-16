@@ -8,8 +8,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
-import com.formdev.flatlaf.FlatLightLaf;
-
 import model.*;
 
 public class Main {
@@ -55,7 +53,7 @@ public class Main {
         Chambre ch4 = new Chambre("104", 6);
         Chambre ch5 = new Chambre("105", 6);
         Chambre ch6 = new Chambre("106", 6);
-        Chambre ch7 = new Chambre("107", 6);
+        //Chambre ch7 = new Chambre("107", 6);
         Chambre ch8 = new Chambre("108", 6);
         Chambre ch9 = new Chambre("109", 6);
 
@@ -65,7 +63,7 @@ public class Main {
         hotel.addChambre(ch4);
         hotel.addChambre(ch5);
         hotel.addChambre(ch6);
-        hotel.addChambre(ch7);
+        //hotel.addChambre(ch7);
         hotel.addChambre(ch8);
         hotel.addChambre(ch9);
 
@@ -103,16 +101,13 @@ public class Main {
         res2.sejour.listProduit.add(p1);
         res2.sejour.listProduit.add(p2);
         
-        // UIManager.LookAndFeelInfo[] looks = UIManager.getInstalledLookAndFeels();
-        // for (UIManager.LookAndFeelInfo look : looks) {
-        //     System.out.println(look.getClassName());
-        // }
-
-        // try {
-        //     UIManager.setLookAndFeel( new FlatLightLaf() );
-        // } catch( Exception ex ) {
-        //     System.err.println( "Failed to initialize LaF" );
-        // }
+        String lookAndFeel = UIManager.getSystemLookAndFeelClassName();
+        try {
+            UIManager.setLookAndFeel(lookAndFeel);
+            } 
+        catch (Exception e) {
+            e.printStackTrace();
+        }
 
         main = new MainPage(hotel);
     }

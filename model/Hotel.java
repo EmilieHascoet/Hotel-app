@@ -21,8 +21,21 @@ public class Hotel {
 		long diffInDays = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
 		return diffInDays;
 	}
-    public void addChambre(Chambre ch) { listChambre.add(ch); }
+    public void addChambre(Chambre ch) { 
+    	if (listChambre.size()==0) listChambre.add(ch);
+    	else {
+    		for (int i=0; i<listChambre.size(); i++) {
+        		if (Integer.parseInt(ch.num) < Integer.parseInt(listChambre.get(i).num)) {
+        			listChambre.insertElementAt(ch, i);
+        			return;
+        		}
+        	}
+    		listChambre.add(ch);
+    	}
+    }
+    
     public void addClient(Client c) { listClient.add(c); }
+    
     public void addRes(Reservation res, Client c) { 
 		listRes.add(res); res.setClient(c); c.addRes(res);
 		// Calcul le nombe de jours entre la date de début et de fin
@@ -187,12 +200,6 @@ public class Hotel {
 		sej.reservation.client.sejour = null;
 		suppRes(sej.reservation, 0);
 		listSejour.remove(sej);
-	}
-
-
-	public Vector<Produit> chooseProduit() { /* Demande après le check-in si le client veut des
-	options pour son séjour */
-		return new Vector<Produit>();
 	}
 
 	// Methods option and produit
