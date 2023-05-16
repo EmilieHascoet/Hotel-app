@@ -198,7 +198,7 @@ public class ReservationsControl implements ActionListener {
                     + client.nom + " " + client.prenom + 
                     "\nDate : " + res.datesToString() + 
                     "\nChambres : " + chambresStr + "\n\nLa caution s'élève à " + res.getCaution() + "€" +
-                    "\nVous pouvez annuler la réservation jusqu'à la dernière minute et vous serez rembourser." +
+                    "\nVous pouvez annuler la réservation jusqu'à la dernière minute et vous serez remboursé." +
                     "\nSouhaitez vous payer la caution ou annuler la réservation ?";
                     
                     int optionType = JOptionPane.YES_NO_OPTION;
