@@ -25,26 +25,22 @@ public class ReservationsControl implements ActionListener {
     JDialog dialog;
     JPanel paneCh;
     JCheckBox checkBox;
-    Vector<Chambre> listChDispo, listChSelected;
-    Vector<Option> listFiltre;
+    Vector<Chambre> listChSelected;
     JSlider slider;
     int nbrPlaces;
     JDateChooser startDateChooser, endDateChooser;
     String textButton;
     // Constructeur selectionne une option
-    public ReservationsControl(Hotel h, JPanel p, Vector<Chambre> listCh, Vector<Option> listF, int places, JCheckBox cb) {
-        hotel = h; paneCh = p; listChDispo = listCh; nbrPlaces = places;
-        listFiltre = listF; checkBox = cb;
+    public ReservationsControl(Hotel h, JPanel p, int places, JCheckBox cb) {
+        hotel = h; paneCh = p; nbrPlaces = places; checkBox = cb;
     }
     // Constructeur bouge le slider
-    public ReservationsControl(Hotel h, JPanel p, Vector<Chambre> listCh, Vector<Option> listF, int places, JSlider s) {
-        hotel = h; paneCh = p; listChDispo = listCh; listFiltre = listF;
-        nbrPlaces = places; slider = s;
+    public ReservationsControl(Hotel h, JPanel p, int places, JSlider s) {
+        hotel = h; paneCh = p; nbrPlaces = places; slider = s;
     }
     // Constructeur choix date
-    public ReservationsControl(Hotel h, JPanel p, Vector<Chambre> listCh, Vector<Option> listF, int places, JDateChooser sd, JDateChooser ed) {
-        hotel = h; paneCh = p; listChDispo = listCh; listFiltre = listF; nbrPlaces = places;
-        startDateChooser = sd; endDateChooser = ed;
+    public ReservationsControl(Hotel h, JPanel p, int places, JDateChooser sd, JDateChooser ed) {
+        hotel = h; paneCh = p; nbrPlaces = places; startDateChooser = sd; endDateChooser = ed;
     }
     // Constructeur reserver les chambres
     public ReservationsControl(Hotel h, Client c, JPanel p, JDialog d) {
@@ -97,15 +93,11 @@ public class ReservationsControl implements ActionListener {
         paneCh.repaint();
 
         // Chambres ayant tous les options souhaitées
-        Vector<Chambre> listChAffichage1 = hotel.everyOption(listChDispo, listFiltre, nbrPlaces);
-        // JLabel label = new JLabel("Chambres avec tous les filtres selectionné");
-        // paneCh.add(label);
+        Vector<Chambre> listChAffichage1 = hotel.everyOption(ReservationsView.listChDispo, ReservationsView.listFiltre, nbrPlaces);
         addChamberToView(listChAffichage1, paneCh);
         
         // Chambres ayant une ou plusiseurs options souhaitées
-        Vector<Chambre> listChAffichage2 = hotel.someOption(listChDispo, listFiltre, nbrPlaces);
-        // JLabel label2 = new JLabel("Chambres qui pourrait vous plaire");
-        // paneCh.add(label2);
+        Vector<Chambre> listChAffichage2 = hotel.someOption(ReservationsView.listChDispo, ReservationsView.listFiltre, nbrPlaces);
         addChamberToView(listChAffichage2, paneCh);
 
         int nbrChambre = listChAffichage1.size() + listChAffichage2.size();
@@ -123,11 +115,11 @@ public class ReservationsControl implements ActionListener {
             Option opt = hotel.searchOption(type, Double.parseDouble(prix));
             // Si le checkbox est coché, ajoute l'option à la liste d'options
             if (checkBox.isSelected()) {
-                listFiltre.add(opt);
+                ReservationsView.listFiltre.add(opt);
             }
             // Sinon le retire de la liste
             else {
-                listFiltre.remove(opt);
+                ReservationsView.listFiltre.remove(opt);
             }
             filtreChamber();
         }
@@ -161,7 +153,7 @@ public class ReservationsControl implements ActionListener {
                 }
                 // Actualise les chambres dispo si il n'y a aucune erreur de date
                 else {
-                    listChDispo = hotel.searchChamberDispo(ReservationsView.startDate, ReservationsView.endDate);
+                    ReservationsView.listChDispo = hotel.searchChamberDispo(ReservationsView.startDate, ReservationsView.endDate);
                     filtreChamber();
                 }
             }

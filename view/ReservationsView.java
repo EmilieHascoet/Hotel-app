@@ -136,8 +136,7 @@ public class ReservationsView extends JPanel {
         for (Option opt : hotel.listOption) {
             JCheckBox checkBox = new JCheckBox(opt.type);
             checkBox.setActionCommand(opt.type + " " + opt.prix);
-            ReservationsControl ctrOption = new ReservationsControl(hotel, paneInnerScrollCh, listChDispo, 
-            listFiltre, nbrPlaces, checkBox);
+            ReservationsControl ctrOption = new ReservationsControl(hotel, paneInnerScrollCh, nbrPlaces, checkBox);
             checkBox.addActionListener(ctrOption);
             paneInnerScrollOpt.add(checkBox);
         }
@@ -152,8 +151,7 @@ public class ReservationsView extends JPanel {
         slider.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent event) {
                 nbrPlaces = slider.getValue();
-                ReservationsControl crtSlider = new ReservationsControl(hotel, paneInnerScrollCh, listChDispo, 
-                listFiltre, nbrPlaces, slider);
+                ReservationsControl crtSlider = new ReservationsControl(hotel, paneInnerScrollCh, nbrPlaces, slider);
                 crtSlider.filtreChamber();
             }
         });
@@ -235,7 +233,7 @@ public class ReservationsView extends JPanel {
                             // *************** CONTROLER  *************** //
 
         // Choix date
-        ReservationsControl ctrDate = new ReservationsControl(hotel, paneInnerScrollCh, listChDispo, listFiltre,  nbrPlaces, startDateChooser, endDateChooser);
+        ReservationsControl ctrDate = new ReservationsControl(hotel, paneInnerScrollCh, nbrPlaces, startDateChooser, endDateChooser);
         buttonValider.addActionListener(ctrDate);
         // Reserver les chambres selectionné
         ReservationsControl ctrRes = new ReservationsControl(hotel, client, paneInnerScrollCh, dialog);
