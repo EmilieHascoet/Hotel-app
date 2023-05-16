@@ -7,10 +7,6 @@ import controler.*;
 import model.*;
 
 public class ClientView extends JPanel {
-    //Panel de droite
-    JLabel sej = new JLabel("Sejours");
-    JLabel res = new JLabel("Reservations");
-
     //Panel Ajouter
     TitledBorder addClientTitle = BorderFactory.createTitledBorder("Ajout de client");
     JLabel addLastNameLabel = new JLabel("Nom : ");
@@ -83,6 +79,7 @@ public class ClientView extends JPanel {
         //paneInnerScrollClient.add(search);
 
         ClientControl buttonControl = new ClientControl(hotel, PDroit, resClientInnerPane, sejClient, groupClient, suppResButton);
+        RadioButtonListener addControl = new RadioButtonListener(addResButton);
 
         for (Client c : hotel.listClient) {
             JRadioButton ClientButton = new JRadioButton(c.prenom + " "+ c.nom);
@@ -90,6 +87,7 @@ public class ClientView extends JPanel {
             ClientButton.setActionCommand(c.tel);
             ClientButton.setName("Consulter");
             ClientButton.addActionListener(buttonControl);
+            ClientButton.addActionListener(addControl);
 
             groupClient.add(ClientButton);
             paneInnerScrollClient.add(ClientButton);
@@ -152,20 +150,7 @@ public class ClientView extends JPanel {
         addClientGlobalPanel.add(BorderLayout.SOUTH ,addClientRightButton);
 
         addClientRightButton.setEnabled(false);
-
-        //Panel2 de droite
-        JPanel sejour = new JPanel(new BorderLayout());
-        JPanel reservation = new JPanel(new BorderLayout());
-
-        sej.setHorizontalAlignment(JLabel.CENTER);
-        res.setHorizontalAlignment(JLabel.CENTER);
-
-        sejour.setBorder(BorderFactory.createMatteBorder(0,0,1,0,Color.BLACK));
-        sejour.add(sej,BorderLayout.NORTH);
-        reservation.add(res,BorderLayout.NORTH);
-
-        PDroit1.add(sejour);
-        PDroit1.add(reservation);
+        addResButton.setEnabled(false);
 
         //Panel de droite
 
@@ -183,7 +168,7 @@ public class ClientView extends JPanel {
         ClientControl ctrAddLeftButton = new ClientControl(PDroit,groupClient);
         addClientLeftButton.addActionListener(ctrAddLeftButton);
 
-        ClientControl ctrAddRightButton = new ClientControl(hotel, PDroit, paneInnerScrollClient, buttonControl, groupClient,  addFirstNameTextField, addLastNameTextField, addTelTextField);
+        ClientControl ctrAddRightButton = new ClientControl(hotel, PDroit, paneInnerScrollClient, buttonControl, groupClient,  addFirstNameTextField, addLastNameTextField, addTelTextField, addResButton);
         addClientRightButton.addActionListener(ctrAddRightButton);
 
         //TextField controler
@@ -192,7 +177,7 @@ public class ClientView extends JPanel {
         addLastNameTextField.getDocument().addDocumentListener(ctrTextField);
         addTelTextField.getDocument().addDocumentListener(ctrTextField);
 
-        //Test JDialog 
+        //JDialog 
         JFrame mainFrame = Main.main;
         JDialog popUp = new JDialog(mainFrame, true);
         JPanel confirm = new JPanel(new BorderLayout());
