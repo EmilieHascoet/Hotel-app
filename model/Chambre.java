@@ -3,8 +3,8 @@ import java.util.*;
 
 public class Chambre {
 	//Attributes
-    public int num;
-    public int etage;
+    public String num;
+    public String etage;
     public int nbrPlaces;
     public double prix;
     
@@ -12,14 +12,15 @@ public class Chambre {
     public Vector<Option> listOption = new Vector<Option>();
     
     //Constructors
-    public Chambre(int n, int places) { 
+    public Chambre(String n, int places) { 
     	num=n; nbrPlaces=places; 
-        etage = n/100;
-    	prix=20+10*places;
+        etage = n.substring(0, 1);
+    	prix=15+5*places;
     }
     
     //Methods
     public void addRes (Reservation res) { listRes.add(res); }
+    public void suppRes(Reservation res) { listRes.remove(res) ;}
     public void addOption (Option opt) { listOption.add(opt); prix+=opt.prix; }
 
     

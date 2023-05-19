@@ -1,43 +1,99 @@
 package view;
 
 import javax.swing.*;
+import javax.swing.border.*;
+
 import java.awt.*;
+
 import controler.*;
+import model.*;
 
 public class GestionChambre extends JPanel{
-    JButton consult = new JButton("Consulter");
-    JButton modif = new JButton("Modifier");
-    JButton add = new JButton("Ajouter");
+    //Bouttons du panel de gauche
+    JPanel consultChLeftPanel = new JPanel(new GridLayout(2,1));
+    JButton consultChLeftButton = new JButton("Consulter");
+    JButton addChLeftButton = new JButton("Ajouter");
 
-    //Panel Ajouter
-    JLabel nbrPlace = new JLabel("Nombre de places : ");
-    JLabel etage = new JLabel("Etage : ");
-    JLabel prix = new JLabel("Prix : ");
-    JTextField nbrP = new JTextField();
-    JTextField etag = new JTextField();
-    JTextField pri = new JTextField();
-    JButton add2 = new JButton("Ajouter !");
+    //Panel Ajouter //
+        // Panel et mise en forme 
+    JPanel addChRightPane = new JPanel(new GridBagLayout());
+    GridBagConstraints c = new GridBagConstraints();
+    TitledBorder addChTitledBorder = BorderFactory.createTitledBorder("Ajouter une chambre");
+    EmptyBorder addChMargin = new EmptyBorder(5, 0, 7, 7);
+    CompoundBorder addChCompoundBorder = BorderFactory.createCompoundBorder(addChMargin, addChTitledBorder);
+    TitledBorder addChOptionTitledBorder = BorderFactory.createTitledBorder("Options");
+        // Contenu 
+    JLabel numAddChLabel = new JLabel("Numéro de la chambre : ");
+    JLabel placesAddChLabel = new JLabel("Nombre de places : ");
+    JLabel prixAddChLabel = new JLabel("Prix : ");
+    JTextField numAddChTextField = new JTextField();
+    JTextField placesAddChTextField = new JTextField();
+    JTextField prixAddChTextField = new JTextField();
+    JButton addChActionButton = new JButton("Ajouter !");
 
-    //Panel Modifier
-    JLabel num = new JLabel("Numéro de la chambre à modifier : ");
-    JTextField nu = new JTextField();
+    
+    // consulter chambre
+    JPanel paneConsultCh = new JPanel();
+    TitledBorder titleConsultCh = BorderFactory.createTitledBorder("Liste des chambre");
+    JPanel paneInnerScrollCh = new JPanel();
+    ButtonGroup groupCh = new ButtonGroup();
+    JButton modifChInConsultCh = new JButton("Modifier");
 
-    public GestionChambre() {
-        this.setLayout(new GridLayout(1, 2, 20, 0));
+    // (modifier chambre)
+    JPanel paneModifCh = new JPanel();
+    JPanel modifChInnerPane = new JPanel();
+    TitledBorder titleModifCh = BorderFactory.createTitledBorder("Modifier l'option de chambre");
+    JPanel optionsInnerPane = new JPanel();
+    TitledBorder optionTitle = BorderFactory.createTitledBorder("Options");
 
-        //Buttons Consulter, Modifier, Ajouter
-        JPanel p1 = new JPanel(new GridLayout(3,1));
+    JLabel numModifChLabel = new JLabel("N° :");
+    JTextField numModifChTextField = new JTextField();
+    JLabel placesModifChLabel = new JLabel("Nombre de places :");
+    JTextField placesModifChTextField = new JTextField();
+    JLabel prixModifChLabel = new JLabel("Prix :");
+    JTextField prixModifChTextField = new JTextField();
+    JButton modifChActionButton = new JButton("Modifier !");
 
-        p1.add(consult);
-        p1.add(modif);
-        p1.add(add);
-        this.add(p1);
+    //Pour chaton
+    JPanel addOptionButtonsPane = new JPanel();
 
-        //Fenetre qui s'ouvre quand on clique sur Ajouter (faire la meme chose pour les deux autres)
+    // panels de droite
+    JPanel paneR = new JPanel();
 
-        JPanel ajout = new JPanel(new GridBagLayout());
-        GridBagConstraints c = new GridBagConstraints();
+    public GestionChambre(Hotel hotel) {
+        // Layout du frame
+        this.setLayout(new GridLayout(1, 2, 10, 0));
 
+                                                // **************** PANEL DE GAUCHE ***************** //
+
+        //Buttons Consulter, Ajouter
+        consultChLeftPanel.add(consultChLeftButton);
+        consultChLeftPanel.add(addChLeftButton);
+        this.add(consultChLeftPanel);
+
+                                                // **************** PANEL DE DROITE ***************** //
+
+        // Définir le panel de droite comme un CardLayout
+        paneR.setLayout(new CardLayout());
+
+        // DIFFERENTS PANELS DE DROITE
+        // PANEL AJOUTER CHAMBRE
+        addChTitledBorder.setTitleJustification(TitledBorder.CENTER);
+        addChRightPane.setBorder(addChCompoundBorder);
+
+        //Ajout des option dans le panel des bouttons
+        addOptionButtonsPane.setLayout(new BoxLayout(addOptionButtonsPane, BoxLayout.Y_AXIS));
+
+        for (Option o : hotel.listOption) {
+            JCheckBox tmp = new JCheckBox(o.type + ", " + o.prix + "€");
+            tmp.setActionCommand(o.type + ";" + o.prix);
+            addOptionButtonsPane.add(tmp);
+        }
+
+        JScrollPane buttonsScrollPane = new JScrollPane(addOptionButtonsPane);
+        buttonsScrollPane.setBorder(addChOptionTitledBorder);
+
+            //Ajout des tous les éléments dans le panel
         c.insets = new Insets(5, 5, 5,5);  // Pading
         c.fill = GridBagConstraints.BOTH; // étend l'élément dans les deux directions
         c.weightx = 1.0; // agrandit horizontalement
@@ -45,46 +101,127 @@ public class GestionChambre extends JPanel{
 
         c.gridx = 0;
         c.gridy = 0;
-        ajout.add(nbrPlace,c);
+        addChRightPane.add(numAddChLabel,c);
         c.gridy = 1;
-        ajout.add(etage,c);
-        c.gridy = 2;
-        ajout.add(prix,c);
+        addChRightPane.add(placesAddChLabel,c);
 
         c.gridx = 1;
         c.gridy = 0;
         c.ipadx = 100;       //Largeur des l'élément
-        ajout.add(nbrP,c);
+        addChRightPane.add(numAddChTextField,c);
         c.gridy = 1;
-        ajout.add(etag,c);
+        addChRightPane.add(placesAddChTextField,c);
+        
         c.gridy = 2;
-        ajout.add(pri,c);
+        c.gridx = 0;
+        c.gridwidth = 2;     //Pour que ça prenne les 2 cases
+        addChRightPane.add(buttonsScrollPane,c);
 
         c.gridx = 0;
         c.gridy = 3;
-        c.gridwidth = 2;        //Pour que ça prenne les 2 cases
-        ajout.add(add2,c);
+        c.gridwidth = 2;        
+        addChRightPane.add(addChActionButton,c);
+           
+        // PANEL CONSULTER OPTIONS CHAMBRE
+        paneConsultCh.setLayout(new BorderLayout());
+        paneConsultCh.setBorder(new EmptyBorder(15, 20, 15, 20));
+
+        // Récupère la liste des chambres et créé des RadioBouttons puis les ajoutent dans un groupe
+        // Met les information de chaque chambre dans l'ActionCommand du boutton correspondant
+        paneInnerScrollCh.setLayout(new BoxLayout(paneInnerScrollCh, BoxLayout.Y_AXIS));
+        for (Chambre ch : hotel.listChambre) {
+            JRadioButton RadioButton = new JRadioButton("Chambre n° : " + ch.num);
+            RadioButton.setActionCommand(ch.num);
+            RadioButton.addActionListener(new RadioButtonListener(modifChInConsultCh));
+
+            groupCh.add(RadioButton);
+            paneInnerScrollCh.add(RadioButton);
+        }
+
+        // Crée le scroll panel 
+        JScrollPane paneScrollConsultCh = new JScrollPane(paneInnerScrollCh);
+        paneScrollConsultCh.setPreferredSize(new Dimension(200, 267));
+        titleConsultCh.setTitleJustification(TitledBorder.CENTER);
+        paneScrollConsultCh.setBorder(titleConsultCh);
+        paneScrollConsultCh.getVerticalScrollBar().setUnitIncrement(10);
+
+        // Ajout du scrollpanel et du bouton au panel
+        paneConsultCh.add(BorderLayout.NORTH, paneScrollConsultCh);
+        paneConsultCh.add(BorderLayout.SOUTH, modifChInConsultCh);
+
+        // PANEL MODIFIER OPTION CHAMBRE
+        paneModifCh.setLayout(new BorderLayout());
+        paneModifCh.setBorder(new EmptyBorder(15, 20, 15, 20));
+
+        // Ajout des label et textFiel au panel formulaire
+        modifChInnerPane.setLayout(new GridBagLayout());
+        modifChInnerPane.setBorder(titleModifCh);
+        titleModifCh.setTitleJustification(TitledBorder.CENTER);
         
-        //Fenetre qui s'ouvre quand on clique sur Modifier
+        c.gridx = 0;
+        c.gridy = 0;
+        c.gridwidth = 1;
+        modifChInnerPane.add(numModifChLabel,c);
+        c.gridy = 1;
+        modifChInnerPane.add(placesModifChLabel,c);
+        c.gridy = 2;
+        modifChInnerPane.add(prixModifChLabel,c);
+        c.gridy = 0;
+        c.gridx = 1;
+        c.ipadx = 180;
+        modifChInnerPane.add(numModifChTextField,c);
+        c.gridy = 1;
+        modifChInnerPane.add(placesModifChTextField,c);
+        c.gridy = 2;
+        modifChInnerPane.add(prixModifChTextField,c);
 
-        JPanel modifier = new JPanel(new GridLayout(4,2,10,10));
-        modifier.add(num);
-        modifier.add(nu);
+        //Création du scroll panel pour les options du panel modifier
+        optionsInnerPane.setLayout(new BoxLayout(optionsInnerPane, BoxLayout.Y_AXIS));
+        JScrollPane optionsScrollPane = new JScrollPane(optionsInnerPane);
+        optionsScrollPane.setBorder(optionTitle);
 
-        //Pour qu'ils se superposent au même endroit
-        JPanel content = new JPanel(new CardLayout());
+        c.gridx = 0;
+        c.gridy = 3;
+        c.gridwidth = 2;
+        c.ipady = 35;
+        modifChInnerPane.add(optionsScrollPane,c);
+
+        // Ajout du formulaire et du bouton au panel modif chambre
+        paneModifCh.add(BorderLayout.NORTH, modifChInnerPane);
+        paneModifCh.add(BorderLayout.SOUTH, modifChActionButton);
+
+        // Donne un nom, correspondant au panel à afficher, aux boutons
+        modifChInConsultCh.setName("modifCh");
+
+        addChLeftButton.setName("addCh");
+        consultChLeftButton.setName("consultCh");
+        addChActionButton.setName("consultCh");
+        modifChActionButton.setName("consultCh");
         
-        content.add(ajout,"ajout");        //Nom pour pouvoir spécifier dans show()
-        content.add(modifier,"modifier");
-
-        //Controler
-        Test ctr = new Test(content);
-        add.addActionListener(ctr);
-        modif.addActionListener(ctr);
-                
+        // Donne le nom correspondant aux panel
+        paneR.add("consultCh", paneConsultCh);
+        paneR.add("modifCh", paneModifCh);
+        paneR.add("addCh" ,addChRightPane);
         
-        this.add(content);
+        // Controller
+        ChambreControl ctrModifCh = new ChambreControl(hotel, paneR, addOptionButtonsPane, optionsInnerPane, groupCh, numModifChTextField, placesModifChTextField, prixModifChTextField);
+        modifChInConsultCh.addActionListener(ctrModifCh);
+        modifChActionButton.addActionListener(ctrModifCh);
 
+        modifChInConsultCh.setEnabled(false);
+
+        ChambreControl ctrAddCh = new ChambreControl(hotel, paneR, addOptionButtonsPane, paneInnerScrollCh, groupCh, numAddChTextField, placesAddChTextField, modifChInConsultCh);
+        consultChLeftButton.addActionListener(ctrAddCh);
+        addChLeftButton.addActionListener(ctrAddCh);
+        addChActionButton.addActionListener(ctrAddCh);
+
+        TextFieldListener buttonEnable = new TextFieldListener(numAddChTextField, placesAddChTextField, addChActionButton);
+        addChActionButton.setEnabled(false);
+        numAddChTextField.getDocument().addDocumentListener(buttonEnable);
+        placesAddChTextField.getDocument().addDocumentListener(buttonEnable);
+
+        this.add(paneR);
         this.setVisible(true);
+
     }
 }

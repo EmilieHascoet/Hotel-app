@@ -6,9 +6,10 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
-class MainPage extends JFrame {
+public class MainPage extends JFrame {
   JMenuItem e1, e2, e3, e4;
-  JLabel titre, gain;
+  JLabel titre;
+  public static JLabel profit;
   Hotel hotel;
   MainPage(Hotel h) {
     hotel = h;
@@ -32,47 +33,38 @@ class MainPage extends JFrame {
     // Crée les label
     titre = new JLabel("Enregistrements");
     titre.setForeground(Color.red);
-    gain = new JLabel("Gain : 0");
-    gain.setBorder(new EmptyBorder(0,0,0,10));
+    profit = new JLabel("Profit : " + hotel.getProfit());
+    profit.setBorder(new EmptyBorder(0,0,0,10));
     // Ajoute le menu et les labels au barre de menu
     menubar.add(menu);
     menubar.add(Box.createHorizontalGlue());
     menubar.add(titre);
     menubar.add(Box.createHorizontalGlue());
-    menubar.add(gain);
+    menubar.add(profit);
+
+    // Récupère le panel de base et ajoute le panel enregistrements
+    Container c = this.getContentPane();
+    EnregistrementsView p1 = new EnregistrementsView(hotel);
+    c.add(p1);
+    p1.setBounds(0, 0, 785, 440);
 
     // Ajoute la barre de menu au frame
     this.setJMenuBar(menubar);
     this.setTitle("Hotel");
     this.setLayout(null);
     this.pack();
+    this.setSize(800,500);
+    this.setResizable(false);
+    // Centre la fenêtre
+    this.setLocationRelativeTo (null);
     this.setVisible(true);
-    this.setSize(600,400);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-    // Crée le container principal de la page (CardLayout)
-    Container c = this.getContentPane();
-    c.setLayout(new CardLayout());
-    // Crée les panels (cards)
-    //GestionEnregistrements p1 = new GestionEnregistrements();
-    //GestionClient p2 = new GestionClient();
-    //GestionChambre p3 = new GestionChambre();
-    OptionsView p4 = new OptionsView(hotel);
-
-    // Ajoute les cards au container principal
-    //c.add("Enregistrements", p1);
-    //c.add("Clients", p2);
-    //c.add("Chambres", p3);
-    c.add("Options", p4);
-
     // Creation dune instance de gestionnaire d'evenement
-    MenuControl ctr = new MenuControl(titre, c);
+    MenuControl ctr = new MenuControl(hotel, titre, c);
     e1.addActionListener(ctr);
     e2.addActionListener(ctr);
     e3.addActionListener(ctr);
     e4.addActionListener(ctr);
-  }
-  public static void main(String args[]) {
-
   }
 }
